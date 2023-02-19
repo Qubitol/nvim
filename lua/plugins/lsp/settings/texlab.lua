@@ -1,0 +1,5 @@
+return {
+    texlab = {
+        bibtexFormatter = "biber",
+    }
+}
