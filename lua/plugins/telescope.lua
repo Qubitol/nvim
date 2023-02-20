@@ -6,6 +6,7 @@ end
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local transform_mod = require("telescope.actions.mt").transform_mod
+local telescope_config = require("telescope.config")
 
 -- Attempt to fix multiselect without having to rely on the quickfix list
 -- Taken from https://github.com/nvim-telescope/telescope.nvim/issues/1048
@@ -110,6 +111,15 @@ local function stopinsert(callback)
 		end)
 	end
 end
+--
+-- Clone the default Telescope configuration
+local vimgrep_arguments = { unpack(telescope_config.values.vimgrep_arguments) }
+
+-- I want to search in hidden/dot files.
+table.insert(vimgrep_arguments, "--hidden")
+-- I don't want to search in the `.git` directory.
+table.insert(vimgrep_arguments, "--glob")
+table.insert(vimgrep_arguments, "!**/.git/*")
 
 telescope.setup({
 	defaults = {
@@ -156,7 +166,15 @@ telescope.setup({
 				["<CR>"] = custom_actions.multi_selection_open,
 			},
 		},
+		vimgrep_arguments = vimgrep_arguments,
 	},
+
+    pickers = {
+        find_files = {
+            -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+            find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+        },
+    },
 })
 
 -- Load extensions
@@ -180,10 +198,10 @@ map("n", "<leader>fl", builtin.lsp_document_symbols, {})
 map("n", "<leader>fh", "<cmd>Telescope harpoon marks<CR>", {})
 map(
 	"n",
-	"<leader>fss",
+	"<leader>so",
 	[[<cmd>lua require "telescope.builtin".symbols{ sources = { "accented_letters", "latex", "math", "nerd" } }<CR>]]
 )
-map("n", "<leader>fsa", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "accented_letters" } }<CR>]])
-map("n", "<leader>fsl", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "latex" } }<CR>]])
-map("n", "<leader>fsm", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "math" } }<CR>]])
-map("n", "<leader>fsn", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "nerd" } }<CR>]])
+map("n", "<leader>sa", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "accented_letters" } }<CR>]])
+map("n", "<leader>sl", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "latex" } }<CR>]])
+map("n", "<leader>sm", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "math" } }<CR>]])
+map("n", "<leader>sn", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "nerd" } }<CR>]])
