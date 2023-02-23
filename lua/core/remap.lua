@@ -28,7 +28,7 @@ map("n", "<leader>n", "nzz", opts)
 map("n", "<leader>N", "Nzz", opts)
 
 -- Toggle search highlighting
-map("n", "<Leader>tl", "<cmd>set hlsearch! hlsearch?<CR>", opts)
+map("n", "<Leader>th", "<cmd>set hlsearch! hlsearch?<CR>", opts)
 -- Toggle line wrap
 map("n", "<Leader>tw", "<cmd>set wrap! wrap?<CR>", opts)
 
@@ -67,7 +67,9 @@ map("n", "[l", ":lprevious<CR>zz", opts)
 -- Split window with opened buffer
 -- map("n", "<Leader>sb", ":buffers<CR>:sbuffer<Space>", opts)
 -- map("n", "<Leader>vb", ":buffers<CR>:vertical sbuffer<Space>", opts)
-map("n", "<Leader>bd", ":buffer#<CR>:bdelete#<CR>", opts)
+
+-- Delete the current buffer
+map("n", "<Leader>bd", ":bnext<CR>:bdelete#<CR>", opts)
 
 -- Insert --
 

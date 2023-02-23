@@ -156,13 +156,14 @@ telescope.setup({
 				["<C-s>"] = stopinsert(custom_actions.multi_selection_open_horizontal),
 				["<C-t>"] = stopinsert(custom_actions.multi_selection_open_tab),
 				["<CR>"] = stopinsert(custom_actions.multi_selection_open),
-				["<C-x>"] = actions.send_selected_to_qflist + actions.open_qflist,
+                ["<C-x>"] = actions.toggle_selection + actions.move_selection_next,
 				["<M-q>"] = actions.nop, -- clash with map from tmux
 			},
 			n = {
 				["<C-v>"] = custom_actions.multi_selection_open_vertical,
 				["<C-s>"] = custom_actions.multi_selection_open_horizontal,
 				["<C-t>"] = custom_actions.multi_selection_open_tab,
+                ["<C-x>"] = actions.toggle_selection + actions.move_selection_next,
 				["<CR>"] = custom_actions.multi_selection_open,
 			},
 		},
@@ -181,6 +182,7 @@ telescope.setup({
 telescope.load_extension("fzf")
 telescope.load_extension("aerial")
 telescope.load_extension("harpoon")
+telescope.load_extension("git_worktree")
 
 -- Mappings
 local map = vim.keymap.set
@@ -189,13 +191,15 @@ map("n", "<leader>fo", builtin.find_files, {})
 map(
 	"n",
 	"<leader>fa",
-	[[<cmd>lua require "telescope.builtin".find_files{ find_command = { "fd", "--unrestricted", "--type", "f", "--exclude", "**/.git/*" }, search_dirs = { "$HOME/Documents", "$HOME/Downloads", "$HOME/Scratch", "$HOME/.config", "$HOME/.jupyter", "$HOME/.local", "$HOME/.ssh", "$HOME/.zsh" } }<CR>]]
+	[[<cmd>lua require "telescope.builtin".find_files{ find_command = { "rg", "--files", "--hidden", "--no-ignore", "--glob", "!**/.git/*" }, search_dirs = { "$HOME/Documents", "$HOME/Downloads", "$HOME/Scratch", "$HOME/.config", "$HOME/.jupyter", "$HOME/.local", "$HOME/.ssh", "$HOME/.zsh" } }<CR>]]
 )
 map("n", "<leader>fg", builtin.live_grep, {})
 map("n", "<leader>fb", builtin.buffers, {})
 map("n", "<leader>ft", "<cmd>Telescope aerial<CR>", {})
 map("n", "<leader>fl", builtin.lsp_document_symbols, {})
 map("n", "<leader>fh", "<cmd>Telescope harpoon marks<CR>", {})
+map("n", "<leader>gw", [[<cmd>lua require "telescope".extensions.git_worktree.git_worktrees()<CR>]])
+map("n", "<leader>cw", [[<cmd>lua require "telescope".extensions.git_worktree.create_git_worktree()<CR>]])
 map(
 	"n",
 	"<leader>so",
