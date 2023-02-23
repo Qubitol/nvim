@@ -74,6 +74,14 @@ return require("packer").startup(function(use)
         commit = "d4f8c01280413919349f5df7daccd0c172143d7c",
     })
 
+    -- Git worktree
+    use({
+        -- "ThePrimeagen/git-worktree.nvim",
+        -- commit = "d7f4e2584e81670154f07ca9fa5dd791d9c1b458",
+        "brandoncc/git-worktree.nvim",
+        branch = "catch-and-handle-telescope-related-error",
+    })
+
     -- Mason
     use({
         "williamboman/mason.nvim",
