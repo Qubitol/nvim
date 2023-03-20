@@ -173,6 +173,13 @@ return require("packer").startup(function(use)
         commit = "13fa591e82f7fe0fedbb097e9869d32f6af207fe",
     })
 
+    -- Neorg
+    use({
+        "nvim-neorg/neorg",
+        commit = "3e09f698b8a4151f2b4f77ee917e4b54388bc97a",
+        run = ":Neorg sync-parsers",
+    })
+
     -- Sorround
     use({
         "kylechui/nvim-surround",
