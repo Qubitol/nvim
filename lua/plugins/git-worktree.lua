@@ -15,8 +15,17 @@ end
 --      Delete
 --          path = path where worktree deleted
 
+-- Make it to link the session file inside each branch
+-- session file is in the main first cwd neovim is activated in
+-- utils = require("core.utils")
+-- local file_session_name = utils.original_cwd .. "/Session.vim"
+
 git_worktree.on_tree_change(function(op, metadata)
 	if op == git_worktree.Operations.Switch then
 		print("Switched from " .. metadata.prev_path .. " to " .. metadata.path)
 	end
+	-- if op == git_worktree.Operations.Switch then
+	-- 	print("Switched from " .. metadata.prev_path .. " to " .. metadata.path)
+	--
+	-- end
 end)
