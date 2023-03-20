@@ -26,7 +26,7 @@ set.updatetime = 250
 -- Display
 set.showmatch = true -- show matching brackets
 set.scrolloff = 3 -- always show 3 rows from edge of the screen
-set.synmaxcol = 240 -- stop syntax highlight after x lines for performance
+set.synmaxcol = 500 -- stop syntax highlight after x lines for performance
 set.laststatus = 2 -- always show status line
 set.colorcolumn = "80,100,120"
 set.ruler = true
