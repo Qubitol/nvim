@@ -22,8 +22,6 @@ local term_opts = { silent = true }
 -- Center while scrolling/searching
 map("n", "<C-u>", "<C-u>zz", opts)
 map("n", "<C-d>", "<C-d>zz", opts)
-map("n", "<C-b>", "<C-b>zz", opts)
-map("n", "<C-f>", "<C-f>zz", opts)
 map("n", "<leader>n", "nzz", opts)
 map("n", "<leader>N", "Nzz", opts)
 
@@ -53,8 +51,8 @@ map("n", "]t", ":tabnext<CR>", opts)
 map("n", "[t", ":tabprevious<CR>", opts)
 
 -- Move tabs
-map("n", "]T", ":tabmove +1<CR>", opts)
-map("n", "[T", ":tabmove -1<CR>", opts)
+-- map("n", "]T", ":tabmove +1<CR>", opts)
+-- map("n", "[T", ":tabmove -1<CR>", opts)
 
 -- Navigate quickfix
 map("n", "]c", ":cnext<CR>zz", opts)
@@ -69,13 +67,23 @@ map("n", "[l", ":lprevious<CR>zz", opts)
 -- map("n", "<Leader>vb", ":buffers<CR>:vertical sbuffer<Space>", opts)
 
 -- Delete the current buffer
-map("n", "<Leader>bd", ":bnext<CR>:bdelete#<CR>", opts)
+map("n", "<leader>bd", ":bnext<CR>:bdelete#<CR>", opts)
+
+-- Git --
+map("n", "<leader>co", ":Git commit -m<Space>", opts)
+map("n", "<leader>Co", "<cmd>Git commit<CR>", opts)
+map("n", "<leader>gf", "<cmd>Git pull<CR>", opts)
+map("n", "<leader>gp", "<cmd>Git push<CR>", opts)
+
+-- Change dir to current file root --
+map("n", "<leader>cd", [[<cmd>:cd `=expand("%:p:h")`<CR>]], opts)
+map("n", "<leader>ct", [[<cmd>:tcd `=expand("%:p:h")`<CR>]], opts)
 
 -- Insert --
 
 -- Visual --
 -- Delete to the black hole
-map("v", "<Leader>d", [["_d]], opts)
+map("v", "<leader>d", [["_d]], opts)
 
 -- Move text up and down
 map("v", "J", "<Esc>:m '>+1<CR>gv=gv", opts)

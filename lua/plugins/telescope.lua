@@ -16,14 +16,12 @@ local function multiopen(prompt_bufnr, method)
 		horizontal = "split",
 		tab = "tabedit",
 		default = "edit",
-		drop = "drop",
 	}
 	local edit_buf_cmd_map = {
 		vertical = "vert sbuffer",
 		horizontal = "sbuffer",
 		tab = "tab sbuffer",
 		default = "buffer",
-		drop = "drop",
 	}
 	local picker = action_state.get_current_picker(prompt_bufnr)
 	local multi_selection = picker:get_multi_selection()
@@ -79,7 +77,7 @@ local function multiopen(prompt_bufnr, method)
 			end
 
 			if row and col then
-				pcall(vim.api.nvim_win_set_cursor, 0, { row, col })
+				pcall(vim.api.nvim_win_set_cursor, 0, { row, col - 1 })
 			end
 		end
 	else
@@ -111,6 +109,7 @@ local function stopinsert(callback)
 		end)
 	end
 end
+
 --
 -- Clone the default Telescope configuration
 local vimgrep_arguments = { unpack(telescope_config.values.vimgrep_arguments) }
@@ -123,9 +122,10 @@ table.insert(vimgrep_arguments, "!**/.git/*")
 
 telescope.setup({
 	defaults = {
-		prompt_prefix = "   ",
-		selection_caret = "  ",
+		prompt_prefix = " ",
+		selection_caret = "❯ ",
 		entry_prefix = "  ",
+        multi_icon = "",
 		initial_mode = "insert",
 		selection_strategy = "reset",
 		-- sorting_strategy = "ascending",
@@ -152,30 +152,52 @@ telescope.setup({
 			i = {
 				["<C-j>"] = actions.move_selection_next,
 				["<C-k>"] = actions.move_selection_previous,
-				["<C-v>"] = stopinsert(custom_actions.multi_selection_open_vertical),
-				["<C-s>"] = stopinsert(custom_actions.multi_selection_open_horizontal),
-				["<C-t>"] = stopinsert(custom_actions.multi_selection_open_tab),
-				["<CR>"] = stopinsert(custom_actions.multi_selection_open),
-                ["<C-x>"] = actions.toggle_selection + actions.move_selection_next,
 				["<M-q>"] = actions.nop, -- clash with map from tmux
-			},
-			n = {
-				["<C-v>"] = custom_actions.multi_selection_open_vertical,
-				["<C-s>"] = custom_actions.multi_selection_open_horizontal,
-				["<C-t>"] = custom_actions.multi_selection_open_tab,
-                ["<C-x>"] = actions.toggle_selection + actions.move_selection_next,
-				["<CR>"] = custom_actions.multi_selection_open,
 			},
 		},
 		vimgrep_arguments = vimgrep_arguments,
 	},
 
-    pickers = {
-        find_files = {
-            -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
-            find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
-        },
-    },
+	pickers = {
+		find_files = {
+			-- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+			find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+			mappings = {
+				i = {
+					["<C-v>"] = stopinsert(custom_actions.multi_selection_open_vertical),
+					["<C-s>"] = stopinsert(custom_actions.multi_selection_open_horizontal),
+					["<C-t>"] = stopinsert(custom_actions.multi_selection_open_tab),
+					["<CR>"] = stopinsert(custom_actions.multi_selection_open),
+				},
+				n = {
+					["<C-v>"] = custom_actions.multi_selection_open_vertical,
+					["<C-s>"] = custom_actions.multi_selection_open_horizontal,
+					["<C-t>"] = custom_actions.multi_selection_open_tab,
+					["<CR>"] = custom_actions.multi_selection_open,
+				},
+			},
+		},
+		buffers = {
+			sort_lastused = true,
+			sort_mru = true,
+			ignore_current_buffer = true,
+			mappings = {
+				i = {
+					["<C-v>"] = stopinsert(custom_actions.multi_selection_open_vertical),
+					["<C-s>"] = stopinsert(custom_actions.multi_selection_open_horizontal),
+					["<C-t>"] = stopinsert(custom_actions.multi_selection_open_tab),
+					["<CR>"] = stopinsert(custom_actions.multi_selection_open),
+				},
+				n = {
+					["dd"] = actions.delete_buffer,
+					["<C-v>"] = custom_actions.multi_selection_open_vertical,
+					["<C-s>"] = custom_actions.multi_selection_open_horizontal,
+					["<C-t>"] = custom_actions.multi_selection_open_tab,
+					["<CR>"] = custom_actions.multi_selection_open,
+				},
+			},
+		},
+	},
 })
 
 -- Load extensions
@@ -184,28 +206,57 @@ telescope.load_extension("aerial")
 telescope.load_extension("harpoon")
 telescope.load_extension("git_worktree")
 
--- Mappings
+-- Mappings (mnemonic)
 local map = vim.keymap.set
 local builtin = require("telescope.builtin")
+-- find files (Find Open)
 map("n", "<leader>fo", builtin.find_files, {})
+-- find *all* files (in the important filesystem folders, hidden and ignored) (Find All)
 map(
 	"n",
 	"<leader>fa",
-	[[<cmd>lua require "telescope.builtin".find_files{ find_command = { "rg", "--files", "--hidden", "--no-ignore", "--glob", "!**/.git/*" }, search_dirs = { "$HOME/Documents", "$HOME/Downloads", "$HOME/Scratch", "$HOME/.config", "$HOME/.jupyter", "$HOME/.local", "$HOME/.ssh", "$HOME/.zsh" } }<CR>]]
+	[[<cmd>lua require "telescope.builtin".find_files{ find_command = { "rg", "--files", "--hidden", "--no-ignore", "--glob", "!**/.git/*" }, search_dirs = { "$HOME/Documents", "$HOME/Downloads", "$HOME/Scratch", "$HOME/.config", "$HOME/.jupyter", "$HOME/.local", "$HOME/.ssh", "$HOME/.zsh" } }<CR>]],
+	{}
 )
-map("n", "<leader>fg", builtin.live_grep, {})
+-- live grep in all files (Grep Open)
+map("n", "<leader>go", builtin.live_grep, {})
+-- live grep inside current buffer (Grep File)
+map("n", "<leader>gf", builtin.current_buffer_fuzzy_find, {})
+-- live grep of the string under cursor in all files (Grep This)
+map("n", "<leader>gt", builtin.grep_string, {})
+-- browse buffers (Find Buffers)
 map("n", "<leader>fb", builtin.buffers, {})
+-- browse aerial tags (Find Tags)
 map("n", "<leader>ft", "<cmd>Telescope aerial<CR>", {})
+-- browse lsp symbols (Find Lsp)
 map("n", "<leader>fl", builtin.lsp_document_symbols, {})
+-- browse harpoon marks (Find Harpoon)
 map("n", "<leader>fh", "<cmd>Telescope harpoon marks<CR>", {})
+-- browse git commit (Git Commits) -- <leader>gc means Git Commit
+map("n", "<leader>gc", builtin.git_commits, {})
+-- browse git commit for this buffer (Git Commits -- capitalize for buffer)
+map("n", "<leader>gC", builtin.git_bcommits, {})
+-- browse git branches (Git Branches)
+map("n", "<leader>gb", builtin.git_branches, {})
+-- browse files in git status with diff preview (Git Status)
+map("n", "<leader>gs", builtin.git_status, {})
+-- browse git stashes (Git stasHes)
+map("n", "<leader>gh", builtin.git_stash, {})
+-- browse git worktrees (Git Worktree)
 map("n", "<leader>gw", [[<cmd>lua require "telescope".extensions.git_worktree.git_worktrees()<CR>]])
+-- create git worktree (Create Worktree)
 map("n", "<leader>cw", [[<cmd>lua require "telescope".extensions.git_worktree.create_git_worktree()<CR>]])
+-- browse all symbols (Symbols Open)
 map(
 	"n",
 	"<leader>so",
 	[[<cmd>lua require "telescope.builtin".symbols{ sources = { "accented_letters", "latex", "math", "nerd" } }<CR>]]
 )
+-- browse accenter letters (Symbols Accents)
 map("n", "<leader>sa", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "accented_letters" } }<CR>]])
-map("n", "<leader>sl", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "latex" } }<CR>]])
+-- browse latex symbols (Symbols lateX)
+map("n", "<leader>sx", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "latex" } }<CR>]])
+-- browse math symbols (Symbols Math)
 map("n", "<leader>sm", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "math" } }<CR>]])
+-- browse nerd font symbols (Symbols Nerd)
 map("n", "<leader>sn", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "nerd" } }<CR>]])
