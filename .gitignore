@@ -5,6 +5,7 @@ swp/
 
 # Vim sessions
 .vim_session
+Session.vim
 
 # Dictionaries
 spell/
