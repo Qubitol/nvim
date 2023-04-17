@@ -155,6 +155,12 @@ return require("packer").startup(function(use)
         commit = "8c0bb0a328e57278f4783bb0e2ea32f296d36db1",
     })
 
+    -- Undotree
+    use({
+        "mbbill/undotree",
+        tag = "rel_6.1",
+    })
+
     -- Aerial
     use({
         "stevearc/aerial.nvim",
