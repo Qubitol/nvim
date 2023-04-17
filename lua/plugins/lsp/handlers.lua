@@ -64,7 +64,7 @@ local function lsp_keymaps(bufnr)
     keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>zz", opts)
     keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>zz", opts)
     keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-    keymap(bufnr, "n", "<C-h>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+    keymap(bufnr, "n", "<leader>hs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
     -- if status_trouble_ok then
     --     keymap(bufnr, "n", "gr", "<cmd>TroubleToggle lsp_references<cr>", { silent = true, noremap = true })
     --     keymap(bufnr, "n", "<leader>tl", "<cmd>TroubleToggle loclist<CR>", opts)

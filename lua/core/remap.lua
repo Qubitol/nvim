@@ -25,18 +25,20 @@ map("n", "<C-d>", "<C-d>zz", opts)
 map("n", "<leader>n", "nzz", opts)
 map("n", "<leader>N", "Nzz", opts)
 
+-- Substitute work under cursor
+map("n", "<Leader>s", ":%s/\\<<C-r><C-w>>\\/<C-r><C-w>/gI<left><left><left>", opts)
+
 -- Toggle search highlighting
 map("n", "<Leader>th", "<cmd>set hlsearch! hlsearch?<CR>", opts)
 -- Toggle line wrap
 map("n", "<Leader>tw", "<cmd>set wrap! wrap?<CR>", opts)
 
--- Navigate seamlessly across wrapped paragraph
---map("n", "j", "gj", opts)
---map("n", "k", "gk", opts)
-
 -- Delete to the black hole (use [[ and ]] to string delimit, so no need to escape)
 map("n", "<Leader>d", [["_d]], opts)
 map("n", "<Leader>D", [["_D]], opts)
+
+-- Make current buffer file executable
+map("n", "<Leader>x", "<cmd>!chmod +x %<CR>", opts)
 
 -- Shortcut to split current buffer
 map("n", [[<C-w>\]], ":vsplit<CR>", opts)
@@ -50,10 +52,6 @@ map("n", "[b", ":bprevious<CR>", opts)
 map("n", "]t", ":tabnext<CR>", opts)
 map("n", "[t", ":tabprevious<CR>", opts)
 
--- Move tabs
--- map("n", "]T", ":tabmove +1<CR>", opts)
--- map("n", "[T", ":tabmove -1<CR>", opts)
-
 -- Navigate quickfix
 map("n", "]c", ":cnext<CR>zz", opts)
 map("n", "[c", ":cprevious<CR>zz", opts)
@@ -62,20 +60,16 @@ map("n", "[c", ":cprevious<CR>zz", opts)
 map("n", "]l", ":lnext<CR>zz", opts)
 map("n", "[l", ":lprevious<CR>zz", opts)
 
--- Split window with opened buffer
--- map("n", "<Leader>sb", ":buffers<CR>:sbuffer<Space>", opts)
--- map("n", "<Leader>vb", ":buffers<CR>:vertical sbuffer<Space>", opts)
-
--- Delete the current buffer
+-- Unload the current buffer
 map("n", "<leader>bd", ":bnext<CR>:bdelete#<CR>", opts)
 
 -- Git --
-map("n", "<leader>co", ":Git commit -m<Space>", opts)
-map("n", "<leader>Co", "<cmd>Git commit<CR>", opts)
+map("n", "<leader>gc", ":Git commit -m<Space>", opts)
+map("n", "<leader>gC", "<cmd>Git commit<CR>", opts)
 map("n", "<leader>gf", "<cmd>Git pull<CR>", opts)
 map("n", "<leader>gp", "<cmd>Git push<CR>", opts)
 
--- Change dir to current file root --
+-- Change dir to current file root
 map("n", "<leader>cd", [[<cmd>:cd `=expand("%:p:h")`<CR>]], opts)
 map("n", "<leader>ct", [[<cmd>:tcd `=expand("%:p:h")`<CR>]], opts)
 
@@ -84,6 +78,11 @@ map("n", "<leader>ct", [[<cmd>:tcd `=expand("%:p:h")`<CR>]], opts)
 -- Visual --
 -- Delete to the black hole
 map("v", "<leader>d", [["_d]], opts)
+map({"v", "x"}, "<Leader>p", [["_dP]], opts)
+
+-- Search/Substitute visual selection
+map("v", "<leader>f", [[""y/<C-r>"<CR>]], opts)
+map("v", "<leader>s", [[""y:%s/<C-r>"/<C-r>"/gI<left><left><left>]], opts)
 
 -- Move text up and down
 map("v", "J", "<Esc>:m '>+1<CR>gv=gv", opts)
