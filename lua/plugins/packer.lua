@@ -202,6 +202,12 @@ return require("packer").startup(function(use)
         end,
     })
 
+    -- Indent
+    use({
+        "yioneko/nvim-yati",
+        tag = "0.0.4",
+    })
+
     -- Context line
     use({
         "nvim-treesitter/nvim-treesitter-context",
