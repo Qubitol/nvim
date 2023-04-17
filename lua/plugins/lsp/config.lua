@@ -15,7 +15,7 @@ local servers = {
     -- "dockerls",
     -- "emmet_ls",
     "fortls",
-    "ltex",
+    -- "ltex",
 	"html",
 	-- "jsonls",
 	-- "tsserver",

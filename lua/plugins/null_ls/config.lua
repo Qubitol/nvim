@@ -13,11 +13,13 @@ local formatting = null_ls.builtins.formatting
 
 null_ls.setup({
     sources = {
+        code_actions.gitsigns,
         -- code_actions.ltrs.with({ extra_filetypes = { "tex" }, }),
         -- code_actions.proselint.with({ extra_filetypes = { "tex" }, }),
         -- diagnostics.proselint.with({ extra_filetypes = { "tex" }, }),
         -- diagnostics.ltrs.with({ extra_filetypes = { "tex" }, }),
         -- diagnostics.pylint,
+        -- diagnostics.flake8,
         -- diagnostics.vale.with({
         --     extra_filetypes = { "txt", "text", "md", "wiki", "markdown" },
         --     extra_args = { "--config=" .. HOME .. "/.config/vale/.vale.ini" },
