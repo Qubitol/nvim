@@ -143,11 +143,11 @@ return require("packer").startup(function(use)
         run = "make",
     })
 
-    -- Symbol sources
-    use({
-        "nvim-telescope/telescope-symbols.nvim",
-        commit = "f7d7c84873c95c7bd5682783dd66f84170231704",
-    })
+    -- -- Symbol sources
+    -- use({
+    --     "nvim-telescope/telescope-symbols.nvim",
+    --     commit = "f7d7c84873c95c7bd5682783dd66f84170231704",
+    -- })
 
     -- Harpoon
     use({

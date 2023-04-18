@@ -18,15 +18,17 @@ local term_opts = { silent = true }
 --   term_mode = "t",
 --   command_mode = "c",
 
--- Normal --
 -- Center while scrolling/searching
 map("n", "<C-u>", "<C-u>zz", opts)
 map("n", "<C-d>", "<C-d>zz", opts)
-map("n", "<leader>n", "nzz", opts)
-map("n", "<leader>N", "Nzz", opts)
+map("n", "n", "nzz", opts)
+map("n", "N", "Nzz", opts)
 
 -- Substitute work under cursor
 map("n", "<Leader>s", ":%s/\\<<C-r><C-w>>\\/<C-r><C-w>/gI<left><left><left>", opts)
+-- Search/Substitute visual selection
+map("v", "<Leader>f", [[""y/<C-r>"<CR>]], opts)
+map("v", "<Leader>s", [[""y:%s/<C-r>"/<C-r>"/gI<left><left><left>]], opts)
 
 -- Toggle search highlighting
 map("n", "<Leader>th", "<cmd>set hlsearch! hlsearch?<CR>", opts)
@@ -34,8 +36,11 @@ map("n", "<Leader>th", "<cmd>set hlsearch! hlsearch?<CR>", opts)
 map("n", "<Leader>tw", "<cmd>set wrap! wrap?<CR>", opts)
 
 -- Delete to the black hole (use [[ and ]] to string delimit, so no need to escape)
-map("n", "<Leader>d", [["_d]], opts)
-map("n", "<Leader>D", [["_D]], opts)
+map({"n", "v"}, "<Leader>d", [["_d]], opts)
+map({"n", "v"}, "<Leader>D", [["_D]], opts)
+
+-- Paste over and continue to paste the same word
+map({"v", "x"}, "<Leader>p", [["_dP]], opts)
 
 -- Make current buffer file executable
 map("n", "<Leader>x", "<cmd>!chmod +x %<CR>", opts)
@@ -45,20 +50,40 @@ map("n", [[<C-w>\]], ":vsplit<CR>", opts)
 map("n", [[<C-w>-]], ":split<CR>", opts)
 
 -- Navigate buffers
-map("n", "]b", ":bnext<CR>", opts)
 map("n", "[b", ":bprevious<CR>", opts)
+map("n", "]b", ":bnext<CR>", opts)
+map("n", "[B", ":bfirst<CR>", opts)
+map("n", "]B", ":blast<CR>", opts)
 
--- Navigate tabs
-map("n", "]t", ":tabnext<CR>", opts)
-map("n", "[t", ":tabprevious<CR>", opts)
+-- Navigate tags
+map("n", "[t", ":tprevious<CR>", opts)
+map("n", "]t", ":tnext<CR>", opts)
+map("n", "[T", ":tfirst<CR>", opts)
+map("n", "]T", ":tlast<CR>", opts)
+map("n", "[<C-T>", ":ptprevious<CR>", opts)
+map("n", "]<C-T>", ":ptnext<CR>", opts)
 
 -- Navigate quickfix
-map("n", "]c", ":cnext<CR>zz", opts)
-map("n", "[c", ":cprevious<CR>zz", opts)
+map("n", "[q", ":cprevious<CR>zz", opts)
+map("n", "]q", ":cnext<CR>zz", opts)
+map("n", "[Q", ":cfirst<CR>zz", opts)
+map("n", "]Q", ":clast<CR>zz", opts)
+map("n", "[<C-Q>", ":cpfile<CR>", opts)
+map("n", "]<C-Q>", ":cnfile<CR>", opts)
 
 -- Navigate loclist
-map("n", "]l", ":lnext<CR>zz", opts)
 map("n", "[l", ":lprevious<CR>zz", opts)
+map("n", "]l", ":lnext<CR>zz", opts)
+map("n", "[L", ":lfirst<CR>zz", opts)
+map("n", "]L", ":llast<CR>zz", opts)
+map("n", "[<C-L>", ":lpfile<CR>", opts)
+map("n", "]<C-L>", ":lnfile<CR>", opts)
+
+-- Navigate arglist
+map("n", "[a", ":previous<CR>", opts)
+map("n", "]a", ":next<CR>", opts)
+map("n", "[A", ":first<CR>", opts)
+map("n", "]A", ":last<CR>", opts)
 
 -- Unload the current buffer
 map("n", "<leader>bd", ":bnext<CR>:bdelete#<CR>", opts)
@@ -70,26 +95,9 @@ map("n", "<leader>gf", "<cmd>Git pull<CR>", opts)
 map("n", "<leader>gp", "<cmd>Git push<CR>", opts)
 
 -- Change dir to current file root
-map("n", "<leader>cd", [[<cmd>:cd `=expand("%:p:h")`<CR>]], opts)
-map("n", "<leader>ct", [[<cmd>:tcd `=expand("%:p:h")`<CR>]], opts)
-
--- Insert --
-
--- Visual --
--- Delete to the black hole
-map("v", "<leader>d", [["_d]], opts)
-map({"v", "x"}, "<Leader>p", [["_dP]], opts)
-
--- Search/Substitute visual selection
-map("v", "<leader>f", [[""y/<C-r>"<CR>]], opts)
-map("v", "<leader>s", [[""y:%s/<C-r>"/<C-r>"/gI<left><left><left>]], opts)
+map("n", "<leader>cd", [[<cmd>cd `=expand("%:p:h")`<CR>]], opts)
+map("n", "<leader>ct", [[<cmd>tcd `=expand("%:p:h")`<CR>]], opts)
 
 -- Move text up and down
 map("v", "J", "<Esc>:m '>+1<CR>gv=gv", opts)
 map("v", "K", "<Esc>:m '<-2<CR>gv=gv", opts)
-
--- Visual block --
-
--- Terminal --
-
--- Command --

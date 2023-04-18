@@ -232,10 +232,10 @@ map("n", "<leader>ft", "<cmd>Telescope aerial<CR>", {})
 map("n", "<leader>fl", builtin.lsp_document_symbols, {})
 -- browse harpoon marks (Find Harpoon)
 map("n", "<leader>fh", "<cmd>Telescope harpoon marks<CR>", {})
--- browse git commit (Git Commits) -- <leader>gc means Git Commit
-map("n", "<leader>fc", builtin.git_commits, {})
--- browse git commit for this buffer (Git Commits -- capitalize for buffer)
-map("n", "<leader>fC", builtin.git_bcommits, {})
+-- browse git log (Git Log)
+map("n", "<leader>gl", builtin.git_commits, {})
+-- browse git log for this buffer (Git Commits -- capitalize for buffer)
+map("n", "<leader>gL", builtin.git_bcommits, {})
 -- browse git branches (Git Branches)
 map("n", "<leader>gb", builtin.git_branches, {})
 -- browse git stashes (Git stasHes)
@@ -244,17 +244,17 @@ map("n", "<leader>gh", builtin.git_stash, {})
 map("n", "<leader>gw", [[<cmd>lua require "telescope".extensions.git_worktree.git_worktrees()<CR>]])
 -- create git worktree (Create Worktree)
 map("n", "<leader>cw", [[<cmd>lua require "telescope".extensions.git_worktree.create_git_worktree()<CR>]])
--- browse all symbols (Symbols Open)
-map(
-	"n",
-	"<leader>so",
-	[[<cmd>lua require "telescope.builtin".symbols{ sources = { "accented_letters", "latex", "math", "nerd" } }<CR>]]
-)
--- browse accenter letters (Symbols Accents)
-map("n", "<leader>sa", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "accented_letters" } }<CR>]])
--- browse latex symbols (Symbols lateX)
-map("n", "<leader>sx", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "latex" } }<CR>]])
--- browse math symbols (Symbols Math)
-map("n", "<leader>sm", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "math" } }<CR>]])
--- browse nerd font symbols (Symbols Nerd)
-map("n", "<leader>sn", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "nerd" } }<CR>]])
+-- -- browse all symbols (Symbols Open)
+-- map(
+-- 	"n",
+-- 	"<leader>so",
+-- 	[[<cmd>lua require "telescope.builtin".symbols{ sources = { "accented_letters", "latex", "math", "nerd" } }<CR>]]
+-- )
+-- -- browse accenter letters (Symbols Accents)
+-- map("n", "<leader>sa", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "accented_letters" } }<CR>]])
+-- -- browse latex symbols (Symbols lateX)
+-- map("n", "<leader>sx", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "latex" } }<CR>]])
+-- -- browse math symbols (Symbols Math)
+-- map("n", "<leader>sm", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "math" } }<CR>]])
+-- -- browse nerd font symbols (Symbols Nerd)
+-- map("n", "<leader>sn", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "nerd" } }<CR>]])
