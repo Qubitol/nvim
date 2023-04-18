@@ -167,11 +167,11 @@ return require("packer").startup(function(use)
         commit = "e76aec1fc2f83451a9acf5379fbb1d8278910873",
     })
 
-    -- Trouble
-    use({
-        "folke/trouble.nvim",
-        commit = "490f7fe6d227f4f7a64f00be8c7dcd7a508ed271",
-    })
+    -- -- Trouble
+    -- use({
+    --     "folke/trouble.nvim",
+    --     commit = "490f7fe6d227f4f7a64f00be8c7dcd7a508ed271",
+    -- })
 
     -- LaTeX
     use({
