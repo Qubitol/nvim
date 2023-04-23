@@ -5,21 +5,63 @@ end
 
 neorg.setup({
 	load = {
-		["core.defaults"] = { -- Loads default behaviour
-            config = {
-                disable = {
-                    "core.integrations.truezen",
-                    "core.integrations.zen_mode",
-                    "core.presenter",
-                },
-            },
-        },
-		["core.norg.dirman"] = { -- Manages Neorg workspaces
+		-- Loads default behaviour
+		["core.defaults"] = {
 			config = {
-				workspaces = {
-					notes = "~/Documents/Notes",
+				disable = {
+					"core.norg.journal",
+					"core.norg.news",
 				},
 			},
+		},
+
+		-- Neorg concealer
+		["core.concealer"] = {
+			config = {
+				icon_preset = "diamond",
+			},
+		},
+
+		-- Manages Neorg workspaces
+		["core.dirman"] = {
+			config = {
+				workspaces = {
+					default = "~/Documents/Notes",
+				},
+			},
+		},
+
+		["core.esupports.metagen"] = {
+			config = {
+				type = "auto",
+				template = {
+					{ "title", "" },
+					{ "description", "" },
+					{ "authors", "" },
+					{ "categories", "" },
+					{
+						"created",
+						function()
+							return os.date("%Y-%m-%d")
+						end,
+					},
+					{
+						"updated",
+						function()
+							return os.date("%Y-%m-%d")
+						end,
+					},
+					{ "version", "1.0" },
+				},
+			},
+		},
+
+		-- Export functionalities
+		["core.export"] = {},
+
+		-- Export to markdown
+		["core.export.markdown"] = {
+			config = { extensions = "all" },
 		},
 	},
 })

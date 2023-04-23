@@ -182,7 +182,7 @@ return require("packer").startup(function(use)
     -- Neorg
     use({
         "nvim-neorg/neorg",
-        commit = "3e09f698b8a4151f2b4f77ee917e4b54388bc97a",
+        tag = "v3.2.0",
         run = ":Neorg sync-parsers",
     })
 
