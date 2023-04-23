@@ -1,17 +1,5 @@
 local M = {}
 
-M.original_cwd = vim.fn.getcwd()
-
-M.file_exists = function(name)
-	local f = io.open(name, "r")
-	if f ~= nil then
-		io.close(f)
-		return true
-	else
-		return false
-	end
-end
-
 M.concat_file_lines = function(file_path)
 	local f = io.open(file_path)
 	if not f then
@@ -23,5 +11,17 @@ M.concat_file_lines = function(file_path)
 	end
 	return lines
 end
+
+M.file_exists = function(name)
+	local f = io.open(name, "r")
+	if f ~= nil then
+		io.close(f)
+		return true
+	else
+		return false
+	end
+end
+
+M.original_cwd = vim.fn.getcwd()
 
 return M
