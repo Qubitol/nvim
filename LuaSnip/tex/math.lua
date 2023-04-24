@@ -291,20 +291,20 @@ local autosnippets = {
 }
 
 -- Create autosnippets for SI units
-local siunits = {
+local si_units = {
     ["E"] = "\\exa",
     ["P"] = "\\peta",
     ["T"] = "\\tera",
     ["G"] = "\\giga",
     ["M"] = "\\mega",
     ["k"] = "\\kilo",
-    ["c"] = "\\centi",
+    ["cm"] = "\\centi",
     ["mi"] = "\\milli",
     ["mu"] = "\\micro",
     ["n"] = "\\nano",
-    ["p"] = "\\pico",
+    ["pi"] = "\\pico",
     ["me"] = "\\metre",
-    ["s"] = "\\second",
+    ["se"] = "\\second",
     ["g"] = "\\gram",
     ["K"] = "\\kelvin",
     ["rad"] = "\\radian",
@@ -312,28 +312,43 @@ local siunits = {
     ["pc"] = "\\parsec",
     ["sq"] = "\\square",
     ["cu"] = "\\cubic",
+    ["p2"] = "\\tothe{2}",
+    ["p3"] = "\\tothe{3}",
+    ["p4"] = "\\tothe{4}",
+    ["p5"] = "\\tothe{5}",
 }
 
-for unit, latex in pairs(siunits) do
-    local trig = "(\\qty%{.*%})([^%s]*)%s?" .. unit
+local si_triggers = {
+    ["\\qty"] = "(\\qty%{.-%})(%{[^%s%}]-)%s?",
+    ["\\qty[*]"] = "(\\qty%[.-%]%{.-%})(%{[^%s%}]-)%s?",
+    ["\\qtylist"] = "(\\qtylist%{.-%})(%{[^%s%}]-)%s?",
+    ["\\qtylist[*]"] = "(\\qtylist%[.-%]%{.-%})(%{[^%s%}]-)%s?",
+    ["\\qtyrange"] = "(\\qtyrange%{.-%}%{.-%})(%{[^%s%}]-)%s?",
+    ["\\qtyrange[*]"] = "(\\qtyrange%[.-%]%{.-%}%{.-%})(%{[^%s%}]-)%s?",
+    ["\\unit"] = "(\\unit)(%{[^%s%}]-)%s?",
+    ["\\unit[*]"] = "(\\unit%[.-%])(%{[^%s%}]-)%s?",
+}
+
+for si_prefix, latex in pairs(si_units) do
     local expand = "<><>" .. latex
-    table.insert(autosnippets,
-        s({
-            trig = trig,
-            wordTrig = false,
-            regTrig = true,
-            desc = "Expand units in siunitx",
-        },
+    for cmd, trig_prefix in pairs(si_triggers) do
+        local snippet = s(
+            {
+                trig = trig_prefix .. si_prefix,
+                wordTrig = false,
+                regTrig = true,
+                desc = "Expand in siunitx " .. cmd .. " : '" .. si_prefix .. "' -> '" .. latex .. "'",
+            },
             fmta(
                 expand,
                 {
                     f( function(_, snip) return snip.captures[1] end ),
                     f( function(_, snip) return snip.captures[2] end ),
                 }
-            ),
-            { condition = in_mathzone }
+            )
         )
-    )
+        table.insert(autosnippets, snippet)
+    end
 end
 
 return snippets, autosnippets
