@@ -5,75 +5,6 @@ local in_text = luasnip.in_text
 
 local snippets = {
 
-    s({
-        trig = "q([+-]?%d*%.%d*)(e[+-]?%d+)",
-        wordTrig = false,
-        regTrig = true,
-        desc = "Expand to siunitx \\qty",
-    },
-        fmta(
-            "\\qty{<>}{<>}",
-            {
-                f(
-                    function(_, snip)
-                        local out = ""
-                        local mantissa = tonumber(snip.captures[1])
-                        if mantissa ~= 1 and mantissa ~= -1
-                        then
-                            out = out .. mantissa
-                        end
-                        out = out .. snip.captures[2]
-                        return out
-                    end
-                ),
-                i(1),
-            }
-        ),
-        { condition = in_mathzone }
-    ),
-
-    s({
-        trig = "q([+-]?%d*)(e[+-]?%d+)",
-        wordTrig = false,
-        regTrig = true,
-        desc = "Expand to siunitx \\qty",
-    },
-        fmta(
-            "\\qty{<>}{<>}",
-            {
-                f(
-                    function(args, snip)
-                        local out = ""
-                        local mantissa = tonumber(snip.captures[1])
-                        if mantissa ~= 1 and mantissa ~= -1
-                        then
-                            out = out .. mantissa
-                        end
-                        out = out .. snip.captures[2]
-                        return out
-                    end
-                ),
-                i(1),
-            }
-        ),
-        { condition = in_mathzone }
-    ),
-
-    s({
-        trig = "q([+-]?%d*%.%d*)",
-        wordTrig = false,
-        regTrig = true,
-        desc = "Expand to siunitx \\qty",
-    },
-        fmta(
-            "\\qty{<>}{<>}",
-            {
-                f( function(_, snip) return snip.captures[1] end ),
-                i(1),
-            }
-        ),
-        { condition = in_mathzone }
-    ),
 }
 
 local autosnippets = {
@@ -289,6 +220,78 @@ local autosnippets = {
     ),
 
 }
+
+-- Create snippets for SI numbers
+local function hide_mantissa_if_one(_, snip)
+    local out = ""
+    local mantissa = tonumber(snip.captures[1])
+    if mantissa ~= 1 and mantissa ~= -1
+    then
+        out = out .. mantissa
+    end
+    out = out .. snip.captures[2]
+    return out
+end
+
+local num_trig = {
+    "([+-]?%d*%.%d*)(e[+-]?%d+)",
+    "([+-]?%d*)(e[+-]?%d+)",
+    "([+-]?%d*%.%d*)",
+}
+
+local cmd_expand = {
+    q = {
+        cmd = "\\qty",
+        expand = { "\\qty{<>}{<>}", { f(hide_mantissa_if_one), i(1, "units") } },
+        condition = in_mathzone,
+    },
+    ql = {
+        cmd = "\\qtylist",
+        expand = { "\\qtylist{<>;<>}{<>}", { f(hide_mantissa_if_one), i(1), i(2, "units") } },
+        condition = nil,
+    },
+    qr = {
+        cmd = "\\qtyrange",
+        expand = { "\\qtyrange{<>}{<>}{<>}", { f(hide_mantissa_if_one), i(1, "end of range"), i(2, "units") } },
+        condition = nil,
+    },
+    n = {
+        cmd = "\\num",
+        expand = { "\\num{<>}", { f(hide_mantissa_if_one) } },
+        condition = in_mathzone,
+    },
+    nl = {
+        cmd = "\\numlist",
+        expand = { "\\numlist{<>;<>}", { f(hide_mantissa_if_one), i(1) } },
+        condition = nil,
+    },
+    nr = {
+        cmd = "\\numrange",
+        expand = { "\\numrange{<>}{<>}", { f(hide_mantissa_if_one), i(1, "end of range") } },
+        condition = nil,
+    },
+    a = {
+        cmd = "\\ang",
+        expand = { "\\ang{<>}", { f(hide_mantissa_if_one) } },
+        condition = in_mathzone,
+    },
+}
+
+for trig_prefix, cmd_opts in pairs(cmd_expand) do
+    for trig_suffix in num_trig do
+        local snippet = s(
+            {
+                trig = trig_prefix .. trig_suffix,
+                wordTrig = false,
+                regTrig = true,
+                desc = "Expand to siunitx " .. cmd_opts.cmd,
+            },
+            fmta(cmd_opts.expand),
+            { condition = cmd_opts.condition }
+        )
+        table.insert(snippets, snippet)
+    end
+end
 
 -- Create autosnippets for SI units
 local si_units = {
