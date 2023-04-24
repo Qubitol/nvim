@@ -15,7 +15,7 @@ local snippets = {
             "\\qty{<>}{<>}",
             {
                 f(
-                    function(args, snip)
+                    function(_, snip)
                         local out = ""
                         local mantissa = tonumber(snip.captures[1])
                         if mantissa ~= 1 and mantissa ~= -1
@@ -127,9 +127,11 @@ local autosnippets = {
                 \begin{equation}
                     <>
                 \end{equation}
+
             ]],
             { i(1) }
-        )
+        ),
+        { condition = conds.line_begin }
     ),
 
     s({
@@ -141,9 +143,11 @@ local autosnippets = {
                 \begin{subequations}
                     <>
                 \end{subequations}
+
             ]],
             { i(1) }
-        )
+        ),
+        { condition = conds.line_begin }
     ),
 
     s({
@@ -155,9 +159,11 @@ local autosnippets = {
                 \begin{align}
                     <>
                 \end{align}
+
             ]],
             { i(1) }
-        )
+        ),
+        { condition = conds.line_begin }
     ),
 
     s({
@@ -169,9 +175,11 @@ local autosnippets = {
                 \begin{gather}
                     <>
                 \end{gather}
+
             ]],
             { i(1) }
-        )
+        ),
+        { condition = conds.line_begin }
     ),
 
     s({
