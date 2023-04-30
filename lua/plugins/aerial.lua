@@ -28,4 +28,4 @@ aerial.setup({
     show_guides = true,
 })
 
-vim.keymap.set('n', '<leader>ta', '<cmd>AerialToggle<CR>')
+vim.keymap.set('n', '<leader>tt', '<cmd>AerialToggle<CR>')

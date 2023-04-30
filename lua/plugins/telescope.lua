@@ -248,17 +248,5 @@ map("n", "<leader>gh", builtin.git_stash, {})
 map("n", "<leader>gw", [[<cmd>lua require "telescope".extensions.git_worktree.git_worktrees()<CR>]])
 -- create git worktree (Create Worktree)
 map("n", "<leader>cw", [[<cmd>lua require "telescope".extensions.git_worktree.create_git_worktree()<CR>]])
--- -- browse all symbols (Symbols Open)
--- map(
--- 	"n",
--- 	"<leader>so",
--- 	[[<cmd>lua require "telescope.builtin".symbols{ sources = { "accented_letters", "latex", "math", "nerd" } }<CR>]]
--- )
--- -- browse accenter letters (Symbols Accents)
--- map("n", "<leader>sa", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "accented_letters" } }<CR>]])
--- -- browse latex symbols (Symbols lateX)
--- map("n", "<leader>sx", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "latex" } }<CR>]])
--- -- browse math symbols (Symbols Math)
--- map("n", "<leader>sm", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "math" } }<CR>]])
--- -- browse nerd font symbols (Symbols Nerd)
--- map("n", "<leader>sn", [[<cmd>lua require "telescope.builtin".symbols{ sources = { "nerd" } }<CR>]])
+-- Telescope resume (Find Find)
+map("n", "<leader>ff", "<cmd>Telescope resume<CR>", {})
