@@ -173,6 +173,12 @@ return require("packer").startup(function(use)
     --     commit = "490f7fe6d227f4f7a64f00be8c7dcd7a508ed271",
     -- })
 
+    -- Quickfix list improvement
+    use({
+        "yorickpeterse/nvim-pqf",
+        commit = "0c83602f9b3de057c5d4bf76e849c3d589a1d836",
+    })
+
     -- LaTeX
     use({
         "lervag/vimtex",

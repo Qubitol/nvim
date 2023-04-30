@@ -6,6 +6,9 @@ g.maplocalleader = "\\"
 -- Shorten function name
 local map = vim.keymap.set
 
+-- Import utilities
+local utils = require("core.utils")
+
 -- Set mapping options
 local opts = { noremap = true, silent = true }
 local term_opts = { silent = true }
@@ -70,6 +73,9 @@ map("n", "[Q", ":cfirst<CR>zz", opts)
 map("n", "]Q", ":clast<CR>zz", opts)
 map("n", "[<C-Q>", ":cpfile<CR>", opts)
 map("n", "]<C-Q>", ":cnfile<CR>", opts)
+map("n", "<leader>qn", ":cnewer<CR>", opts)
+map("n", "<leader>qp", ":colder<CR>", opts)
+map("n", "<leader>tq", utils.toggle_qf, opts)
 
 -- Navigate loclist
 map("n", "[l", ":lprevious<CR>zz", opts)

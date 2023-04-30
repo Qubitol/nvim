@@ -2,44 +2,37 @@ local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
 -- Highlight yanked text
-local yank_group = augroup('HighlightYank', {})
+local yank_group = augroup("HighlightYank", {})
 
-autocmd('TextYankPost', {
-    group = yank_group,
-    pattern = '*',
+autocmd("TextYankPost", {
+	group = yank_group,
+	pattern = "*",
+	callback = function()
+		vim.highlight.on_yank({
+			higroup = "IncSearch",
+			timeout = 40,
+		})
+	end,
+})
+
+-- Quickfix
+local qf_group = augroup("Quickfix", {})
+autocmd("FileType", {
+    pattern = "qf",
+    group = qf_group,
     callback = function()
-        vim.highlight.on_yank({
-            higroup = 'IncSearch',
-            timeout = 40,
-        })
+        local set = vim.opt
+        local map = vim.keymap.set
+        local opts = { buffer = true, noremap = true, silent = true }
+        -- preview the diagnostic location
+        map("n", "p", "<CR>zz<C-w>w", opts)
+        -- remove element from quickfix
+        map("n", "dd", "<cmd>setlocal modifiable<CR>dd<cmd>setlocal nomodifiable<CR>", opts)
+        map("v", "d", "<esc><cmd>setlocal modifiable<CR>gvd<cmd>setlocal nomodifiable<CR>", opts)
+        -- options
+        set.colorcolumn = ""
     end,
 })
 
--- -- Use trouble to manage quickfix and loclist
--- function ToggleTroubleAuto()
---     local buftype = "quickfix"
---     local close_command = "cclose"
---     if vim.fn.getloclist(0, { filewinid = 1 }).filewinid ~= 0 then
---         buftype = "loclist"
---         close_command = "lclose"
---     end
---
---     local status_trouble_ok, trouble = pcall(require, "trouble")
---     if status_trouble_ok then
---         vim.defer_fn(function()
---             vim.cmd(close_command)
---             trouble.toggle(buftype)
---         end, 0)
---     else
---         local set = vim.opt_local
---         set.colorcolumn = ""
---         set.number = false
---         set.relativenumber = false
---         set.signcolumn = "no"
---     end
--- end
---
--- vim.cmd [[autocmd BufWinEnter quickfix silent :lua ToggleTroubleAuto()]]
-
 -- autosave when focus lost
-vim.cmd [[autocmd FocusLost * silent! wa]]
+vim.cmd([[autocmd FocusLost * silent! wa]])
