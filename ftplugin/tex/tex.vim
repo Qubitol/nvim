@@ -54,7 +54,7 @@ if has('unix')
 " macOS forward search implementation
 elseif has('macunix')
   function! s:TexFocusVim() abort
-    execute "!open -a Alacritty"
+    execute "!open -a wezterm"
     redraw!
   endfunction
 

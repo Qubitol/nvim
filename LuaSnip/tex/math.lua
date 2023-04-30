@@ -3,14 +3,89 @@ local get_visual = luasnip.get_visual
 local in_mathzone = luasnip.in_mathzone
 local in_text = luasnip.in_text
 
-local snippets = {
-
-}
+local snippets = {}
 
 local autosnippets = {
 
     s({
-        trig = "([^%a])mm",
+        trig = "aa",
+        desc = "Expand to siunitx \\ang",
+    },
+        fmta(
+            "\\ang{<>}",
+            {
+                i(1, "angle"),
+            }
+        ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = "qq",
+        desc = "Expand to siunitx \\qty",
+    },
+        fmta(
+            "\\qty{<>}{<>}",
+            {
+                i(1, "number"),
+                i(2, "unit"),
+            }
+        ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = "([^%a])ql",
+        wordTrig = false,
+        regTrig = true,
+        desc = "Expand to siunitx \\qtylist",
+    },
+        fmta(
+            "<>\\qtylist{<>}{<>}",
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+                i(1, "numbers list"),
+                i(2, "unit"),
+            }
+        )
+    ),
+
+    s({
+        trig = "([^%a])qr",
+        wordTrig = false,
+        regTrig = true,
+        desc = "Expand to siunitx \\qtyrange",
+    },
+        fmta(
+            "<>\\qtyrange{<>}{<>}{<>}",
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+                i(1, "range min"),
+                i(2, "range max"),
+                i(3, "unit"),
+            }
+        )
+    ),
+
+    s({
+        trig = "([^%a])qR",
+        wordTrig = false,
+        regTrig = true,
+        desc = "Expand to siunitx \\qtyrange[range-phrase = --]",
+    },
+        fmta(
+            "<>\\qtyrange[range-phrase = --]{<>}{<>}{<>}",
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+                i(1, "range min"),
+                i(2, "range max"),
+                i(3, "unit"),
+            }
+        )
+    ),
+
+    s({
+        trig = "([^%a])nn",
         wordTrig = false,
         regTrig = true,
         dscr = "Inline math",
@@ -26,25 +101,84 @@ local autosnippets = {
     ),
 
     s({
-        trig = "vv",
+        trig = "([^%a])vv",
         wordTrig = false,
         regTrig = true,
         dscr = "Vector",
     },
         fmta(
-            "\\vec{<>}",
-            { d(1, get_visual) }
+            "<>\\vec{<>}",
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+                d(1, get_visual),
+            }
         ),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = "ff",
-        dscr = "Create a fraction"
+        trig = "([^%a])ff",
+        wordTrig = false,
+        regTrig = true,
+        dscr = "Fraction"
     },
         fmta(
-            "\\frac{<>}{<>}",
-            { i(1), i(2) }
+            "<>\\frac{<>}{<>}",
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+                d(1, get_visual),
+                i(2)
+            }
+        ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = "([^%a])odv",
+        wordTrig = false,
+        regTrig = true,
+        dscr = "Ordinary derivative",
+    },
+        fmta(
+            "<>\\odv{<>}{<>}",
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+                i(1),
+                i(2)
+            }
+        ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = "([^%a])pdv",
+        wordTrig = false,
+        regTrig = true,
+        dscr = "Partial derivative",
+    },
+        fmta(
+            "<>\\pdv{<>}{<>}",
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+                i(1),
+                i(2)
+            }
+        ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = "([^%a])dd",
+        wordTrig = false,
+        regTrig = true,
+        dscr = "Differential",
+    },
+        fmta(
+            "<>\\odiff{<>}",
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+                i(1),
+            }
         ),
         { condition = in_mathzone }
     ),
@@ -114,7 +248,7 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%s])__",
+        trig = "([%w%)%]%}]);",
         wordTrig = false,
         regTrig = true,
         dscr = "Subscript"
@@ -130,7 +264,7 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%s])%*%*",
+        trig = "([%w%)%]%}])'",
         wordTrig = false,
         regTrig = true,
         dscr = "Superscript"
@@ -146,7 +280,7 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%s])_t",
+        trig = "([%w%)%]%}]),;",
         wordTrig = false,
         regTrig = true,
         dscr = "Textup subscript"
@@ -162,7 +296,7 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%s])%*t",
+        trig = "([%w%)%]%}]),'",
         wordTrig = false,
         regTrig = true,
         dscr = "Textup superscript"
@@ -178,26 +312,71 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%s])%+%+",
+        trig = "(%^[^%s%}]-)pp",
         wordTrig = false,
         regTrig = true,
-        dscr = "Superscript plus"
+        dscr = "Prime"
     },
         fmta(
-            "<>^+",
+            "<>\\prime",
             { f( function(_, snip) return snip.captures[1] end ) }
         ),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = "([^%s])%-%-",
+        trig = "([%w%)%]%}]):([%w])",
+        wordTrig = false,
+        regTrig = true,
+        dscr = "First alphanumeric character into a subscript"
+    },
+        fmta(
+            "<>_{<>}",
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+                f( function(_, snip) return snip.captures[2] end )
+            }
+        ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = "([%w%)%]%}])\"([%w])",
+        wordTrig = false,
+        regTrig = true,
+        dscr = "First alphanumeric character into a superscript"
+    },
+        fmta(
+            "<>^{<>}",
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+                f( function(_, snip) return snip.captures[2] end )
+            }
+        ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = "([%w%)%]%}])%+%+",
+        wordTrig = false,
+        regTrig = true,
+        dscr = "Superscript plus"
+    },
+        fmta(
+            "<>^{+}",
+            { f( function(_, snip) return snip.captures[1] end ) }
+        ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = "([%w%)%]%}])%-%-",
         wordTrig = false,
         regTrig = true,
         dscr = "Superscript minus"
     },
         fmta(
-            "<>^-",
+            "<>^{-}",
             { f( function(_, snip) return snip.captures[1] end ) }
         ),
         { condition = in_mathzone }
@@ -219,78 +398,120 @@ local autosnippets = {
         { condition = in_mathzone }
     ),
 
+    s({
+        trig = ">=",
+        dscr = "Greater than or equal to"
+    },
+        t( "\\geq" ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = "<=",
+        dscr = "Lower than or equal to"
+    },
+        t( "\\leq" ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = ">>",
+        dscr = "Much great than"
+    },
+        t( "\\gg" ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = "<<",
+        dscr = "Much less than"
+    },
+        t( "\\ll" ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = "!=",
+        dscr = "Not equal to"
+    },
+        t( "\\neq" ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = "~~",
+        dscr = "Approximately equal to"
+    },
+        t( "\\approx" ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = ">~",
+        dscr = "Greater than or approximately equal to"
+    },
+        t( "\\gtrapprox" ),
+        { condition = in_mathzone }
+    ),
+
+    s({
+        trig = "<~",
+        dscr = "Less than or approximately equal to"
+    },
+        t( "\\lessapprox" ),
+        { condition = in_mathzone }
+    ),
 }
 
--- Create snippets for SI numbers
-local function hide_mantissa_if_one(_, snip)
-    local out = ""
-    local mantissa = tonumber(snip.captures[1])
-    if mantissa ~= 1 and mantissa ~= -1
-    then
-        out = out .. mantissa
-    end
-    out = out .. snip.captures[2]
-    return out
-end
-
-local num_trig = {
-    "([+-]?%d*%.%d*)(e[+-]?%d+)",
-    "([+-]?%d*)(e[+-]?%d+)",
-    "([+-]?%d*%.%d*)",
+-- Create autosnippets for Greek letters
+local greek_letters = {
+    ["a"] = "\\alpha",
+    ["b"] = "\\beta",
+    ["g"] = "\\gamma",
+    ["d"] = "\\delta",
+    ["e"] = "\\epsilon",
+    ["z"] = "\\zeta",
+    ["h"] = "\\eta",
+    ["o"] = "\\theta",
+    ["k"] = "\\kappa",
+    ["l"] = "\\lambda",
+    ["m"] = "\\mu",
+    ["n"] = "\\nu",
+    ["x"] = "\\xi",
+    ["i"] = "\\pi",
+    ["r"] = "\\rho",
+    ["s"] = "\\sigma",
+    ["t"] = "\\tau",
+    ["u"] = "\\upsilon",
+    ["f"] = "\\phi",
+    ["c"] = "\\chi",
+    ["p"] = "\\psi",
+    ["w"] = "\\omega",
 }
 
-local cmd_expand = {
-    q = {
-        cmd = "\\qty",
-        expand = { "\\qty{<>}{<>}", { f(hide_mantissa_if_one), i(1, "units") } },
-        condition = in_mathzone,
-    },
-    ql = {
-        cmd = "\\qtylist",
-        expand = { "\\qtylist{<>;<>}{<>}", { f(hide_mantissa_if_one), i(1), i(2, "units") } },
-        condition = nil,
-    },
-    qr = {
-        cmd = "\\qtyrange",
-        expand = { "\\qtyrange{<>}{<>}{<>}", { f(hide_mantissa_if_one), i(1, "end of range"), i(2, "units") } },
-        condition = nil,
-    },
-    n = {
-        cmd = "\\num",
-        expand = { "\\num{<>}", { f(hide_mantissa_if_one) } },
-        condition = in_mathzone,
-    },
-    nl = {
-        cmd = "\\numlist",
-        expand = { "\\numlist{<>;<>}", { f(hide_mantissa_if_one), i(1) } },
-        condition = nil,
-    },
-    nr = {
-        cmd = "\\numrange",
-        expand = { "\\numrange{<>}{<>}", { f(hide_mantissa_if_one), i(1, "end of range") } },
-        condition = nil,
-    },
-    a = {
-        cmd = "\\ang",
-        expand = { "\\ang{<>}", { f(hide_mantissa_if_one) } },
-        condition = in_mathzone,
-    },
-}
-
-for trig_prefix, cmd_opts in pairs(cmd_expand) do
-    for trig_suffix in num_trig do
-        local snippet = s(
-            {
-                trig = trig_prefix .. trig_suffix,
-                wordTrig = false,
-                regTrig = true,
-                desc = "Expand to siunitx " .. cmd_opts.cmd,
-            },
-            fmta(cmd_opts.expand),
-            { condition = cmd_opts.condition }
-        )
-        table.insert(snippets, snippet)
-    end
+for trig, latex in pairs(greek_letters) do
+    local letter = string.gsub(latex, "\\", "")
+    local snippet = s(
+        {
+            trig = ";" .. trig,
+            dscr = "Expand to greek letter " .. letter,
+        },
+        t(latex),
+        { condition = in_mathzone }
+    )
+    table.insert(autosnippets, snippet)
+    -- Capital greek letter
+    trig = string.upper(trig)
+    letter = string.gsub(letter, "^(%l)", string.upper)
+    snippet = s(
+        {
+            trig = ";" .. trig,
+            dscr = "Expand to greek letter " .. letter,
+        },
+        t("\\" .. letter),
+        { condition = in_mathzone }
+    )
+    table.insert(autosnippets, snippet)
 end
 
 -- Create autosnippets for SI units
@@ -340,7 +561,7 @@ for si_prefix, latex in pairs(si_units) do
                 trig = trig_prefix .. si_prefix,
                 wordTrig = false,
                 regTrig = true,
-                desc = "Expand in siunitx " .. cmd .. " : '" .. si_prefix .. "' -> '" .. latex .. "'",
+                dscr = "Expand in siunitx " .. cmd .. " : '" .. si_prefix .. "' -> '" .. latex .. "'",
             },
             fmta(
                 expand,

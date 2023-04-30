@@ -52,8 +52,10 @@ snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
 snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
 
 " For changing choices in choiceNodes (not strictly necessary for a basic setup).
-imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
-smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+imap <silent><expr> <C-N> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-N>'
+smap <silent><expr> <C-N> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-N>'
+imap <silent><expr> <C-P> luasnip#choice_active() ? '<Plug>luasnip-prev-choice' : '<C-P>'
+smap <silent><expr> <C-P> luasnip#choice_active() ? '<Plug>luasnip-prev-choice' : '<C-P>'
 ]])
 
 -- Load the snippets and map a key to update during runtime

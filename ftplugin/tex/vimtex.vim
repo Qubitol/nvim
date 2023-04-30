@@ -9,22 +9,21 @@ let b:did_myvimtexsettings = 1
 
 nmap <leader>i <plug>(vimtex-info)
 
-nmap <leader>t <CMD>VimtexTocToggle<CR>
+" nmap <leader>t <CMD>VimtexTocToggle<CR>
 
 " Disabling some default features
 " ---------------------------------------------
 " Turn off VimTeX indentation
-" let g:vimtex_indent_enabled = 0
+let g:vimtex_indent_enabled = 0
 
 " Disable default mappings
-" let g:vimtex_mappings_enabled = 0
+let g:vimtex_mappings_enabled = 0
 
 " Disable insert mode mappings
-" let g:vimtex_imaps_enabled = 0
+let g:vimtex_imaps_enabled = 0
 
 " Turn off completion (not currently used so more efficient to turn off)
-" let g:vimtex_complete_enabled = 0
-let g:vimtex_complete_enabled = 1
+let g:vimtex_complete_enabled = 0
 
 " Disable syntax conceal
 let g:vimtex_syntax_conceal_disable = 1  
@@ -56,7 +55,6 @@ if has('unix')
   let g:vimtex_view_method = 'zathura'
 elseif has('macunix')
   let g:vimtex_view_method = 'skim'
-  " let g:vimtex_view_method = 'zathura'
 else
   echom "Error: forward show not supported on this OS"
 endif
