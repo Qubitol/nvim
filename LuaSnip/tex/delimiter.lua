@@ -14,7 +14,7 @@ local autosnippets = {
         dscr = "Big round parenthesis"
     },
         fmta(
-            "<>\\big(<>\\big)",
+            "<>\\bigl(<>\\bigr)",
             {
                 f( function(_, snip) return snip.captures[1] end ),
                 d(1, get_visual),
@@ -30,7 +30,7 @@ local autosnippets = {
         dscr = "Big square brackets"
     },
         fmta(
-            "<>\\big[<>\\big]",
+            "<>\\bigl[<>\\bigr]",
             {
                 f( function(_, snip) return snip.captures[1] end ),
                 d(1, get_visual),
@@ -46,7 +46,7 @@ local autosnippets = {
         dscr = "Big curly brackets"
     },
         fmta(
-            "<>\\big\\{<>\\big\\}",
+            "<>\\bigl\\{<>\\bigr\\}",
             {
                 f( function(_, snip) return snip.captures[1] end ),
                 d(1, get_visual),

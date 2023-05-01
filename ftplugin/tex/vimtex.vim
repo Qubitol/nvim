@@ -17,7 +17,7 @@ nmap <leader>i <plug>(vimtex-info)
 let g:vimtex_indent_enabled = 0
 
 " Disable default mappings
-let g:vimtex_mappings_enabled = 0
+" let g:vimtex_mappings_enabled = 0
 
 " Disable insert mode mappings
 let g:vimtex_imaps_enabled = 0

@@ -8,30 +8,96 @@ local snippets = {}
 local autosnippets = {
 
     s({
-        trig = "aa",
+        trig = "([^%a])aa",
+        wordTrig = false,
+        regTrig = true,
         desc = "Expand to siunitx \\ang",
     },
         fmta(
-            "\\ang{<>}",
+            "<>\\ang{<>}",
             {
-                i(1, "angle"),
+                f( function(_, snip) return snip.captures[1] end ),
+                i(1, "numbers list"),
             }
-        ),
-        { condition = in_mathzone }
+        )
     ),
 
     s({
-        trig = "qq",
+        trig = "([^%a])nn",
+        wordTrig = false,
+        regTrig = true,
+        desc = "Expand to siunitx \\num",
+    },
+        fmta(
+            "<>\\num{<>}",
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+                i(1, "numbers list"),
+            }
+        )
+    ),
+
+    s({
+        trig = "([^%a])nl",
+        wordTrig = false,
+        regTrig = true,
+        desc = "Expand to siunitx \\numlist",
+    },
+        fmta(
+            "<>\\numlist{<>}",
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+                i(1, "numbers list"),
+            }
+        )
+    ),
+
+    s({
+        trig = "([^%a])nr",
+        wordTrig = false,
+        regTrig = true,
+        desc = "Expand to siunitx \\numrange",
+    },
+        fmta(
+            "<>\\numrange{<>}{<>}",
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+                i(1, "range min"),
+                i(2, "range max"),
+            }
+        )
+    ),
+
+    s({
+        trig = "([^%a])nR",
+        wordTrig = false,
+        regTrig = true,
+        desc = "Expand to siunitx \\numrange[range-phrase = --]",
+    },
+        fmta(
+            "<>\\numrange[range-phrase = --]{<>}{<>}",
+            {
+                f( function(_, snip) return snip.captures[1] end ),
+                i(1, "range min"),
+                i(2, "range max"),
+            }
+        )
+    ),
+
+    s({
+        trig = "([^%a])qq",
+        wordTrig = false,
+        regTrig = true,
         desc = "Expand to siunitx \\qty",
     },
         fmta(
-            "\\qty{<>}{<>}",
+            "<>\\qty{<>}{<>}",
             {
+                f( function(_, snip) return snip.captures[1] end ),
                 i(1, "number"),
                 i(2, "unit"),
             }
-        ),
-        { condition = in_mathzone }
+        )
     ),
 
     s({
@@ -85,7 +151,7 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])nn",
+        trig = "([^%a])mm",
         wordTrig = false,
         regTrig = true,
         dscr = "Inline math",
@@ -522,7 +588,7 @@ local si_units = {
     ["G"] = "\\giga",
     ["M"] = "\\mega",
     ["k"] = "\\kilo",
-    ["cm"] = "\\centi",
+    ["ce"] = "\\centi",
     ["mi"] = "\\milli",
     ["mu"] = "\\micro",
     ["n"] = "\\nano",
@@ -540,6 +606,7 @@ local si_units = {
     ["p3"] = "\\tothe{3}",
     ["p4"] = "\\tothe{4}",
     ["p5"] = "\\tothe{5}",
+    ["pp"] = "\\percent",
 }
 
 local si_triggers = {
