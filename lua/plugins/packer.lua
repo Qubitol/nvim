@@ -167,6 +167,11 @@ return require("packer").startup(function(use)
         commit = "e76aec1fc2f83451a9acf5379fbb1d8278910873",
     })
 
+    -- Task runner
+    use({
+        "stevearc/overseer.nvim",
+        commit = "92e4ba8d51191365e1da63f1f1f0e48efbd4ada7",
+    })
     -- -- Trouble
     -- use({
     --     "folke/trouble.nvim",
