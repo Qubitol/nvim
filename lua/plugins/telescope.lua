@@ -152,8 +152,15 @@ telescope.setup({
 			i = {
 				["<C-j>"] = actions.move_selection_next,
 				["<C-k>"] = actions.move_selection_previous,
-				["<M-q>"] = actions.nop, -- clash with map from tmux
+                ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+                ["<C-x>"] = actions.smart_add_to_qflist + actions.open_qflist,
+                ["<M-q>"] = actions.nop, -- clash with map from tmux
 			},
+            n = {
+                ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+                ["<C-x>"] = actions.smart_add_to_qflist + actions.open_qflist,
+                ["<M-q>"] = actions.nop, -- clash with map from tmux
+            },
 		},
 		vimgrep_arguments = vimgrep_arguments,
 	},
