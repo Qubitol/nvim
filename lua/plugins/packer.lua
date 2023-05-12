@@ -192,6 +192,12 @@ return require("packer").startup(function(use)
         run = ":Neorg sync-parsers",
     })
 
+    -- Automatically center buffer
+    use({
+        "shortcuts/no-neck-pain.nvim",
+        tag = "v1.2.2",
+    })
+
     -- Sorround
     use({
         "kylechui/nvim-surround",
