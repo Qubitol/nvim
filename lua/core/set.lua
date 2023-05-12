@@ -37,7 +37,7 @@ set.cursorline = true
 set.foldmethod = "marker" -- enable folding (default "foldmarker")
 set.wrap = false -- do not wrap lines even if very long
 set.eol = false -- show if there's no eol char
-set.showbreak= '↪' -- character to show when line is broken
+set.showbreak = '↪' -- character to show when line is broken
 
 -- Sidebar
 set.number = true -- line number on the left
