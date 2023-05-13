@@ -28,10 +28,10 @@ map("n", "n", "nzz", opts)
 map("n", "N", "Nzz", opts)
 
 -- Substitute work under cursor
-map("n", "<Leader>sr", ":%s/\\<<C-r><C-w>>\\/<C-r><C-w>/gI<left><left><left>", opts)
+map("n", "<Leader>sr", ":%s/\\<<C-r><C-w>\\>//gI<left><left><left>", opts)
 -- Search/Substitute visual selection
 map("v", "<Leader>fi", [[""y/<C-r>"<CR>]], opts)
-map("v", "<Leader>sr", [[""y:%s/<C-r>"/<C-r>"/gI<left><left><left>]], opts)
+map("v", "<Leader>sr", [[""y:%s/<C-r>"//gI<left><left><left>]], opts)
 
 -- Toggle search highlighting
 map("n", "<Leader>th", "<cmd>set hlsearch! hlsearch?<CR>", opts)
