@@ -5,7 +5,7 @@ end
 
 no_neck_pain.setup({
     -- Width
-    width = 140,
+    width = 110,
 
     -- Only left buffer
     buffers = {
@@ -17,7 +17,7 @@ no_neck_pain.setup({
         },
         scratchPad = {
             -- Enable scratchpad
-            enabled = true,
+            enabled = false,
 
             -- File name, filetype is `norg`
             fileName = "notes",
