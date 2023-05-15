@@ -33,3 +33,6 @@ require("plugins.telescope")
 require("plugins.tmux")
 require("plugins.undotree")
 require("plugins.vim-fugitive")
+
+-- Builtin cfilter plugin
+vim.cmd("packadd cfilter")

@@ -14,5 +14,8 @@ map("v", "d", "<esc><cmd>setlocal modifiable<CR>gvd<cmd>setlocal nomodifiable<CR
 -- close quickfix buffer
 map("n", "gq", "<cmd>cclose<CR>", opts)
 
+-- populate command line with Cfilter
+map("n", "f", ":Cfilter<space>")
+
 -- options
 set.colorcolumn = ""
