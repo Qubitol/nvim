@@ -182,7 +182,8 @@ telescope.setup({
 	pickers = {
 		find_files = {
 			-- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
-			find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+			-- find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+            find_command = { "fd", "--type", "f", "--threads", "1", "--color", "never", "--relative-path", "--unrestricted", "--exclude", "**/.git/*", "." },
 			mappings = {
 				i = {
 					["<C-v>"] = stopinsert(custom_actions.multi_selection_open_vertical),
@@ -245,9 +246,10 @@ map("n", "<leader>fo", builtin.find_files, {})
 map(
 	"n",
 	"<leader>fa",
-	[[<cmd>lua require "telescope.builtin".find_files{ find_command = { "rg", "--files", "--hidden", "--no-ignore", "--glob", "!**/.git/*" }, search_dirs = { "$HOME/Documents", "$HOME/Downloads", "$HOME/Scratch", "$HOME/.config", "$HOME/.jupyter", "$HOME/.local", "$HOME/.ssh", "$HOME/.zsh" } }<CR>]],
+	[[<cmd>lua require "telescope.builtin".find_files{ find_command = { "fd", "--type", "f", "--threads", "1", "--color", "never", "--absolute-path", "--unrestricted", "--exclude", "**/.git/*", "." }, search_dirs = { "$HOME/Documents", "$HOME/Downloads", "$HOME/Scratch", "$HOME/.config", "$HOME/.jupyter", "$HOME/.local", "$HOME/.ssh", "$HOME/.dotfiles" } }<CR>]],
 	{}
 )
+-- [[<cmd>lua require "telescope.builtin".find_files{ find_command = { "rg", "--files", "--hidden", "--no-ignore", "--glob", "!**/.git/*" }, search_dirs = { "$HOME/Documents", "$HOME/Downloads", "$HOME/Scratch", "$HOME/.config", "$HOME/.jupyter", "$HOME/.local", "$HOME/.ssh", "$HOME/.zsh" } }<CR>]],
 -- live grep in all files (Grep Open)
 map("n", "<leader>go", builtin.live_grep, {})
 -- live grep inside current buffer (Grep File)
