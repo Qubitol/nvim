@@ -41,6 +41,8 @@ map("n", "<Leader>tw", "<cmd>set wrap! wrap?<CR>", opts)
 -- Delete to the black hole (use [[ and ]] to string delimit, so no need to escape)
 map({"n", "v"}, "<Leader>d", [["_d]], opts)
 map({"n", "v"}, "<Leader>D", [["_D]], opts)
+map({"n", "v"}, "<Leader>c", [["_c]], opts)
+map({"n", "v"}, "<Leader>C", [["_C]], opts)
 
 -- Paste over and continue to paste the same word
 map({"v", "x"}, "<Leader>p", [["_dP]], opts)
@@ -94,11 +96,19 @@ map("n", "]A", ":last<CR>", opts)
 -- Unload the current buffer
 map("n", "<leader>bd", ":bnext<CR>:bdelete#<CR>", opts)
 
--- Git --
-map("n", "<leader>gc", ":Git commit -m<Space>", opts)
-map("n", "<leader>gC", "<cmd>Git commit<CR>", opts)
-map("n", "<leader>gf", "<cmd>Git pull<CR>", opts)
+-- Git
+map("n", "<leader>gC", ":Git commit", opts)
+map("n", "<leader>gB", ":Git branch", opts)
+map("n", "<leader>gZ", ":Git stash", opts)
+map("n", "<leader>gO", ":Git checkout", opts)
 map("n", "<leader>gp", "<cmd>Git push<CR>", opts)
+map("n", "<leader>gP", ":Git push -u origin", opts)
+map("n", "<leader>gu", "<cmd>Git pull --rebase<CR>", opts)
+map("n", "<leader>gU", ":Git pull --rebase -u origin", opts)
+
+-- Diff
+map("n", "gl", "<cmd>diffget //3<CR>", opts)
+map("n", "gh", "<cmd>diffget //2<CR>", opts)
 
 -- Change dir to current file root
 map("n", "<leader>cd", [[<cmd>cd `=expand("%:p:h")`<CR>]], opts)
