@@ -15,7 +15,7 @@ map("v", "d", "<esc><cmd>setlocal modifiable<CR>gvd<cmd>setlocal nomodifiable<CR
 map("n", "gq", "<cmd>cclose<CR>", opts)
 
 -- populate command line with Cfilter
-map("n", "f", ":Cfilter<space>")
+map("n", "f", ":Cfilter", opts)
 
 -- options
 set.colorcolumn = ""

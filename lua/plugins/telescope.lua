@@ -4,6 +4,7 @@ if not status_ok then
 end
 
 local actions = require("telescope.actions")
+local actions_layout = require("telescope.actions.layout")
 local action_state = require("telescope.actions.state")
 local transform_mod = require("telescope.actions.mt").transform_mod
 local telescope_config = require("telescope.config")
@@ -110,6 +111,13 @@ local function stopinsert(callback)
 	end
 end
 
+local function open_selected_quickfix(prompt_bufnr)
+    local nr = action_state.get_selected_entry().nr
+    actions.close(prompt_bufnr)
+    vim.cmd(nr .. "chistory")
+    vim.cmd "copen"
+end
+
 --
 -- Clone the default Telescope configuration
 local vimgrep_arguments = { unpack(telescope_config.values.vimgrep_arguments) }
@@ -150,6 +158,9 @@ telescope.setup({
 		color_devicons = true,
 		mappings = {
 			i = {
+				["<C-t>"] = actions_layout.toggle_preview,
+				["<C-l>"] = actions.cycle_previewers_next,
+				["<C-h>"] = actions.cycle_previewers_prev,
 				["<C-j>"] = actions.move_selection_next,
 				["<C-k>"] = actions.move_selection_previous,
                 ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
@@ -157,6 +168,9 @@ telescope.setup({
                 ["<M-q>"] = actions.nop, -- clash with map from tmux
 			},
             n = {
+				["<C-t>"] = actions_layout.toggle_preview,
+				["<C-l>"] = actions.cycle_previewers_next,
+				["<C-h>"] = actions.cycle_previewers_prev,
                 ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
                 ["<C-x>"] = actions.smart_add_to_qflist + actions.open_qflist,
                 ["<M-q>"] = actions.nop, -- clash with map from tmux
@@ -204,13 +218,22 @@ telescope.setup({
 				},
 			},
 		},
+        quickfixhistory = {
+            mappings = {
+                i = {
+                    ["<CR>"] = open_selected_quickfix,
+                },
+                n = {
+                    ["<CR>"] = open_selected_quickfix,
+                },
+            },
+        },
 	},
 })
 
 -- Load extensions
 telescope.load_extension("fzf")
 telescope.load_extension("aerial")
-telescope.load_extension("harpoon")
 telescope.load_extension("git_worktree")
 
 -- Mappings (mnemonic)
@@ -235,10 +258,8 @@ map("n", "<leader>gt", builtin.grep_string, {})
 map("n", "<leader>fb", builtin.buffers, {})
 -- browse aerial tags (Find Tags)
 map("n", "<leader>ft", "<cmd>Telescope aerial<CR>", {})
--- browse quickfix (Find Quickfix)
-map("n", "<leader>fq", builtin.quickfix, {})
--- browse quickfix history (Quickfix History)
-map("n", "<leader>qh", builtin.quickfixhistory, {})
+-- browse quickfix history (Find Quickfix)
+map("n", "<leader>fq", builtin.quickfixhistory, {})
 -- browse lsp symbols (Symbols File)
 map("n", "<leader>sf", builtin.lsp_document_symbols, {})
 -- browse lsp symbols (Symbols File)
