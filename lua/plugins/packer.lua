@@ -121,14 +121,53 @@ return require("packer").startup(function(use)
         commit = "a775db8ac7c468fb05fcf67069961dba0d7feb56",
     })
 
-    -- Autocomplete
-    --
-    --
     -- Snippets
     use({
         "L3MON4D3/LuaSnip",
         tag = "v1.2.1",
         run = "make install_jsregexp"
+    })
+
+    -- Autocomplete
+    use({
+        "hrsh7th/nvim-cmp",
+        commit = "a0225043ab823fcad8d0d802e276d9838fb48c30",
+    })
+
+    use({
+        "hrsh7th/cmp-nvim-lsp",
+        commit = "0e6b2ed705ddcff9738ec4ea838141654f12eeef",
+    })
+
+    use({
+        "hrsh7th/cmp-buffer",
+        commit = "3022dbc9166796b644a841a02de8dd1cc1d311fa",
+    })
+
+    use({
+        "hrsh7th/cmp-path",
+        commit = "91ff86cd9c29299a64f968ebb45846c485725f23",
+    })
+
+    use({
+        "hrsh7th/cmp-cmdline",
+        commit = "5af1bb7d722ef8a96658f01d6eb219c4cf746b32",
+    })
+
+    use({
+        "saadparwaiz1/cmp_luasnip",
+        commit = "18095520391186d634a0045dacaa346291096566",
+    })
+
+    -- use({
+    --     "tzachar/cmp-tabnine",
+    --     commit = "b93f82ef5150e578677fc2e2b4b328b19eed77e1",
+    --     run = "./install.sh",
+    -- })
+
+    use({
+        "petertriho/cmp-git",
+        commit = "7b292e120ef0f31586908fddfa2e7626f6dcbf98",
     })
 
     -- Telescope
@@ -140,14 +179,9 @@ return require("packer").startup(function(use)
 
     use({
         "nvim-telescope/telescope-fzf-native.nvim",
+        commit = "9bc8237565ded606e6c366a71c64c0af25cd7a50",
         run = "make",
     })
-
-    -- -- Symbol sources
-    -- use({
-    --     "nvim-telescope/telescope-symbols.nvim",
-    --     commit = "f7d7c84873c95c7bd5682783dd66f84170231704",
-    -- })
 
     -- Harpoon
     use({
@@ -172,11 +206,6 @@ return require("packer").startup(function(use)
         "stevearc/overseer.nvim",
         commit = "92e4ba8d51191365e1da63f1f1f0e48efbd4ada7",
     })
-    -- -- Trouble
-    -- use({
-    --     "folke/trouble.nvim",
-    --     commit = "490f7fe6d227f4f7a64f00be8c7dcd7a508ed271",
-    -- })
 
     -- Quickfix list improvement
     use({
@@ -274,7 +303,7 @@ return require("packer").startup(function(use)
         commit = "3f73843df726e55b92dbb2938edbb3eb6d0746f5",
     })
 
-    -- Save sessions for tmux-resurrect
+    -- Save sessions automatically
     use({
         "tpope/vim-obsession",
         commit = "fe9d3e1a9a50171e7d316a52e1e56d868e4c1fe5",

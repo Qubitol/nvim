@@ -44,7 +44,7 @@ for _, server in pairs(servers) do
     -- default options for each language server
 	opts = {
 		on_attach = require("plugins.lsp.handlers").on_attach,
-		-- capabilities = require("plugins.lsp.handlers").capabilities,
+		capabilities = require("plugins.lsp.handlers").capabilities,
 	}
 
 	server = vim.split(server, "@")[1]
