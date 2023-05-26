@@ -5,16 +5,19 @@ end
 
 no_neck_pain.setup({
     -- Width
-    width = 110,
+    width = 140,
 
-    -- Only left buffer
     buffers = {
+        setNames = false,
+
+        -- Only left buffer
         left = {
             enabled = true,
         },
         right = {
             enabled = false,
         },
+
         scratchPad = {
             -- Enable scratchpad
             enabled = false,
@@ -25,6 +28,16 @@ no_neck_pain.setup({
             -- By default, files are saved at the same location as the current Neovim session.
             location = nil,
         },
+
+        bo = {
+            filetype = "norg",
+        },
+
+        wo = {
+            number = true,
+            relativenumber = true,
+            cursorline = true
+        }
     },
 
     mappings = {
