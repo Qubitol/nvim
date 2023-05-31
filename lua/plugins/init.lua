@@ -1,6 +1,10 @@
 -- Plugin manager
 require("plugins.packer")
 
+-- Colorscheme
+require("plugins.catppuccin")
+require("plugins.nvim-web-devicons")
+
 -- Treesitter
 require("plugins.treesitter")
 require("plugins.treesitter-context")
@@ -16,7 +20,6 @@ require("plugins.luasnip")
 
 -- Other plugins in alphabetic order
 require("plugins.aerial")
-require("plugins.catppuccin")
 require("plugins.colorizer")
 require("plugins.comment")
 require("plugins.gitsigns")
@@ -33,6 +36,9 @@ require("plugins.telescope")
 require("plugins.tmux")
 require("plugins.undotree")
 require("plugins.vim-fugitive")
+
+-- Statusline
+require("plugins.heirline")
 
 -- Builtin cfilter plugin
 vim.cmd("packadd cfilter")

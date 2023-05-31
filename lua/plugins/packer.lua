@@ -284,6 +284,12 @@ return require("packer").startup(function(use)
         commit = "c4c203c3e8a595bc333abaf168fcb10c13ed5fb7",
     })
 
+    -- Status line
+    use({
+        "rebelot/heirline.nvim",
+        commit = "2a151df2dc870e79b138a59ebaaaddf3d1b0d703",
+    })
+
     -- Colorizer: make color strings appear colored accordingly
     use({
         "norcalli/nvim-colorizer.lua",
@@ -293,7 +299,7 @@ return require("packer").startup(function(use)
     -- Colorscheme
     use({
         "catppuccin/nvim",
-        commit = "3020af75aae098a77737d91ee37c7147c8450d99",
+        tag = "v1.2.0",
         as = "catpuccin",
     })
 
