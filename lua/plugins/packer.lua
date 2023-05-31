@@ -232,7 +232,7 @@ return require("packer").startup(function(use)
         tag = "v1.2.2",
     })
 
-    -- Sorround
+    -- Surround
     use({
         "kylechui/nvim-surround",
         commit = "ad56e6234bf42fb7f7e4dccc7752e25abd5ec80e",
