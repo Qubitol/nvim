@@ -16,6 +16,8 @@ setlocal autoindent
 setlocal tabstop=4
 setlocal softtabstop=4
 setlocal shiftwidth=4
+setlocal colorcolumn=
+setlocal wrap
 
 " Turn off automatic indenting in enumerated environments
 let g:tex_indent_items=0
