@@ -77,6 +77,19 @@ local border_opts = {
 
 -- cmp configuration
 cmp.setup({
+    -- Enable condition
+    enabled = function()
+        -- disable completion in comments
+        local context = require("cmp.config.context")
+        -- keep command mode completion enabled when cursor is in a comment
+        if vim.api.nvim_get_mode().mode == "c" then
+            return true
+        else
+            return not context.in_treesitter_capture("comment")
+                and not context.in_syntax_group("Comment")
+        end
+    end,
+
     -- Snippet engine
 	snippet = {
 		expand = function(args)
@@ -94,16 +107,32 @@ cmp.setup({
 	mapping = cmp.mapping.preset.insert({
         -- Scroll items
         ["<C-p>"] = cmp.mapping.select_prev_item({
-            behaviour = cmp.SelectBehavior.Insert
+            behavior = cmp.SelectBehavior.Insert,
         }),
         ["<C-n>"] = cmp.mapping.select_next_item({
-            behaviour = cmp.SelectBehavior.Insert
+            behavior = cmp.SelectBehavior.Insert,
         }),
-        ["<C-k>"] = cmp.mapping.select_prev_item({
-            behaviour = cmp.SelectBehavior.Insert
+        ["<C-k>"] = cmp.mapping({
+            i = cmp.mapping.select_prev_item({
+                behavior = cmp.SelectBehavior.Insert,
+            }),
+            s = cmp.mapping.select_prev_item({
+                behavior = cmp.SelectBehavior.Insert,
+            }),
+            c = cmp.mapping.select_prev_item({
+                behavior = cmp.SelectBehavior.Insert,
+            }),
         }),
-        ["<C-j>"] = cmp.mapping.select_next_item({
-            behaviour = cmp.SelectBehavior.Insert
+        ["<C-j>"] = cmp.mapping({
+            i = cmp.mapping.select_next_item({
+                behavior = cmp.SelectBehavior.Insert,
+            }),
+            s = cmp.mapping.select_next_item({
+                behavior = cmp.SelectBehavior.Insert,
+            }),
+            c = cmp.mapping.select_next_item({
+                behavior = cmp.SelectBehavior.Insert,
+            }),
         }),
         -- Documentation
 		["<C-b>"] = cmp.mapping.scroll_docs(-4),
@@ -111,16 +140,10 @@ cmp.setup({
         -- Accept/Abort
         ["<C-Space>"] = cmp.config.disable,
         ["<C-y>"] = cmp.mapping({
-            i = function(fallback)
-                if cmp.visible() and cmp.get_active_entry() then
-                    cmp.confirm({
-                        behavior = cmp.ConfirmBehavior.Insert,
-                        select = false,
-                    })
-                else
-                    fallback()
-                end
-            end,
+            i = cmp.mapping.confirm({
+                behavior = cmp.ConfirmBehavior.Insert,
+                select = true
+            }),
             s = cmp.mapping.confirm({
                 select = true
             }),
@@ -209,26 +232,37 @@ cmp.setup({
     },
 
     -- Completion sources for all filetypes
+    -- the two tables as arguments are interpreted as groups of sources:
+    -- sources belonging to the same group are not shown together
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
 		{ name = 'luasnip' },
-		{ name = "buffer" },
 		-- { name = "cmp_tabnine" },
 		{ name = "path" },
+    }, {
+		{ name = "buffer" },
 	}),
+
+    experimental = {
+        ghost_text = true,
+    },
 })
 
 -- Set configuration for specific filetype.
 cmp.setup.filetype("gitcommit", {
 	sources = cmp.config.sources({
 		{ name = "cmp_git" },
+    }, {
 		{ name = "buffer" },
 	}),
 })
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline({ "/", "?" }, {
-	mapping = cmp.mapping.preset.cmdline(),
+	mapping = cmp.mapping.preset.cmdline({
+        ["<C-p>"] = cmp.config.disable,
+        ["<C-n>"] = cmp.config.disable,
+    }),
 	sources = {
 		{ name = "buffer" },
 	},
@@ -242,9 +276,13 @@ cmp.setup.cmdline({ "/", "?" }, {
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(":", {
-	mapping = cmp.mapping.preset.cmdline(),
+	mapping = cmp.mapping.preset.cmdline({
+        ["<C-p>"] = cmp.config.disable,
+        ["<C-n>"] = cmp.config.disable,
+    }),
 	sources = cmp.config.sources({
 		{ name = "path" },
+    }, {
 		{ name = "cmdline" },
 	}),
 })

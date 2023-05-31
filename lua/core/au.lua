@@ -15,5 +15,30 @@ autocmd("TextYankPost", {
 	end,
 })
 
--- autosave when focus lost
-vim.cmd([[autocmd FocusLost * silent! wa]])
+-- Filetypes autocommands
+local ft_group = augroup("FileTypeGroup", {})
+
+autocmd("FileType", {
+	group = ft_group,
+	pattern = "TelescopePrompt",
+	callback = function()
+        local status, cmp = pcall(require, "cmp")
+        if not status or not cmp.setup then
+            return
+        end
+        cmp.setup.buffer({
+            enabled = false,
+        })
+	end,
+})
+
+-- Autosave on FocusLost
+local focuslost_group = augroup("FocusLostGroup", {})
+
+autocmd("FocusLost", {
+	group = focuslost_group,
+	pattern = "*",
+	callback = function()
+        vim.cmd("silent! wa")
+    end,
+})
