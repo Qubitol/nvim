@@ -65,24 +65,24 @@ catppuccin.setup({
     highlight_overrides = {
         all = function(colors)
             return {
-                -- For base configs
+                -- base configs
                 NormalFloat = { fg = colors.text, bg = colors.none or colors.mantle },
                 FloatBorder = {
                     fg = colors.blue or colors.mantle,
                     bg = colors.none or colors.mantle,
                 },
 
-                -- For native lsp configs
+                -- native lsp configs
                 DiagnosticVirtualTextError = { bg = colors.none },
                 DiagnosticVirtualTextWarn = { bg = colors.none },
                 DiagnosticVirtualTextInfo = { bg = colors.none },
                 DiagnosticVirtualTextHint = { bg = colors.none },
                 LspInfoBorder = { link = "FloatBorder" },
 
-                -- For mason.nvim
+                -- Mason
                 MasonNormal = { link = "NormalFloat" },
 
-                -- For nvim-cmp and wilder.nvim
+                -- nvim-cmp and wilder.nvim
                 Pmenu = { fg = colors.overlay2, bg = colors.none or colors.base },
                 PmenuBorder = { fg = colors.surface1, bg = colors.none or colors.base },
                 PmenuSel = { bg = colors.green, fg = colors.base },
@@ -94,11 +94,11 @@ catppuccin.setup({
                     bg = colors.none or colors.mantle,
                 },
 
-                -- For fidget
+                -- Fidget
                 FidgetTask = { bg = colors.none, fg = colors.surface2 },
                 FidgetTitle = { fg = colors.blue, style = { "bold" } },
 
-                -- For telescope.nvim
+                -- Telescope
                 TelescopeBorder = { fg = colors.mantle, bg = colors.mantle },
                 TelescopePromptBorder = { fg = colors.surface0, bg = colors.surface0 },
                 TelescopePromptNormal = { fg = colors.text, bg = colors.surface0 },
@@ -112,7 +112,14 @@ catppuccin.setup({
                 TelescopeResultsDiffChange = { fg = colors.yellow },
                 TelescopeResultsDiffDelete = { fg = colors.red },
 
-                -- For treesitter
+                -- Harpoon
+                HarpoonWindow = { bg = colors.mantle },
+                HarpoonBorder = { fg = colors.mantle, bg = colors.mantle },
+
+                -- Rnvimr
+                RnvimrNormal = { bg = colors.mantle, fg = colors.text },
+
+                -- Treesitter
                 ["@keyword.return"] = { fg = colors.pink, style = {} },
             }
         end,
