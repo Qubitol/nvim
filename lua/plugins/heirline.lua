@@ -10,6 +10,14 @@ end
 local conditions = require("heirline.conditions")
 local utils = require("heirline.utils")
 
+-- Condition for special buffers and filetypes
+local special_condition = function()
+    return conditions.buffer_matches({
+        buftype = { "nofile", "prompt", "help", "quickfix" },
+        filetype = { "^Telescope*", "harpoon", "rnvimr", "^git.*", "fugitive", "undotree", "aerial" },
+    })
+end
+
 -- Colors
 local hl_colors = {
     bright_bg = utils.get_highlight("Folded").bg,
@@ -143,7 +151,12 @@ local ViMode = {
     },
     {
         provider = "",
-        hl = { fg = "mode_name", bg = "file_bg" },
+        hl = function()
+            if special_condition() then
+                return { fg = "mode_name" }
+            end
+            return { fg = "mode_name", bg = "bright_bg" }
+        end
     },
     -- Re-evaluate the component only on ModeChanged event!
     -- Also allows the statusline to be re-evaluated when entering operator-pending mode
@@ -220,10 +233,15 @@ local FileFlags = {
         provider = " ",
         hl = { bg = "file_bg" },
     },
+    {
+        provider = "",
+        hl = { fg = "file_bg" },
+    },
 }
 
 -- let's add the children to our FileNameBlock component
 FileNameBlock = utils.insert(FileNameBlock,
+    { provider = " ", hl = { bg = "file_bg" } },
     FileIcon,
     FileName,
     FileFlags,
@@ -253,12 +271,20 @@ local FileType = {
 }
 
 local FileEncoding = {
-    provider = function()
-        local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc -- :h "enc"
-        return enc ~= "utf-8" and enc:upper()
-    end,
-
     flexible = 3,
+
+    {
+        Sep,
+
+        {
+            provider = function()
+                local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc -- :h "enc"
+                return enc
+            end,
+            hl = { italic = true },
+        },
+
+    },
 
     {
         provider = "",
@@ -316,7 +342,7 @@ local Ruler = {
     -- %c = column number
     -- %P = percentage through file of displayed window
     {
-        provider = " %l:%c %P ",
+        provider = " %3(%l%):%-2(%c%) %P ",
         hl = { bg = "ruler_bg" },
     },
 }
@@ -355,17 +381,13 @@ local LSPActive = {
     flexible = 3,
 
     {
-        {
-            provider = function()
-                local names = {}
-                for _, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
-                    table.insert(names, server.name)
-                end
-                return "  " .. table.concat(names, " ")
-            end,
-        },
-
-        Sep
+        provider = function()
+            local names = {}
+            for _, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+                table.insert(names, server.name)
+            end
+            return "  " .. table.concat(names, " ")
+        end,
     },
 
     {
@@ -440,10 +462,6 @@ local Git = {
         self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
     end,
 
-    {
-        provider = "",
-        hl = { fg = "file_bg", bg = "bright_bg" },
-    },
     {
         provider = "",
         hl = { fg = "bright_bg", bg = "git" }
@@ -549,28 +567,22 @@ local WorkDir = {
 
 local Align = { provider = "%=" }
 local Space = { provider = " " }
-local Space_file_bg = { provider = " ", hl = { bg = "file_bg" } }
 
 -- Statusline
 local DefaultStatusline = {
-    ViMode, Space_file_bg, FileNameBlock, Git, Space, Align,
-    Diagnostics, Space, LSPActive, FileType, FileSize, Space, WorkDir, Space, RulerBlock
+    ViMode, Git, Align,
+    Diagnostics, Space, LSPActive, Space, WorkDir, Space, RulerBlock
 }
 
-local InactiveStatusline = {
-    condition = conditions.is_not_active,
-    FileNameBlock, Align, FileEncoding, Space, FileType, FileSize, Space, Ruler
-}
+-- local InactiveStatusline = {
+--     condition = conditions.is_not_active,
+--     FileNameBlock, Align, FileEncoding, Space, FileType, FileSize, Space, Ruler
+-- }
 
 local SpecialStatusline = {
-    condition = function()
-        return conditions.buffer_matches({
-            buftype = { "nofile", "prompt", "help", "quickfix" },
-            filetype = { "^git.*", "fugitive", "undotree", "aerial" },
-        })
-    end,
-
-    FileType, Align, Ruler
+    condition = special_condition,
+    ViMode, Align,
+    WorkDir, Space, RulerBlock
 }
 
 -- Build the final object
@@ -588,12 +600,51 @@ local StatusLines = {
     -- think of it as a switch case with breaks to stop fallthrough.
     fallthrough = false,
 
-    SpecialStatusline, InactiveStatusline, DefaultStatusline,
+    SpecialStatusline, DefaultStatusline,
+}
+
+-- Winbar
+local DefaultWinbar = {
+    FileNameBlock, Align,
+    FileType, FileEncoding, FileSize
+}
+
+local SpecialWinbar = {
+    condition = special_condition,
+    Align, FileType
+}
+
+-- Build the final object
+local WinBars = {
+
+    hl = function()
+        if conditions.is_active() then
+            return "WinBar"
+        else
+            return "WinBarNC"
+        end
+    end,
+
+    fallthrough = false,
+
+    SpecialWinbar, DefaultWinbar,
 }
 
 heirline.setup({
+
+    statusline = StatusLines,
+    winbar = WinBars,
+
     opts = {
         colors = colors,
+
+        -- if the callback returns true, the winbar will be disabled for that window
+        -- the args parameter corresponds to the table argument passed to autocommand callbacks. :h nvim_lua_create_autocmd()
+        disable_winbar_cb = function(args)
+            return conditions.buffer_matches({
+                buftype = { "nofile", "prompt", "help", "quickfix" },
+                filetype = { "^Telescope.*", "harpoon", "rnvimr", "^git.*", "fugitive", "undotree", "aerial" },
+            }, args.buf)
+        end,
     },
-    statusline = StatusLines,
 })
