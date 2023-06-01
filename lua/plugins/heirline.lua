@@ -152,7 +152,7 @@ local ViMode = {
     {
         provider = "",
         hl = function()
-            if special_condition() then
+            if special_condition() or not conditions.is_git_repo() then
                 return { fg = "mode_name" }
             end
             return { fg = "mode_name", bg = "bright_bg" }
