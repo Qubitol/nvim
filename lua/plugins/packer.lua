@@ -284,12 +284,6 @@ return require("packer").startup(function(use)
         commit = "c4c203c3e8a595bc333abaf168fcb10c13ed5fb7",
     })
 
-    -- LSP status
-    use({
-        "j-hui/fidget.nvim",
-        commit = "0ba1e16d07627532b6cae915cc992ecac249fb97",
-    })
-
     -- Status line
     use({
         "rebelot/heirline.nvim",
