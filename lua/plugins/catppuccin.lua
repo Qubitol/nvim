@@ -80,7 +80,7 @@ catppuccin.setup({
                 LspInfoBorder = { link = "FloatBorder" },
 
                 -- Mason
-                MasonNormal = { link = "NormalFloat" },
+                MasonNormal = { fg = colors.text, bg = colors.mantle },
 
                 -- nvim-cmp and wilder.nvim
                 Pmenu = { fg = colors.overlay2, bg = colors.none or colors.base },

@@ -18,6 +18,14 @@ local special_condition = function()
     })
 end
 
+-- Condition for styling purposes
+local no_round_cap_style = function()
+    return conditions.buffer_matches({
+        buftype = { "nofile", "prompt", "help", "quickfix" },
+        filetype = { "^Telescope*", "harpoon", "rnvimr", "^git.*", "fugitive", "undotree", "aerial" },
+    }) or (not conditions.is_git_repo())
+end
+
 -- Colors
 local hl_colors = {
     bright_bg = utils.get_highlight("Folded").bg,
@@ -145,18 +153,18 @@ local ViMode = {
     },
     {
         provider = function(self)
-            return "%2("..self.mode_names[self.mode].."%)"
+            return " %2("..self.mode_names[self.mode].."%) "
         end,
         hl = { bg = "mode_name" },
     },
     {
         provider = "",
         hl = function()
-            if special_condition() or not conditions.is_git_repo() then
+            if no_round_cap_style() then
                 return { fg = "mode_name" }
             end
             return { fg = "mode_name", bg = "bright_bg" }
-        end
+        end,
     },
     -- Re-evaluate the component only on ModeChanged event!
     -- Also allows the statusline to be re-evaluated when entering operator-pending mode
@@ -171,6 +179,12 @@ local ViMode = {
 
 local FileNameBlock = {
     -- let's first set up some attributes needed by this component and it's children
+    init = function(self)
+        self.filename = vim.api.nvim_buf_get_name(0)
+    end,
+}
+
+local FileNameBlockInactive = {
     init = function(self)
         self.filename = vim.api.nvim_buf_get_name(0)
     end,
@@ -248,9 +262,17 @@ FileNameBlock = utils.insert(FileNameBlock,
     { provider = "%<"} -- this means that the statusline is cut here when there's not enough space
 )
 
+FileNameBlockInactive = utils.insert(FileNameBlockInactive,
+    { provider = " ", hl = { bg = "file_bg" } },
+    FileIcon,
+    { hl = { fg = "gray", force = true }, FileName },
+    FileFlags,
+    { provider = "%<"} -- this means that the statusline is cut here when there's not enough space
+)
+
 
 local Sep = {
-    provider = "  ",
+    provider = " │ ",
     hl = { fg = "gray" },
 }
 
@@ -605,7 +627,13 @@ local StatusLines = {
 
 -- Winbar
 local DefaultWinbar = {
+    condition = conditions.is_active,
     FileNameBlock, Align,
+    FileType, FileEncoding, FileSize
+}
+
+local InactiveWinbar = {
+    FileNameBlockInactive, Align,
     FileType, FileEncoding, FileSize
 }
 
@@ -627,7 +655,7 @@ local WinBars = {
 
     fallthrough = false,
 
-    SpecialWinbar, DefaultWinbar,
+    SpecialWinbar, DefaultWinbar, InactiveWinbar,
 }
 
 heirline.setup({
