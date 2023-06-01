@@ -250,10 +250,16 @@ map(
 	{}
 )
 -- [[<cmd>lua require "telescope.builtin".find_files{ find_command = { "rg", "--files", "--hidden", "--no-ignore", "--glob", "!**/.git/*" }, search_dirs = { "$HOME/Documents", "$HOME/Downloads", "$HOME/Scratch", "$HOME/.config", "$HOME/.jupyter", "$HOME/.local", "$HOME/.ssh", "$HOME/.zsh" } }<CR>]],
+-- fuzzy search in current buffer
+map('n', '<leader>/', function()
+    -- You can pass additional configuration to telescope to change theme, layout, etc.
+    builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+        winblend = 10,
+        previewer = false,
+    }))
+end, {})
 -- live grep in all files (Grep Open)
 map("n", "<leader>go", builtin.live_grep, {})
--- live grep inside current buffer (Grep File)
-map("n", "<leader>gf", builtin.current_buffer_fuzzy_find, {})
 -- live grep of the string under cursor in all files (Grep This)
 map("n", "<leader>gt", builtin.grep_string, {})
 -- browse buffers (Find Buffers)

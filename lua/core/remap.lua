@@ -103,8 +103,8 @@ map("n", "<leader>gZ", ":Git stash", opts)
 map("n", "<leader>gO", ":Git checkout", opts)
 map("n", "<leader>gp", "<cmd>Git push<CR>", opts)
 map("n", "<leader>gP", ":Git push -u origin", opts)
-map("n", "<leader>gu", "<cmd>Git pull --rebase<CR>", opts)
-map("n", "<leader>gU", ":Git pull --rebase -u origin", opts)
+map("n", "<leader>gf", "<cmd>Git pull --rebase<CR>", opts)
+map("n", "<leader>gF", ":Git pull --rebase -u origin", opts)
 
 -- Diff
 map("n", "gl", "<cmd>diffget //3<CR>", opts)
