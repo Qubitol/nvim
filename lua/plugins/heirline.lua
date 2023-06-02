@@ -232,11 +232,14 @@ local FileFlags = {
         condition = function()
             return not vim.bo.modifiable or vim.bo.readonly
         end,
-        provider = "",
+        provider = "  ",
         hl = { fg = "red", bg = "file_bg" },
     },
     {
-        provider = " ",
+        condition = function()
+            return not vim.bo.modified and not (not vim.bo.modifiable or vim.bo.readonly)
+        end,
+        provider = "   ",
         hl = { bg = "file_bg" },
     },
     {
