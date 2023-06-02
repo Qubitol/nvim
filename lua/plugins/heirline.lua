@@ -18,14 +18,6 @@ local special_condition = function()
     })
 end
 
--- Condition for styling purposes
-local no_round_cap_style = function()
-    return conditions.buffer_matches({
-        buftype = { "nofile", "prompt", "help", "quickfix" },
-        filetype = { "^Telescope*", "harpoon", "rnvimr", "^git.*", "fugitive", "undotree", "aerial" },
-    }) or (not conditions.is_git_repo())
-end
-
 -- Colors
 local hl_colors = {
     bright_bg = utils.get_highlight("Folded").bg,
@@ -160,7 +152,7 @@ local ViMode = {
     {
         provider = "",
         hl = function()
-            if no_round_cap_style() then
+            if special_condition() and not conditions.is_git_repo() then
                 return { fg = "mode_name" }
             end
             return { fg = "mode_name", bg = "bright_bg" }
