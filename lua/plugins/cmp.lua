@@ -20,13 +20,13 @@ end
 
 -- TabNine completion settings
 -- tabnine:setup({
--- 	max_lines = 1000,
--- 	max_num_results = 20,
--- 	sort = true,
--- 	run_on_every_keystroke = true,
--- 	snippet_placeholder = '..',
--- 	ignored_file_types = {},
--- 	show_prediction_strength = false
+--     max_lines = 1000,
+--     max_num_results = 20,
+--     sort = true,
+--     run_on_every_keystroke = true,
+--     snippet_placeholder = '..',
+--     ignored_file_types = {},
+--     show_prediction_strength = false
 -- })
 
 -- vim.keymap.set("n", "<Leader>tpf", function() require("cmp_tabnine"):prefetch(vim.fn.expand("%")) end, { noremap = true, silent = true })
