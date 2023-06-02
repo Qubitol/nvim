@@ -183,7 +183,10 @@ telescope.setup({
 		find_files = {
 			-- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
 			-- find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
-            find_command = { "fd", "--type", "f", "--threads", "1", "--color", "never", "--relative-path", "--unrestricted", "--exclude", "**/.git/*", "." },
+            find_command = { "fd", "--type", "f", "--threads", "1", "--color", "never", "--relative-path", "--unrestricted",
+                "--exclude", "**/.git/*", "--exclude", "**/.bzr/*", "--exclude", "undo/*", "--exclude", "backup/*",
+                "--exclude", "**/.env/*", "--exclude", "**/.venv/*",
+                "." },
 			mappings = {
 				i = {
 					["<C-v>"] = stopinsert(custom_actions.multi_selection_open_vertical),
