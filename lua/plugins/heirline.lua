@@ -151,12 +151,7 @@ local ViMode = {
     },
     {
         provider = "",
-        hl = function()
-            if special_condition() and not conditions.is_git_repo() then
-                return { fg = "mode_name" }
-            end
-            return { fg = "mode_name", bg = "bright_bg" }
-        end,
+        hl = { fg = "mode_name", bg = "bright_bg" }
     },
     -- Re-evaluate the component only on ModeChanged event!
     -- Also allows the statusline to be re-evaluated when entering operator-pending mode
@@ -480,10 +475,6 @@ local Git = {
     end,
 
     {
-        provider = "",
-        hl = { fg = "bright_bg", bg = "git" }
-    },
-    {
         provider = " ",
         hl = { fg = "git_branch", bg = "git", bold = true }
     },
@@ -521,6 +512,21 @@ local Git = {
     {
         provider = "",
         hl = { fg = "git_branch" }
+    },
+}
+
+local ModeSep = {
+    {
+        condition = conditions.is_git_repo,
+        provider = "",
+        hl = { fg = "bright_bg", bg = "git" }
+    },
+    {
+        condition = function()
+            return not conditions.is_git_repo()
+        end,
+        provider = "",
+        hl = { fg = "bright_bg" }
     },
 }
 
@@ -587,7 +593,7 @@ local Space = { provider = " " }
 
 -- Statusline
 local DefaultStatusline = {
-    ViMode, Git, Align,
+    ViMode, ModeSep, Git, Align,
     Diagnostics, Space, LSPActive, Space, WorkDir, Space, RulerBlock
 }
 
@@ -598,7 +604,7 @@ local DefaultStatusline = {
 
 local SpecialStatusline = {
     condition = special_condition,
-    ViMode, Align,
+    ViMode, ModeSep, Align,
     WorkDir, Space, RulerBlock
 }
 
