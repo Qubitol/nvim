@@ -36,7 +36,7 @@ local hl_colors = {
     git_change = utils.get_highlight("diffChanged").fg,
 }
 
-local palette = require("plugins.catppuccin")
+local palette = require("core.ui.theme").theme
 local my_theme = {
     mode_name = palette["black3"],
     file_fg = palette["white"],

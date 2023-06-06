@@ -1,8 +1,7 @@
 -- Plugin manager
 require("plugins.packer")
 
--- Colorscheme
-require("plugins.catppuccin")
+-- Icons
 require("plugins.nvim-web-devicons")
 
 -- Treesitter

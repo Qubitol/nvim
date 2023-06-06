@@ -9,7 +9,7 @@ local i = ls.insert_node
 local types = require("luasnip.util.types")
 
 -- Fetch colors from palette
-local colors = require("catppuccin.palettes").get_palette()
+local colors = require("core.ui.theme").theme
 
 -- Configuration
 ls.config.set_config({
@@ -73,7 +73,7 @@ local M = {}
 -- Summary: When `SELECT_RAW` is populated with a visual selection, the function
 -- returns an insert node whose initial text is set to the visual selection.
 -- When `SELECT_RAW` is empty, the function simply returns an empty insert node.
-function M.get_visual(args, parent)
+function M.get_visual(_, parent)
 	if #parent.snippet.env.SELECT_RAW > 0 then
 		return sn(nil, i(1, parent.snippet.env.SELECT_RAW))
 	else -- If SELECT_RAW is empty, return a blank insert node

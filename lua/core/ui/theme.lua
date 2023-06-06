@@ -130,30 +130,32 @@ catppuccin.setup({
 -- setup must be called before loading
 vim.cmd.colorscheme "catppuccin"
 
--- theme with keywords
-local palette = require("catppuccin.palettes").get_palette("mocha")
+-- theme should always return these two tables
+local M = {}
 
-local theme = {
-    red = palette["red"],
-    green = palette["green"],
-    blue = palette["blue"],
-    orange = palette["peach"],
-    purple = palette["mauve"],
-    cyan = palette["sapphire"],
-    yellow = palette["yellow"],
-    pink = palette["pink"],
-    black1 = palette["crust"],
-    black2 = palette["mantle"],
-    black3 = palette["base"],
-    gray1 = palette["surface0"],
-    gray2 = palette["surface1"],
-    gray3 = palette["surface2"],
-    gray4 = palette["overlay0"],
-    gray5 = palette["overlay1"],
-    gray6 = palette["overlay2"],
-    gray7 = palette["subtext0"],
-    gray8 = palette["subtext1"],
-    white = palette["text"],
+M.palette = require("catppuccin.palettes").get_palette("mocha")
+
+M.theme = {
+    red = M.palette["red"],
+    green = M.palette["green"],
+    blue = M.palette["blue"],
+    orange = M.palette["peach"],
+    purple = M.palette["mauve"],
+    cyan = M.palette["sapphire"],
+    yellow = M.palette["yellow"],
+    pink = M.palette["pink"],
+    black1 = M.palette["crust"],
+    black2 = M.palette["mantle"],
+    black3 = M.palette["base"],
+    gray1 = M.palette["surface0"],
+    gray2 = M.palette["surface1"],
+    gray3 = M.palette["surface2"],
+    gray4 = M.palette["overlay0"],
+    gray5 = M.palette["overlay1"],
+    gray6 = M.palette["overlay2"],
+    gray7 = M.palette["subtext0"],
+    gray8 = M.palette["subtext1"],
+    white = M.palette["text"],
 }
 
-return theme
+return M
