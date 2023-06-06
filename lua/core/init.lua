@@ -2,7 +2,6 @@
 require("core.globals")
 
 -- Core settings
-require("core.set")
+require("core.config")
 require("core.au")
-require("core.remap")
 require("core.ui")

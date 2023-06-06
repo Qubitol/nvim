@@ -5,6 +5,10 @@ HOME = os.getenv("HOME")
 
 g.compatible = false
 
+-- leader
+g.mapleader = " "
+g.maplocalleader = "\\"
+
 -- basic settings
 set.encoding = "utf-8"
 set.backspace = "indent,eol,start" -- backspace works on every char in insert mode
@@ -131,3 +135,7 @@ g.node_host_prog = HOME .. "/.nvm/versions/node/NodeNvim/lib/node_modules/neovim
 
 -- Python
 g.python3_host_prog = HOME .. "/Apps/venvs/PyNvim/bin/python"
+
+-- Load generic mappings
+local utils = require("core.utils")
+utils.load_mappings("general")

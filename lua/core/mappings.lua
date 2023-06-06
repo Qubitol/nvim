@@ -1,0 +1,121 @@
+local M = {
+	general = {
+		n = {
+			["<C-u>"] = { "<C-u>zz", "Scroll and center viewport" },
+			["<C-d>"] = { "<C-d>zz", "Scroll and center viewport" },
+			["n"] = { "nzz", "Find next and center viewport" },
+			["N"] = { "Nzz", "Find previous and center viewport" },
+			["<leader>sr"] = {
+				":%s/\\<<C-r><C-w>\\>//gI<left><left><left>",
+				"[S]earch and [R]eplace work under the cursor",
+			},
+			["<leader>th"] = { "<cmd>set hlsearch! hlsearch?<CR>", "[T]oggle search-[H]ighlighting" },
+			["<leader>tw"] = { "<cmd>set wrap! wrap?<CR>", "[T]oggle word-[W]rap" },
+			["<leader>x"] = { "<cmd>!chmod +x %<CR>", "Make file e[X]ecutable" },
+			["<leader>bd"] = { ":bnext<CR>:bdelete#<CR>", "Unload the current [B]uffer and [D]elete it from the list" },
+			["[b"] = { ":bprevious<CR>", "Go to previous [B]uffer" },
+			["]b"] = { ":bnext<CR>", "Go to next [B]uffer" },
+			["[B"] = { ":bfirst<CR>", "Go to first [B]uffer" },
+			["]B"] = { ":blast<CR>", "Go to last [B]uffer" },
+			["[t"] = { ":tprevious<CR>", "Go to previous [T]ag" },
+			["]t"] = { ":tnext<CR>", "Go to next [T]ag" },
+			["[T"] = { ":tfirst<CR>", "Go to first [T]ag" },
+			["]T"] = { ":tlast<CR>", "Go to last [T]ag" },
+			["[<C-T>"] = { ":ptprevious<CR>", "Go to previous tag in the preview window" },
+			["]<C-T>"] = { ":ptnext<CR>", "Go to next tag in the preview window" },
+			["[q"] = { ":cprevious<CR>zz", "Go to previous [Q]uickfix list element and center viewport" },
+			["]q"] = { ":cnext<CR>zz", "Go to next [Q]uickfix list element and center viewport" },
+			["[Q"] = { ":cfirst<CR>zz", "Go to first [Q]uickfix list element and center viewport" },
+			["]Q"] = { ":clast<CR>zz", "Go to last [Q]uickfix list element and center viewport" },
+			["[<C-Q>"] = { ":cpfile<CR>", "Display the first error in the next file in the quickfix list" },
+			["]<C-Q>"] = { ":cnfile<CR>", "Display the first error in the next file in the quickfix list" },
+			["<leader>qn"] = { ":cnewer<CR>", "Go to the [Q]uickfix list [N]ext" },
+			["<leader>qp"] = { ":colder<CR>", "Go to the [Q]uickfix list [P]revious" },
+			["[l"] = { ":lprevious<CR>zz", "Go to previous [L]ocation list element and center viewport" },
+			["]l"] = { ":lnext<CR>zz", "Go to next [L]ocation list element and center viewport" },
+			["[L"] = { ":lfirst<CR>zz", "Go to first [L]ocation list element and center viewport" },
+			["]L"] = { ":llast<CR>zz", "Go to last [L]ocation list element and center viewport" },
+			["[<C-L>"] = { ":lpfile<CR>", "Display the last error in the previous file in the location list" },
+			["]<C-L>"] = { ":lnfile<CR>", "Display the first error in the next file in the location list" },
+			["[a"] = { ":previous<CR>", "Go to previous [A]rg" },
+			["]a"] = { ":next<CR>", "Go to next [A]rg" },
+			["[A"] = { ":first<CR>", "Go to first [A]rg" },
+			["]A"] = { ":last<CR>", "Go to last [A]rg" },
+			["gl"] = {
+				"<cmd>diffget //3<CR>",
+				"[G]et the merge resolution from the buffer on the right (in the direction of the [L] key)",
+			},
+			["gh"] = {
+				"<cmd>diffget //2<CR>",
+				"[G]et the merge resolution from the buffer on the left (in the direction of the [H] key)",
+			},
+			["<leader>cd"] = {
+				[[<cmd>cd `=expand("%:p:h")`<CR>]],
+				"[C]hange current [D]irectory to the base directory of the active buffer",
+			},
+			["<leader>ct"] = {
+				[[<cmd>tcd `=expand("%:p:h")`<CR>]],
+				"[C]hange current directory to the base directory of the active buffer, locally to the [T]ab page",
+			},
+			["<leader>d"] = { [["_d]], "Delete without polluting the register" },
+			["<leader>D"] = { [["_D]], "Delete without polluting the register" },
+			["<leader>c"] = { [["_c]], "Change without polluting the register" },
+			["<leader>C"] = { [["_C]], "Change without polluting the register" },
+			[ [[<C-w>\]] ] = { ":vsplit<CR>", "Split current window vertically |" },
+			[ [[<C-w>-]] ] = { ":split<CR>", "Split current window horizontally -" },
+			["<leader>tq"] = { require("core.utils").toggle_qf, "[T]oggle [Q]uickfix list" },
+		},
+		v = {
+			["<Leader>fi"] = {
+				[[""y/\v<C-r>=escape('<C-r>"', '/\\(){}+?"')<CR><CR>]],
+				"[FI]nd the visual selection in the current file",
+			},
+			["<Leader>sr"] = {
+				[[""y:%s/\v<C-r>=escape('<C-r>"', '/\\(){}+?"')<CR>//gI<left><left><left>]],
+				"[S]earch and [R]eplace the visual selection",
+			},
+			["<Leader>d"] = { [["_d]], "Delete without polluting the register" },
+			["<Leader>D"] = { [["_D]], "Delete without polluting the register" },
+			["<Leader>c"] = { [["_c]], "Change without polluting the register" },
+			["<Leader>C"] = { [["_C]], "Change without polluting the register" },
+			["<Leader>p"] = {
+				[["_dP]],
+				"Replace selected text with the content of the default register but don't pollute the register itself",
+			},
+			["J"] = { "<Esc>:m '>+1<CR>gv=gv", "Move line down, respect indentation" },
+			["K"] = { "<Esc>:m '<-2<CR>gv=gv", "Move line up, respect indentation" },
+		},
+		x = {
+			["<Leader>p"] = {
+				[["_dP]],
+				"Replace selected text with the content of the default register but don't pollute the register itself",
+			},
+		},
+	},
+
+	["vim-fugitive"] = {
+		n = {
+			["<leader>gs"] = { vim.cmd.Git, "Run [G]it [S]tatus (open vim-fugitive prompt)" },
+			["<leader>gp"] = { "<cmd>Git push<CR>", "Run a [G]it [P]ush" },
+			["<leader>gf"] = {
+				"<cmd>Git pull --rebase<CR>",
+				"Run `git pull --rebase` (a [G]it [F]etch followed by a rebase in the current branch)",
+			},
+			["<leader>gC"] = { ":Git commit", "Populate command line with [G]it [C]ommit" },
+			["<leader>gB"] = { ":Git branch", "Populate command line with [G]it [B]ranch" },
+			["<leader>gZ"] = {
+				":Git stash",
+				"Populate command line with [G]it Stash (mnemonic: S and [Z] are similar)",
+			},
+			["<leader>gO"] = { ":Git checkout", "Populate command line with [G]it Check[O]ut" },
+			["<leader>gL"] = { ":Git log", "Populate command line with [G]it [L]og" },
+			["<leader>gP"] = { ":Git push -u origin", "Populate command line with [G]it [P]ush -u origin" },
+			["<leader>gF"] = {
+				":Git pull --rebase -u origin",
+				"Populate the command line with `git pull --rebase` (a [G]it [F]etch followed by a rebase in the current branch)",
+			},
+		},
+	},
+}
+
+return M
