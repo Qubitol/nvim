@@ -3,6 +3,8 @@ if not status_ok then
 	return
 end
 
+local mappings = require("core.mappings")
+
 neorg.setup({
 	load = {
 		-- Loads default behaviour
@@ -10,7 +12,6 @@ neorg.setup({
 			config = {
 				disable = {
 					"core.norg.journal",
-					"core.norg.news",
 				},
 			},
 		},
@@ -19,6 +20,13 @@ neorg.setup({
 		["core.concealer"] = {
 			config = {
 				icon_preset = "diamond",
+			},
+		},
+
+		-- Completion engines
+		["core.completion"] = {
+			config = {
+				engine = "nvim-cmp",
 			},
 		},
 
@@ -72,44 +80,27 @@ neorg.setup({
 
                 -- Set new keybinds
                 hook = function(keybinds)
-                    local leader = keybinds.leader
 
-                    -- Open looking glass
-                    keybinds.map("norg", "n", leader .. "no", "<cmd>Neorg keybind all core.looking-glass.magnify-code-block<CR>")
+                    local neorg_mappings = {}
+                    local default_opts = { noremap = true, silent = true }
+                    for mode, keys in pairs(mappings.plugins["neorg"]) do
+                        neorg_mappings[mode] = {}
+                        for key, mapping_info in pairs(keys) do
+                            local command = mapping_info[1]
+                            local opts = vim.tbl_deep_extend("force",
+                                default_opts,
+                                mapping_info[3] or {},
+                                { desc = mapping_info[2] }
+                            )
+                            table.insert(neorg_mappings[mode], { key, command, opts })
+                        end
+                    end
 
-                    -- Toggle concealer
-                    keybinds.map("norg", "n", leader .. "tc", "<cmd>Neorg toggle-concealer<CR>")
-
-                    -- Open toc
-                    keybinds.map("norg", "n", leader .. "nt", "<cmd>Neorg toc<CR>")
-
-                    -- Marks the task under the cursor as "undone"
-                    keybinds.map("norg", "n", leader .. "nu", "<cmd>Neorg keybind norg core.qol.todo_items.todo.task_undone<CR>")
-
-                    -- Marks the task under the cursor as "pending"
-                    keybinds.map("norg", "n", leader .. "np", "<cmd>Neorg keybind norg core.qol.todo_items.todo.task_pending<CR>")
-
-                    -- Marks the task under the cursor as "done"
-                    keybinds.map("norg", "n", leader .. "nd", "<cmd>Neorg keybind norg core.qol.todo_items.todo.task_done<CR>")
-
-                    -- Marks the task under the cursor as "on_hold"
-                    keybinds.map("norg", "n", leader .. "nh", "<cmd>Neorg keybind norg core.qol.todo_items.todo.task_on_hold<CR>")
-
-                    -- Marks the task under the cursor as "cancelled"
-                    keybinds.map("norg", "n", leader .. "nc", "<cmd>Neorg keybind norg core.qol.todo_items.todo.task_cancelled<CR>")
-
-                    -- Marks the task under the cursor as "recurring"
-                    keybinds.map("norg", "n", leader .. "nr", "<cmd>Neorg keybind norg core.qol.todo_items.todo.task_recurring<CR>")
-
-                    -- Marks the task under the cursor as "important"
-                    keybinds.map("norg", "n", leader .. "ni", "<cmd>Neorg keybind norg core.qol.todo_items.todo.task_important<CR>")
-
-                    -- Switches the task under the cursor between a select few states
-                    keybinds.map("norg", "n", "<C-n>", "<cmd>Neorg keybind norg core.qol.todo_items.todo.task_cycle<CR>")
+                    keybinds.map_to_mode("norg", neorg_mappings)
                 end,
 
                 -- Set neorg leader to <Leader>
-                neorg_leader = "<Leader>"
+                neorg_leader = "<leader>"
             }
         }
 	},

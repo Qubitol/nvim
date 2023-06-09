@@ -71,7 +71,8 @@ M.load_mappings = function(mappings, additional_opts)
             local opts = vim.tbl_deep_extend("force",
                 default_opts,
                 mapping_info[3] or {},
-                { desc = mapping_info[2] }
+                { desc = mapping_info[2] },
+                additional_opts or {}
             )
             vim.keymap.set(mode, keybind, command, opts)
         end

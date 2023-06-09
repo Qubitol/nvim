@@ -1,2 +1,3 @@
 local utils = require("core.utils")
-utils.load_mappings("vim-fugitive")
+local mappings = require("core.mappings")
+utils.load_mappings(mappings.plugins["vim-fugitive"])

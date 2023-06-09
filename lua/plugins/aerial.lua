@@ -3,6 +3,9 @@ if not status_ok then
 	return
 end
 
+local utils = require("core.utils")
+local mappings = require("core.mappings")
+
 aerial.setup({
     backends = { "treesitter", "lsp", "markdown", "man" },
 
@@ -18,14 +21,10 @@ aerial.setup({
 
     highlight_on_jump = false,
 
-    -- optionally use on_attach to set keymaps when aerial has attached to a buffer
     -- on_attach = function(bufnr)
-    --     -- Jump forwards/backwards with '{' and '}'
-    --     vim.keymap.set('n', '{', '<cmd>AerialPrev<CR>', {buffer = bufnr})
-    --     vim.keymap.set('n', '}', '<cmd>AerialNext<CR>', {buffer = bufnr})
     -- end,
 
     show_guides = true,
 })
 
-vim.keymap.set('n', '<leader>tt', '<cmd>AerialToggle<CR>')
+utils.load_mappings(mappings.plugins["aerial"])

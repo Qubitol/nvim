@@ -8,8 +8,8 @@ map("n", "J", "j<CR>zz<C-w>w", opts)
 map("n", "K", "k<CR>zz<C-w>w", opts)
 
 -- remove element from quickfix
-map("n", "dd", "<cmd>setlocal modifiable<CR>dd<cmd>setlocal nomodifiable<CR>", opts)
-map("v", "d", "<esc><cmd>setlocal modifiable<CR>gvd<cmd>setlocal nomodifiable<CR>", opts)
+-- map("n", "dd", "<cmd>setlocal modifiable<CR>dd<cmd>setlocal nomodifiable<CR>", opts)
+-- map("v", "d", "<esc><cmd>setlocal modifiable<CR>gvd<cmd>setlocal nomodifiable<CR>", opts)
 
 -- close quickfix buffer
 map("n", "gq", "<cmd>cclose<CR>", opts)

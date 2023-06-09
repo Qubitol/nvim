@@ -1,1 +1,3 @@
-vim.keymap.set("n", "<leader>tu", vim.cmd.UndotreeToggle)
+local utils = require("core.utils")
+local mappings = require("core.mappings")
+utils.load_mappings(mappings.plugins["undotree"])

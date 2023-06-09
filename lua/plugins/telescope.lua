@@ -3,6 +3,9 @@ if not status_ok then
 	return
 end
 
+local utils = require("core.utils")
+local mappings = require("core.mappings")
+
 local actions = require("telescope.actions")
 local actions_layout = require("telescope.actions.layout")
 local action_state = require("telescope.actions.state")
@@ -183,10 +186,8 @@ telescope.setup({
 		find_files = {
 			-- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
 			-- find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
-            find_command = { "fd", "--type", "f", "--threads", "1", "--color", "never", "--relative-path", "--unrestricted",
-                "--exclude", "**/.git/*", "--exclude", "**/.bzr/*", "--exclude", "undo/*", "--exclude", "backup/*",
-                "--exclude", "**/.env/*", "--exclude", "**/.venv/*",
-                "." },
+            find_command = { "fd", "--type", "f", "--threads", "4", "--color", "never", "--relative-path", "--hidden",
+                "--exclude", "**/.git/*", "--exclude", "**/.bzr/*", "." },
 			mappings = {
 				i = {
 					["<C-v>"] = stopinsert(custom_actions.multi_selection_open_vertical),
@@ -240,52 +241,4 @@ telescope.load_extension("fzf")
 telescope.load_extension("aerial")
 telescope.load_extension("git_worktree")
 
--- Mappings (mnemonic)
-local map = vim.keymap.set
-local builtin = require("telescope.builtin")
--- find files (Find Open)
-map("n", "<leader>fo", builtin.find_files, {})
--- find *all* files (in the important filesystem folders, hidden and ignored) (Find All)
-map(
-	"n",
-	"<leader>fa",
-	[[<cmd>lua require "telescope.builtin".find_files{ find_command = { "fd", "--type", "f", "--threads", "1", "--color", "never", "--absolute-path", "--unrestricted", "--exclude", "**/.git/*", "." }, search_dirs = { "$HOME/Documents", "$HOME/Downloads", "$HOME/Scratch", "$HOME/.config", "$HOME/.jupyter", "$HOME/.local", "$HOME/.ssh", "$HOME/.dotfiles" } }<CR>]],
-	{}
-)
--- [[<cmd>lua require "telescope.builtin".find_files{ find_command = { "rg", "--files", "--hidden", "--no-ignore", "--glob", "!**/.git/*" }, search_dirs = { "$HOME/Documents", "$HOME/Downloads", "$HOME/Scratch", "$HOME/.config", "$HOME/.jupyter", "$HOME/.local", "$HOME/.ssh", "$HOME/.zsh" } }<CR>]],
--- fuzzy search in current buffer
-map('n', '<leader>/', function()
-    -- You can pass additional configuration to telescope to change theme, layout, etc.
-    builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-        winblend = 10,
-        previewer = false,
-    }))
-end, {})
--- live grep in all files (Grep Open)
-map("n", "<leader>go", builtin.live_grep, {})
--- live grep of the string under cursor in all files (Grep This)
-map("n", "<leader>gt", builtin.grep_string, {})
--- browse buffers (Find Buffers)
-map("n", "<leader>fb", builtin.buffers, {})
--- browse aerial tags (Find Tags)
-map("n", "<leader>ft", "<cmd>Telescope aerial<CR>", {})
--- browse quickfix history (Find Quickfix)
-map("n", "<leader>fq", builtin.quickfixhistory, {})
--- browse lsp symbols (Symbols File)
-map("n", "<leader>sf", builtin.lsp_document_symbols, {})
--- browse lsp symbols (Symbols File)
-map("n", "<leader>sw", builtin.lsp_workspace_symbols, {})
--- browse git log (Git Log)
-map("n", "<leader>gl", builtin.git_commits, {})
--- browse git log for this buffer (Git Commits -- capitalize for buffer)
-map("n", "<leader>gL", builtin.git_bcommits, {})
--- browse git branches (Git Branches)
-map("n", "<leader>gb", builtin.git_branches, {})
--- browse git stashes (Git stasHes)
-map("n", "<leader>gz", builtin.git_stash, {})
--- browse git worktrees (Git Worktree)
-map("n", "<leader>gw", [[<cmd>lua require "telescope".extensions.git_worktree.git_worktrees()<CR>]])
--- create git worktree (Create Worktree)
-map("n", "<leader>gW", [[<cmd>lua require "telescope".extensions.git_worktree.create_git_worktree()<CR>]])
--- Telescope resume (Find Find)
-map("n", "<leader>ff", "<cmd>Telescope resume<CR>", {})
+utils.load_mappings(mappings.plugins["telescope"])

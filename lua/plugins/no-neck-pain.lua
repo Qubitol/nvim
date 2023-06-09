@@ -3,6 +3,9 @@ if not status_ok then
 	return
 end
 
+local utils = require("core.utils")
+local mappings = require("core.mappings")
+
 no_neck_pain.setup({
     -- Width
     width = 140,
@@ -41,20 +44,7 @@ no_neck_pain.setup({
     },
 
     mappings = {
-        -- Enable mappings
-        enabled = true,
-
-        -- Toggle the plugin
-        toggle = "<Leader>tn",
-
-        -- Increase the width
-        widthUp = "<Leader>n=",
-
-        -- Decrease the width
-        widthDown = "<Leader>n-",
-
-        -- Toggle scratchpad feature
-        scratchPad = "<Leader>ns",
+        enabled = false,
     },
 
     integrations = {
@@ -64,3 +54,5 @@ no_neck_pain.setup({
         },
     },
 })
+
+utils.load_mappings(mappings.plugins["no-neck-pain"])

@@ -5,6 +5,9 @@ if not status_cmp_ok then
 	return
 end
 
+local utils = require("core.utils")
+local mappings = require("core.mappings")
+
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
 M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
@@ -57,30 +60,7 @@ M.setup = function()
 end
 
 local function lsp_keymaps(bufnr)
-    local opts = { noremap = true, silent = true }
-    local keymap = vim.api.nvim_buf_set_keymap
-    keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    keymap(bufnr, "n", "g\\D", "<cmd>vsplit | lua vim.lsp.buf.declaration()<CR>", opts)
-    keymap(bufnr, "n", "g-D", "<cmd>split | lua vim.lsp.buf.declaration()<CR>", opts)
-    keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    keymap(bufnr, "n", "g\\d", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>", opts)
-    keymap(bufnr, "n", "g-d", "<cmd>split | lua vim.lsp.buf.definition()<CR>", opts)
-    keymap(bufnr, "n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-    keymap(bufnr, "n", "g\\I", "<cmd>vsplit | lua vim.lsp.buf.implementation()<CR>", opts)
-    keymap(bufnr, "n", "g-I", "<cmd>split | lua vim.lsp.buf.implementation()<CR>", opts)
-    keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-    -- keymap(bufnr, "n", "td", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR><C-w>T", opts)
-    keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    keymap(bufnr, "n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
-    keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", opts)
-    keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-    keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>zz", opts)
-    keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>zz", opts)
-    keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-    keymap(bufnr, "n", "<leader>H", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-    keymap(bufnr, "n", "<leader>ll", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-    keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setqflist()<CR>", opts)
-    -- end
+    utils.load_mappings(mappings.plugins["lsp"], { buffer = bufnr })
 end
 
 M.on_attach = function(client, bufnr)

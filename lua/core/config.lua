@@ -138,4 +138,5 @@ g.python3_host_prog = HOME .. "/Apps/venvs/PyNvim/bin/python"
 
 -- Load generic mappings
 local utils = require("core.utils")
-utils.load_mappings("general")
+local mappings = require("core.mappings")
+utils.load_mappings(mappings.general)

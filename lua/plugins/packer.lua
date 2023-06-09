@@ -222,7 +222,7 @@ return require("packer").startup(function(use)
     -- Neorg
     use({
         "nvim-neorg/neorg",
-        tag = "v4.0.0",
+        tag = "v4.6.0",
         run = ":Neorg sync-parsers",
     })
 
