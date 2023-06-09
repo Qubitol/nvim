@@ -22,8 +22,48 @@ M.file_exists = function(name)
 	end
 end
 
-M.load_mappings = function(section)
-    local mappings = require("core.mappings")[section]
+-- adapted from https://github.com/ethanholz/nvim-lastplace/blob/main/lua/nvim-lastplace/init.lua
+M.goto_lastplace = function()
+    local ignore_buftype = { "quickfix", "nofile", "help" }
+    local ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" }
+
+    if vim.tbl_contains(ignore_buftype, vim.bo.buftype) then
+        return
+    end
+
+    if vim.tbl_contains(ignore_filetype, vim.bo.filetype) then
+        -- reset cursor to first line
+        vim.cmd [[normal! gg]]
+        return
+    end
+
+    -- If a line has already been specified on the command line, we are done
+    --   nvim file +num
+    if vim.fn.line(".") > 1 then
+        return
+    end
+
+    local last_line = vim.fn.line([['"]])
+    local buff_last_line = vim.fn.line("$")
+
+    -- If the last line is set and the less than the last line in the buffer
+    if last_line > 0 and last_line <= buff_last_line then
+        local win_last_line = vim.fn.line("w$")
+        local win_first_line = vim.fn.line("w0")
+        -- Check if the last line of the buffer is the same as the win
+        if win_last_line == buff_last_line then
+            -- Set line to last line edited
+            vim.cmd [[normal! g`"]]
+            -- Try to center
+        elseif buff_last_line - last_line > ((win_last_line - win_first_line) / 2) - 1 then
+            vim.cmd [[normal! g`"zz]]
+        else
+            vim.cmd [[normal! G'"<c-e>]]
+        end
+    end
+end
+
+M.load_mappings = function(mappings, additional_opts)
     local default_opts = { noremap = true, silent = true }
     for mode, mode_mappings in pairs(mappings) do
         for keybind, mapping_info in pairs(mode_mappings) do

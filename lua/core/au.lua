@@ -1,3 +1,5 @@
+local utils = require("core.utils")
+
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
@@ -41,4 +43,12 @@ autocmd("FocusLost", {
 	callback = function()
         vim.cmd("silent! wa")
     end,
+})
+
+-- Lastplace
+local lastplace_group = augroup('nvim-lastplace', {})
+
+autocmd({ 'BufWinEnter', 'FileType' }, {
+    group    = lastplace_group,
+    callback = utils.goto_lastplace,
 })
