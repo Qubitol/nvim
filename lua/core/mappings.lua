@@ -323,6 +323,36 @@ M.plugins = {
 				"<cmd>Neorg keybind norg core.qol.todo_items.todo.task_cycle<CR>",
 				"Cycle among [N]eorg task statuses",
 			},
+			[">>"] = {
+				"<cmd>Neorg keybind norg core.promo.promote_range<CR><cmd>Neorg keybind norg core.promo.promote<CR>",
+				"Promote list item (recursively)",
+			},
+			["<<"] = {
+				"<cmd>Neorg keybind norg core.promo.promote_range<CR><cmd>Neorg keybind norg core.promp.demote<CR>",
+				"Demote list item (recursively)",
+			},
+			[">."] = {
+				"<cmd>Neorg keybind norg core.promo.promote<CR>",
+				"Promote list item (non-recursively)",
+			},
+			["<."] = {
+				"<cmd>Neorg keybind norg core.promp.demote<CR>",
+				"Demote list item (non-recursively)",
+			},
+		},
+		i = {
+			["<C-t>"] = {
+				"<cmd>Neorg keybind norg core.promo.promote<CR>",
+				"Promote list item (non-recursively)",
+			},
+			["<C-d>"] = {
+				"<cmd>Neorg keybind norg core.promp.demote<CR>",
+				"Demote list item (non-recursively)",
+			},
+			["<C-n>"] = { -- I rebinded Shift-Enter on my terminal to output \x0e
+				"<cmd>Neorg keybind norg core.itero.next-iteration<CR>",
+				"Create next list item",
+			},
 		},
 	},
 

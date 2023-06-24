@@ -11,7 +11,7 @@ neorg.setup({
 		["core.defaults"] = {
 			config = {
 				disable = {
-					"core.norg.journal",
+					"core.journal",
 				},
 			},
 		},
@@ -39,9 +39,10 @@ neorg.setup({
 			},
 		},
 
+        -- Metadata
 		["core.esupports.metagen"] = {
 			config = {
-				type = "auto",
+				type = "none",
 				template = {
 					{ "title", "" },
 					{ "description", "" },
@@ -61,6 +62,7 @@ neorg.setup({
 					},
 					{ "version", "1.0" },
 				},
+                update_date = true,
 			},
 		},
 
