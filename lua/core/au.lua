@@ -46,9 +46,9 @@ autocmd("FocusLost", {
 })
 
 -- Lastplace
-local lastplace_group = augroup('nvim-lastplace', {})
+local lastplace_group = augroup("nvim-lastplace", {})
 
-autocmd({ 'BufWinEnter', 'FileType' }, {
-    group    = lastplace_group,
+autocmd({ "BufWinEnter", "FileType" }, {
+    group = lastplace_group,
     callback = utils.goto_lastplace,
 })
