@@ -68,11 +68,11 @@ M.general = {
 	},
 	v = {
 		["<Leader>fi"] = {
-			[[""y/\v<C-r>=escape('<C-r>"', '/\\(){}+?"')<CR><CR>]],
+			[[""y/\v<C-r>=escape('<C-r>"', '/\\(){}+?~"')<CR><CR>]],
 			"[FI]nd the visual selection in the current file",
 		},
 		["<Leader>sr"] = {
-			[[""y:%s/\v<C-r>=escape('<C-r>"', '/\\(){}+?"')<CR>//gI<left><left><left>]],
+			[[""y:%s/\v<C-r>=escape('<C-r>"', '/\\(){}+?~"')<CR>//gI<left><left><left>]],
 			"[S]earch and [R]eplace the visual selection",
 		},
 		["<Leader>d"] = { [["_d]], "Delete without polluting the register" },
