@@ -132,9 +132,9 @@ M.plugins = {
 			["<leader>hs"] = { "<cmd>Gitsigns stage_hunk<CR>", "Consider the current [H]unk and [S]tage it" },
 			["<leader>hr"] = { "<cmd>Gitsigns reset_hunk<CR>", "Consider the current [H]unk and [R]eset it" },
 			["<leader>hu"] = { "<cmd>Gitsigns undo_stage_hunk<CR>", "Consider the current [H]unk and [U]nstage it" },
-			["<leader>hp"] = { "<cmd>Gitsigns preview_hunk", "Consider the current [H]unk and [P]review it" },
-			["<leader>td"] = { "<cmd>Gitsigns toggle_current_line_blame", "[T]oggle inline [B]lame" },
-			["<leader>tb"] = { "<cmd>Gitsigns toggle_deleted", "[T]oggle [D]eleted lines" },
+			["<leader>hp"] = { "<cmd>Gitsigns preview_hunk<CR>", "Consider the current [H]unk and [P]review it" },
+			["<leader>td"] = { "<cmd>Gitsigns toggle_current_line_blame<CR>", "[T]oggle inline [B]lame" },
+			["<leader>tb"] = { "<cmd>Gitsigns toggle_deleted<CR>", "[T]oggle [D]eleted lines" },
 			["<leader>tB"] = {
 				function()
 					package.loaded.gitsigns.blame_line({ full = true })
@@ -146,12 +146,6 @@ M.plugins = {
 					package.loaded.gitsigns.diffthis(nil, { vertical = true })
 				end,
 				"Open a [D]iff view of the current buffer in a [V]ertical split",
-			},
-			["<leader>ds"] = {
-				function()
-					package.loaded.gitsigns.diffthis(nil, { vertical = false })
-				end,
-				"Open a [D]iff view of the current buffer in a horizontal [S]plit",
 			},
 		},
 		v = {
