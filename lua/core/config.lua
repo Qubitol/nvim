@@ -47,7 +47,7 @@ set.showbreak = '↪' -- character to show when line is broken
 set.number = true -- line number on the left
 set.relativenumber = true -- line number on the left
 set.numberwidth = 3 -- always reserve 3 spaces for line number
-set.signcolumn = "yes" -- keep 1 column for coc.vim  check
+set.signcolumn = "yes"
 set.modelines = 0
 set.showcmd = true -- display command in bottom bar
 
@@ -93,11 +93,11 @@ local default_plugins = {
     "getscriptPlugin",
     "gzip",
     "logipat",
-    "netrw",
-    "netrwPlugin",
-    "netrwSettings",
-    "netrwFileHandlers",
-    "matchit",
+    -- "netrw",
+    -- "netrwPlugin",
+    -- "netrwSettings",
+    -- "netrwFileHandlers",
+    -- "matchit",
     "tar",
     "tarPlugin",
     "rrhelper",

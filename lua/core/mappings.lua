@@ -356,6 +356,34 @@ M.plugins = {
 		},
 	},
 
+	netrw = {
+		n = {
+			["<leader>e"] = {
+				function()
+					local head = vim.fn.expand("%:p:h")
+					local tail = vim.fn.expand("%:p:t")
+					local opened = require("plugins.netrw").toggle_netrw("L", head)
+                    if not opened then
+                        return
+                    end
+					vim.fn.search("\\C^" .. vim.fn.escape(tail, ".^$~[]") .. "$", "cW")
+				end,
+				"Toggle file [E]xplorer netrw on current directory with cursor on current file",
+			},
+			["<leader>E"] = {
+				function()
+					local opened = require("plugins.netrw").toggle_netrw("L", "")
+                    if not opened then
+                        return
+                    end
+					-- jump below ../ and ./
+					vim.cmd([[normal 2j]])
+				end,
+				"Toggle file [E]xplorer netrw on root directory",
+			},
+		},
+	},
+
 	["no-neck-pain"] = {
 		n = {
 			["<leader>tn"] = {

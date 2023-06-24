@@ -52,3 +52,13 @@ autocmd({ "BufWinEnter", "FileType" }, {
     group = lastplace_group,
     callback = utils.goto_lastplace,
 })
+
+-- Netrw
+local netrw = require("plugins.netrw")
+local netrw_group = augroup("netrw_group", {})
+
+autocmd("TextChanged", {
+    group = netrw_group,
+    pattern = "*",
+    callback = netrw.draw_icons,
+})

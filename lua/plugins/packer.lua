@@ -238,12 +238,6 @@ return require("packer").startup(function(use)
         commit = "ad56e6234bf42fb7f7e4dccc7752e25abd5ec80e",
     })
 
-    -- Rnvimr
-    use({
-        "kevinhwang91/rnvimr",
-        commit = "cd0311d65cb3b8f8737b52f3294eb77d2fcec826",
-    })
-
     -- Treesitter
     use({
         "nvim-treesitter/nvim-treesitter",
