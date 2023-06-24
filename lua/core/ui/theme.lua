@@ -133,29 +133,43 @@ vim.cmd.colorscheme "catppuccin"
 -- theme should always return these two tables
 local M = {}
 
-M.palette = require("catppuccin.palettes").get_palette("mocha")
+local palette = require("catppuccin.palettes").get_palette("mocha")
 
 M.theme = {
-    red = M.palette["red"],
-    green = M.palette["green"],
-    blue = M.palette["blue"],
-    orange = M.palette["peach"],
-    purple = M.palette["mauve"],
-    cyan = M.palette["sapphire"],
-    yellow = M.palette["yellow"],
-    pink = M.palette["pink"],
-    black1 = M.palette["crust"],
-    black2 = M.palette["mantle"],
-    black3 = M.palette["base"],
-    gray1 = M.palette["surface0"],
-    gray2 = M.palette["surface1"],
-    gray3 = M.palette["surface2"],
-    gray4 = M.palette["overlay0"],
-    gray5 = M.palette["overlay1"],
-    gray6 = M.palette["overlay2"],
-    gray7 = M.palette["subtext0"],
-    gray8 = M.palette["subtext1"],
-    white = M.palette["text"],
+    black = palette["crust"],
+    red = palette["red"],
+    green = palette["green"],
+    yellow = palette["yellow"],
+    blue = palette["blue"],
+    magenta = palette["mauve"],
+    cyan = palette["sapphire"],
+    white = palette["subtext1"],
+    bright_black = palette["base"],
+    bright_red = palette["flamingo"],
+    bright_green = palette["teal"],
+    bright_yellow = palette["yellow"],
+    bright_blue = palette["blue"],
+    bright_magenta = palette["lavender"],
+    bright_cyan = palette["sky"],
+    bright_white = palette["text"],
+}
+
+M.heirline = {
+    mode_name = M.theme["bright_black"],
+    file_fg = M.theme["bright_white"],
+    file_bg = M.theme["black"],
+    file_modified = M.theme["green"],
+    file_locked = palette["orange"],
+    git = palette["mauve"],
+    git_branch = palette["base"],
+    lsp = M.theme["green"],
+    filetype = M.theme["yellow"],
+    work_dir = M.theme["red"],
+    ruler = M.theme["blue"],
+    ruler_bg = palette["base"],
+    git_del = palette["mauve"],
+    git_add = palette["mauve"],
+    git_change = palette["mauve"],
 }
 
 return M

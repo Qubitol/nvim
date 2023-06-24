@@ -37,23 +37,7 @@ local hl_colors = {
 }
 
 local palette = require("core.ui.theme").theme
-local my_theme = {
-    mode_name = palette["black3"],
-    file_fg = palette["white"],
-    file_bg = palette["black2"],
-    file_modified = palette["green"],
-    file_locked = palette["orange"],
-    git = palette["purple"],
-    git_branch = palette["black3"],
-    lsp = palette["green"],
-    filetype = palette["yellow"],
-    work_dir = palette["red"],
-    ruler = palette["blue"],
-    ruler_bg = palette["black3"],
-    git_del = palette["purple"],
-    git_add = palette["purple"],
-    git_change = palette["purple"],
-}
+local my_theme = require("core.ui.theme").heirline
 
 local colors = vim.tbl_deep_extend("force", hl_colors, palette, my_theme)
 
@@ -361,7 +345,8 @@ local Ruler = {
 
 local ScrollBar ={
     static = {
-        sbar = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' },
+        -- sbar = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' },
+        sbar = { "█", "▇", "▆", "▅", "▄", "▃", "▂", "▁"},
     },
     provider = function(self)
         local curr_line = vim.api.nvim_win_get_cursor(0)[1]
@@ -374,7 +359,8 @@ local ScrollBar ={
         end
         return string.rep(self.sbar[i], 2)
     end,
-    hl = { fg = "ruler", bg = "bright_bg" },
+    -- hl = { fg = "ruler", bg = "bright_bg" },
+    hl = { fg = "bright_bg", bg = "ruler" },
 }
 
 RulerBlock = utils.insert(RulerBlock,
@@ -535,7 +521,7 @@ local WorkDir = {
         local cwd = vim.fn.getcwd(0)
         self.cwd = vim.fn.fnamemodify(cwd, ":~")
     end,
-    hl = { fg = "gray7", bold = true },
+    hl = { fg = "white", bold = true },
 
     flexible = 2,
 
@@ -550,7 +536,7 @@ local WorkDir = {
         },
         {
             provider = "󰉋 ",
-            hl = { fg = "black3", bg = "red" },
+            hl = { fg = "bright_black", bg = "red" },
         },
         -- evaluates to the full-lenth path
         {
@@ -571,7 +557,7 @@ local WorkDir = {
         },
         {
             provider = "󰉋 ",
-            hl = { fg = "black3", bg = "red" },
+            hl = { fg = "bright_black", bg = "red" },
         },
         -- evaluates to the shortened path
         {
