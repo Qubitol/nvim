@@ -33,7 +33,7 @@ set.scrolloff = 3 -- always show 3 rows from edge of the screen
 set.synmaxcol = 500 -- stop syntax highlight after x lines for performance
 set.laststatus = 3 -- always show status line
 set.colorcolumn = "80,100,120"
-set.ruler = true
+set.ruler = false
 set.cursorline = true
 
 -- set.foldenable = false
