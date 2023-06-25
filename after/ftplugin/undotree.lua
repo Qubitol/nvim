@@ -1,4 +1,4 @@
-local set = vim.opt
+local set = vim.opt_local
 local map = vim.keymap.set
 local opts = { buffer = true, noremap = true, silent = true }
 

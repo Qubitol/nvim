@@ -1,4 +1,4 @@
-local set = vim.opt
+local set = vim.opt_local
 
 set.colorcolumn = ""
 set.conceallevel = 2

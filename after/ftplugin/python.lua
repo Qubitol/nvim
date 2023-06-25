@@ -1,6 +1,6 @@
-local set = vim.opt
+local set = vim.opt_local
 
 set.tabstop = 4
 set.softtabstop = 4
 set.shiftwidth = 4
-set.iskeyword = set.iskeyword - "_"
+set.iskeyword:remove({ "_" })
