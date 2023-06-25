@@ -14,7 +14,7 @@ local utils = require("heirline.utils")
 local special_condition = function()
     return conditions.buffer_matches({
         buftype = { "nofile", "prompt", "help", "quickfix" },
-        filetype = { "^Telescope*", "harpoon", "rnvimr", "^git.*", "fugitive", "undotree", "aerial" },
+        filetype = { "^Telescope*", "harpoon", "netrw", "^git.*", "fugitive", "undotree", "aerial" },
     })
 end
 
@@ -658,7 +658,7 @@ heirline.setup({
         disable_winbar_cb = function(args)
             return conditions.buffer_matches({
                 buftype = { "nofile", "prompt", "help", "quickfix" },
-                filetype = { "^Telescope.*", "harpoon", "rnvimr", "^git.*", "fugitive", "undotree", "aerial" },
+                filetype = { "^Telescope.*", "harpoon", "netrw", "^git.*", "fugitive", "undotree", "aerial" },
             }, args.buf)
         end,
     },

@@ -57,8 +57,39 @@ autocmd({ "BufWinEnter", "FileType" }, {
 local netrw = require("plugins.netrw")
 local netrw_group = augroup("netrw_group", {})
 
-autocmd("TextChanged", {
+autocmd("Filetype", {
+    group = netrw_group,
+    pattern = "netrw",
+    callback = function(opts)
+        netrw.draw_icons()
+        netrw.place_cursor()
+        autocmd("TextChanged", {
+            buffer = opts.buf,
+            callback = function()
+                netrw.draw_icons()
+                netrw.place_cursor()
+            end,
+        })
+    end,
+})
+
+autocmd("QuitPre", {
     group = netrw_group,
     pattern = "*",
-    callback = netrw.draw_icons,
+    callback = function()
+        -- if current window is netrw do not do anything
+        local filetype = vim.api.nvim_win_call(0, function() return vim.bo.filetype end)
+        if filetype == "netrw" then
+            return
+        end
+        local cur_tabpage_wins = vim.api.nvim_tabpage_list_wins(0)
+        for _, win_handle in ipairs(cur_tabpage_wins) do
+            filetype = vim.api.nvim_win_call(win_handle, function() return vim.bo.filetype end)
+            if filetype == "netrw" then
+                -- assuming only one netrw split is open
+                vim.api.nvim_win_close(win_handle, true)
+                return
+            end
+        end
+    end,
 })

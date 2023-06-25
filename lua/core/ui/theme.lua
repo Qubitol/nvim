@@ -116,8 +116,11 @@ catppuccin.setup({
                 HarpoonWindow = { bg = colors.mantle },
                 HarpoonBorder = { fg = colors.mantle, bg = colors.mantle },
 
-                -- Rnvimr
-                RnvimrNormal = { bg = colors.mantle, fg = colors.text },
+                -- File browser
+                FileBrowser = { bg = colors.mantle, fg = colors.text },
+
+                -- Quickfix
+                Quickfix = { bg = colors.mantle, fg = colors.text },
 
                 -- Treesitter
                 ["@keyword.return"] = { fg = colors.pink, style = {} },

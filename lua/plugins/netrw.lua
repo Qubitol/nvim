@@ -64,9 +64,6 @@ vim.cmd("hi! link netrwMarkFile Search")
 
 -- Draw icons
 M.draw_icons = function()
-    if vim.bo.filetype ~= "netrw" then
-        return
-    end
     local is_devicons_available, devicons = pcall(require, "nvim-web-devicons")
     if not is_devicons_available then
         return
@@ -149,6 +146,24 @@ M.draw_icons = function()
     end
 end
 
+M.force_filetype_netrw = function()
+    -- used to force the filetype to be 'netrw' because sometimes it gets
+    -- it wrong and it is very annoying
+    -- local netrw_buf = vim.api.nvim_win_get_buf(0)
+    local filetype = vim.api.nvim_win_call(0, function() return vim.bo.filetype end)
+    if filetype == "netrw" then
+        return
+    end
+    vim.api.nvim_buf_set_option(0, "filetype", "netrw")
+end
+
+M.place_cursor = function()
+    local cur_line = vim.api.nvim_win_get_cursor(0)[1]
+    if cur_line < 3 then
+        vim.cmd[[normal 3G]]
+    end
+end
+
 M.toggle_netrw = function(split, dir)
     -- Check if open: if so close (return false), otherwise open (return true)
     local cur_tabpage_wins = vim.api.nvim_tabpage_list_wins(0)
@@ -167,6 +182,8 @@ M.toggle_netrw = function(split, dir)
     -- now we open netrw according to the split
     local cmd = vim.api.nvim_parse_cmd(split .. "explore" .. dir, {})
     vim.api.nvim_cmd(cmd, {})
+    -- force filetype to be 'netrw'
+    M.force_filetype_netrw()
     return true
 end
 

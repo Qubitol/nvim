@@ -377,7 +377,7 @@ M.plugins = {
                         return
                     end
 					-- jump below ../ and ./
-					vim.cmd([[normal 2j]])
+					vim.cmd([[normal! 2j]])
 				end,
 				"Toggle file [E]xplorer netrw on root directory",
 			},

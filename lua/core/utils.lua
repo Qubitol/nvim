@@ -63,6 +63,17 @@ M.goto_lastplace = function()
     end
 end
 
+M.is_preview_window_open = function()
+    local cur_tabpage_wins = vim.api.nvim_tabpage_list_wins(0)
+    for _, win_handle in ipairs(cur_tabpage_wins) do
+        local previewwindow = vim.api.nvim_win_get_option(win_handle, "previewwindow")
+        if previewwindow then
+            return true
+        end
+    end
+    return false
+end
+
 M.load_mappings = function(mappings, additional_opts)
     local default_opts = { noremap = true, silent = true }
     for mode, mode_mappings in pairs(mappings) do
