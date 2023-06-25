@@ -19,3 +19,7 @@ map("n", "f", ":Cfilter", opts)
 
 -- options
 set.colorcolumn = ""
+set.wrap = false
+
+-- highlighting groups
+set.winhighlight = "Normal:Quickfix"
