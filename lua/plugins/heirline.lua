@@ -14,7 +14,7 @@ local utils = require("heirline.utils")
 local special_condition = function()
     return conditions.buffer_matches({
         buftype = { "nofile", "prompt", "help", "quickfix" },
-        filetype = { "^Telescope*", "harpoon", "netrw", "^git.*", "fugitive", "undotree", "aerial" },
+        filetype = { "^Telescope*", "harpoon", "netrw", "fugitive", "undotree", "aerial" },
     })
 end
 
@@ -153,12 +153,14 @@ local FileNameBlock = {
     init = function(self)
         self.filename = vim.api.nvim_buf_get_name(0)
     end,
+    hl = { bg = "file_bg" },
 }
 
 local FileNameBlockInactive = {
     init = function(self)
         self.filename = vim.api.nvim_buf_get_name(0)
     end,
+    hl = { bg = "file_bg" },
 }
 
 -- We can now define some children separately and add them later
@@ -172,7 +174,7 @@ local FileIcon = {
         return self.icon and (self.icon .. " ")
     end,
     hl = function(self)
-        return { fg = self.icon_color, bg = "file_bg" }
+        return { fg = self.icon_color }
     end
 }
 
@@ -183,7 +185,7 @@ local FileName = {
         self.lfilename = vim.fn.fnamemodify(self.filename, ":.")
         if self.lfilename == "" then self.lfilename = "[No Name]" end
     end,
-    hl = { fg = "file_fg", bg = "file_bg" },
+    hl = { fg = "file_fg" },
 
     flexible = 1,
 
@@ -205,26 +207,25 @@ local FileFlags = {
             return vim.bo.modified
         end,
         provider = "[+]",
-        hl = { fg = "green", bg = "file_bg" },
+        hl = { fg = "green" },
     },
     {
         condition = function()
             return not vim.bo.modifiable or vim.bo.readonly
         end,
         provider = "  ",
-        hl = { fg = "red", bg = "file_bg" },
+        hl = { fg = "red" },
     },
     {
         condition = function()
             return not vim.bo.modified and not (not vim.bo.modifiable or vim.bo.readonly)
         end,
         provider = "   ",
-        hl = { bg = "file_bg" },
     },
-    {
-        provider = "",
-        hl = { fg = "file_bg" },
-    },
+    -- {
+    --     provider = "",
+    --     hl = { fg = "file_bg" },
+    -- },
 }
 
 -- let's add the children to our FileNameBlock component
@@ -233,7 +234,8 @@ FileNameBlock = utils.insert(FileNameBlock,
     FileIcon,
     FileName,
     FileFlags,
-    { provider = "%<"} -- this means that the statusline is cut here when there's not enough space
+    { provider = "%<" }, -- this means that the statusline is cut here when there's not enough space
+    { provider = "%=" }
 )
 
 FileNameBlockInactive = utils.insert(FileNameBlockInactive,
@@ -241,7 +243,8 @@ FileNameBlockInactive = utils.insert(FileNameBlockInactive,
     FileIcon,
     { hl = { fg = "gray", force = true }, FileName },
     FileFlags,
-    { provider = "%<"} -- this means that the statusline is cut here when there's not enough space
+    { provider = "%<" }, -- this means that the statusline is cut here when there's not enough space
+    { provider = "%=" }
 )
 
 
@@ -251,7 +254,7 @@ local Sep = {
 }
 
 local FileType = {
-    hl = { fg = utils.get_highlight("Type").fg, bold = true },
+    hl = { fg = utils.get_highlight("Type").fg, bg = "file_bg", bold = true },
 
     flexible = 3,
 
@@ -268,6 +271,7 @@ local FileType = {
 
 local FileEncoding = {
     flexible = 3,
+    hl = { bg = "file_bg" },
 
     {
         Sep,
@@ -288,9 +292,8 @@ local FileEncoding = {
 }
 
 local FileSize = {
-    hl = { fg = "gray" },
-
     flexible = 3,
+    hl = { fg = "gray", bg = "file_bg" },
 
     {
         Sep,
@@ -615,18 +618,18 @@ local StatusLines = {
 -- Winbar
 local DefaultWinbar = {
     condition = conditions.is_active,
-    FileNameBlock, Align,
-    FileType, FileEncoding, FileSize
+    FileNameBlock,
+    FileType, FileEncoding, FileSize, { hl = { bg = "file_bg" }, Space }
 }
 
 local InactiveWinbar = {
-    FileNameBlockInactive, Align,
-    FileType, FileEncoding, FileSize
+    FileNameBlockInactive,
+    FileType, FileEncoding, FileSize, { hl = { bg = "file_bg" }, Space }
 }
 
 local SpecialWinbar = {
     condition = special_condition,
-    Align, FileType
+    { hl = { bg = "file_bg" }, Align }, FileType, Space
 }
 
 -- Build the final object
@@ -658,7 +661,7 @@ heirline.setup({
         disable_winbar_cb = function(args)
             return conditions.buffer_matches({
                 buftype = { "nofile", "prompt", "help", "quickfix" },
-                filetype = { "^Telescope.*", "harpoon", "netrw", "^git.*", "fugitive", "undotree", "aerial" },
+                filetype = { "^Telescope.*", "harpoon", "netrw", "fugitive", "undotree", "aerial" },
             }, args.buf)
         end,
     },
