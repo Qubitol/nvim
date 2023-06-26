@@ -162,12 +162,16 @@ end, opts)
 local one_char = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXUZ123456789._-$~[]"
 for c in one_char:gmatch(".") do
     map("n", "f" .. c, function()
-        vim.fn.search("\\C^" .. vim.fn.escape(c, ".^$~[]"), "cw")
+        vim.fn.search("\\C^" .. vim.fn.escape(c, ".$~[]"), "cw")
     end, opts)
     map("n", "F" .. c, function()
-        vim.fn.search("\\C^" .. vim.fn.escape(c, ".^$~[]"), "cw")
+        vim.fn.search("\\C^" .. vim.fn.escape(c, ".$~[]"), "cw")
     end, opts)
 end
+
+-- Mark files with Tab
+map("n", "<Tab>", function() vim.cmd("normal mfj") end, opts)
+map("n", "<S-Tab>", function() vim.cmd("normal mfk") end, opts)
 
 -- options
 set.colorcolumn = ""
