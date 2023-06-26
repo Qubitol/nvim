@@ -203,39 +203,51 @@ M.plugins = {
 
 	lsp = {
 		n = {
-			["gD"] = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "[G]o to [D]eclaration of the term under the cursor" },
-			["g\\D"] = {
+			["gD"] = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "[G]o to [D]eclaration of identifier under the cursor" },
+			["<C-W>gD"] = {
 				"<cmd>vsplit | lua vim.lsp.buf.declaration()<CR>",
-				"[G]o to a vertical split (|) with [D]eclaration of the term under the cursor",
+				"Split [W]indow vertically and [G]o to [D]eclaration of identifier under the cursor",
 			},
-			["g-D"] = {
+			["<C-W><C-G>D"] = {
+				"<cmd>vsplit | lua vim.lsp.buf.declaration()<CR>",
+				"Same as \"CTRL-W gi\"",
+			},
+			["<C-W>D"] = {
 				"<cmd>split | lua vim.lsp.buf.declaration()<CR>",
-				"[G]o to a horizontal split (-) with [D]eclaration of the term under the cursor",
+				"Split [W]indow and jump to [D]eclaration of identifier under the cursor",
 			},
-			["gd"] = { "<cmd>lua vim.lsp.buf.definition()<CR>", "[G]o to [D]efinition of the term under the cursor" },
-			["g\\d"] = {
+			["<C-W>i"] = {
+				"<cmd>split | lua vim.lsp.buf.declaration()<CR>",
+				"Split [W]indow and jump to declaration of [I]dentifier under the cursor",
+			},
+			["<C-W><C-I>"] = {
+				"<cmd>split | lua vim.lsp.buf.declaration()<CR>",
+				"Same as \"CTRL-W i\"",
+			},
+			["gd"] = { "<cmd>lua vim.lsp.buf.definition()<CR>", "[G]o to [D]efinition under the cursor" },
+			["<C-W>gd"] = {
 				"<cmd>vsplit | lua vim.lsp.buf.definition()<CR>",
-				"[G]o to a vertical split (|) with [D]efinition of the term under the cursor",
+				"Split [W]indow vertically and [G]o to [D]efinition under the cursor",
 			},
-			["g-d"] = {
+			["<C-W><C-G>d"] = {
+				"<cmd>vsplit | lua vim.lsp.buf.definition()<CR>",
+				"Same as \"CTRL-W gd\"",
+			},
+			["<C-W>d"] = {
 				"<cmd>split | lua vim.lsp.buf.definition()<CR>",
-				"[G]o to a horizontal split (-) with [D]efinition of the term under the cursor",
+				"Split [W]indow and jump to [D]efinition under the cursor",
 			},
-			["gI"] = {
+			["<C-W><C-D>"] = {
+				"<cmd>split | lua vim.lsp.buf.definition()<CR>",
+				"Same as \"CTRL-W d\"",
+			},
+			["<leader>li"] = {
 				"<cmd>lua vim.lsp.buf.implementation()<CR>",
-				"[G]o to [I]mplementation of the term under the cursor",
+				"[L]ist of [I]mplementations under the cursor in quickfix window",
 			},
-			["g\\I"] = {
-				"<cmd>vsplit | lua vim.lsp.buf.implementation()<CR>",
-				"[G]o to a vertical split (|) with [I]mplementation of the term under the cursor",
-			},
-			["g-I"] = {
-				"<cmd>split | lua vim.lsp.buf.implementation()<CR>",
-				"[G]o to a horizontal split (-) with [I]mplementation of the term under the cursor",
-			},
-			["gr"] = {
+			["<leader>lr"] = {
 				"<cmd>lua vim.lsp.buf.references()<CR>",
-				"[G]o to list of [R]eferences in quickfix window of the term under the cursor",
+				"[L]ist of [R]eferences under the cursor in quickfix window",
 			},
 			-- ["gtd"] = {
 			--     "<cmd>vsplit | lua vim.lsp.buf.definition()<CR><C-w>T",
@@ -249,7 +261,7 @@ M.plugins = {
 				"<cmd>lua vim.lsp.buf.format({ async = true })<cr>",
 				"Run the [L]SP [F]ormatter on the current file",
 			},
-			["<leader>li"] = { "<cmd>LspInfo<cr>", "Show the [L]SP [I]nfo of the current file" },
+			["<leader>lI"] = { "<cmd>LspInfo<cr>", "Show the [L]SP [I]nfo of the current file" },
 			["<leader>ca"] = {
 				"<cmd>lua vim.lsp.buf.code_action()<cr>",
 				"Open possible LSP [C]ode [A]ctions for the diagnostic under the cursor",
@@ -262,9 +274,9 @@ M.plugins = {
 				"<cmd>lua vim.diagnostic.goto_prev({ buffer = 0 })<cr>zz",
 				"Go to previous [D]iagnostic, center viewport",
 			},
-			["<leader>rn"] = {
+			["<F2>"] = {
 				"<cmd>lua vim.lsp.buf.rename()<cr>",
-				"Run the LSP [R]e[N]aming tool on the term under the cursor",
+				"Rename the identifier under the cursor",
 			},
 			["<leader>H"] = {
 				"<cmd>lua vim.lsp.buf.signature_help()<CR>",
