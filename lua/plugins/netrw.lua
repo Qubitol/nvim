@@ -1,43 +1,47 @@
+local utils = require("core.utils")
+local mappings = require("core.mappings")
+local setup = vim.g
+
 local M = {}
 
 -- Netrw winsize
 -- @default = 20
-vim.g.netrw_winsize = 20
+setup.netrw_winsize = 20
 
 -- Netrw banner
 -- 0 : Disable banner
 -- 1 : Enable banner
-vim.g.netrw_banner = 0
+setup.netrw_banner = 0
 
 -- Keep the current directory and the browsing directory synced.
 -- This helps you avoid the move files error.
-vim.g.netrw_keepdir = 0
+setup.netrw_keepdir = 0
 
 -- Show directories first (sorting)
-vim.g.netrw_sort_sequence = [[[\/]$,*]]
+setup.netrw_sort_sequence = [[[\/]$,*]]
 
 -- Human-readable files sizes
-vim.g.netrw_sizestyle = "H"
+setup.netrw_sizestyle = "H"
 
 -- Netrw list style
 -- 0 : thin listing (one file per line)
 -- 1 : long listing (one file per line with timestamp information and file size)
 -- 2 : wide listing (multiple files in columns)
 -- 3 : tree style listing
-vim.g.netrw_liststyle = 0
+setup.netrw_liststyle = 0
 
 -- Patterns for hiding files, e.g. node_modules
 -- NOTE: this works by reading '.gitignore' file
-vim.g.netrw_list_hide = vim.fn["netrw_gitignore#Hide"]()
+setup.netrw_list_hide = vim.fn["netrw_gitignore#Hide"]()
 
 -- Show hidden files
 -- 0 : show all files
 -- 1 : show not-hidden files
 -- 2 : show hidden files only
-vim.g.netrw_hide = 0
+setup.netrw_hide = 0
 
 -- Preview files in a vertical split window
--- vim.g.netrw_preview = 1
+-- setup.netrw_preview = 1
 
 -- Open files in split
 -- 0 : re-use the same window (default)
@@ -45,22 +49,25 @@ vim.g.netrw_hide = 0
 -- 2 : vertically   splitting the window first
 -- 3 : open file in new tab
 -- 4 : act like "P" (ie. open previous window)
-vim.g.netrw_browse_split = 4
+setup.netrw_browse_split = 4
 
 -- Setup file operations commands
 -- TODO: figure out how to add these feature in Windows
 -- Enable recursive copy of directories in *nix systems
-vim.g.netrw_localcopydircmd = "cp -r"
+setup.netrw_localcopydircmd = "cp -r"
 
 -- Enable recursive creation of directories in *nix systems
-vim.g.netrw_localmkdir = "mkdir -p"
+setup.netrw_localmkdir = "mkdir -p"
 
 -- Enable recursive removal of directories in *nix systems
 -- NOTE: we use 'rm' instead of 'rmdir' (default) to be able to remove non-empty directories
-vim.g.netrw_localrmdir = "rm -r"
+setup.netrw_localrmdir = "rm -r"
 
 -- Highlight marked files in the same way search matches are
 vim.cmd("hi! link netrwMarkFile Search")
+
+-- Load generic mappings
+utils.load_mappings(mappings.plugins.netrw)
 
 -- Draw icons
 M.draw_icons = function()
@@ -157,6 +164,52 @@ M.force_filetype_netrw = function()
     vim.api.nvim_buf_set_option(0, "filetype", "netrw")
 end
 
+M.float_preview = function(opts)
+    local min_width = 40
+    local min_height = 15
+    if opts.width < min_width or opts.height < min_height then
+        return
+    end
+    local win = utils.get_preview_window()
+    if not win then
+        return
+    end
+    vim.api.nvim_win_set_option(win, "previewwindow", false)
+    local preview_window = vim.api.nvim_open_win(
+        -- rows are from 0 to n counting from 
+        vim.api.nvim_win_get_buf(win), false, {
+            relative = "editor",
+            width = opts.width,
+            height = opts.height,
+            row = opts.corner[1],
+            col = opts.corner[2],
+            anchor = "NW",
+            style = "minimal",
+            border = "rounded",
+        }
+    )
+    vim.api.nvim_win_close(win, true)
+    vim.api.nvim_win_set_option(preview_window, "previewwindow", true)
+end
+
+M.get_netrw_window = function()
+    local cur_tabpage_wins = vim.api.nvim_tabpage_list_wins(0)
+    for _, win_handle in ipairs(cur_tabpage_wins) do
+        if vim.api.nvim_win_call(win_handle, function() return vim.bo.filetype end) == "netrw" then
+            return win_handle
+        end
+    end
+    return false
+end
+
+M.go_to_netrw_window = function()
+    local win = M.get_netrw_window()
+    if win then
+        return vim.api.nvim_set_current_win(win)
+    end
+    M.toggle_netrw_current("L")
+end
+
 M.place_cursor = function()
     local cur_line = vim.api.nvim_win_get_cursor(0)[1]
     if cur_line < 3 then
@@ -166,30 +219,30 @@ end
 
 M.toggle_netrw = function(split, dir)
     -- Check if open: if so close (return false), otherwise open (return true)
-    local cur_tabpage_wins = vim.api.nvim_tabpage_list_wins(0)
-    for _, win_handle in ipairs(cur_tabpage_wins) do
-        local filetype = vim.api.nvim_win_call(win_handle, function() return vim.bo.filetype end)
-        if filetype == "netrw" then
-            -- if only one window shows netrw, do not do anything
-            if #cur_tabpage_wins == 1 then
-                return false
-            end
-            -- assuming only one netrw split is open
+    local win_handle = M.get_netrw_window()
+    if win_handle then
+        if #vim.api.nvim_tabpage_list_wins(0) ~= 1 then
             vim.api.nvim_win_close(win_handle, true)
-            return false
         end
+        return false
     end
     -- now we open netrw according to the split
-    local cmd = vim.api.nvim_parse_cmd(split .. "explore" .. dir, {})
+    local cmd = vim.api.nvim_parse_cmd(split .. "explore " .. dir, {})
     vim.api.nvim_cmd(cmd, {})
     -- force filetype to be 'netrw'
     M.force_filetype_netrw()
     return true
 end
 
--- Load generic mappings
-local utils = require("core.utils")
-local mappings = require("core.mappings")
-utils.load_mappings(mappings.plugins.netrw)
+M.toggle_netrw_current = function(split)
+    local head = vim.fn.expand("%:p:h")
+    local tail = vim.fn.expand("%:p:t")
+    vim.cmd("echo '" .. head .. "'")
+    local opened = M.toggle_netrw(split, head)
+    if not opened then
+        return
+    end
+    vim.fn.search("\\C^" .. vim.fn.escape(tail, ".^$~[]") .. "\\(@\\s\\+-->\\|\\*\\?$\\)\\?", "cW")
+end
 
 return M

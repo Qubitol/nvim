@@ -82,14 +82,9 @@ autocmd("QuitPre", {
         if filetype == "netrw" then
             return
         end
-        local cur_tabpage_wins = vim.api.nvim_tabpage_list_wins(0)
-        for _, win_handle in ipairs(cur_tabpage_wins) do
-            filetype = vim.api.nvim_win_call(win_handle, function() return vim.bo.filetype end)
-            if filetype == "netrw" then
-                -- assuming only one netrw split is open
-                vim.api.nvim_win_close(win_handle, true)
-                return
-            end
+        local win = netrw.get_netrw_window()
+        if win then
+            vim.api.nvim_win_close(win, true)
         end
     end,
 })

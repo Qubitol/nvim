@@ -1,5 +1,14 @@
 local M = {}
 
+M.call_cmd_in_preview_window = function(cmd)
+    local win = M.get_preview_window()
+    if not win then
+        return
+    end
+    local replaced_keys = vim.api.nvim_replace_termcodes("normal " .. cmd, true, true, true)
+    vim.api.nvim_win_call(win, function() vim.cmd(replaced_keys) end)
+end
+
 M.concat_file_lines = function(file_path)
 	local f = io.open(file_path)
 	if not f then
@@ -63,12 +72,11 @@ M.goto_lastplace = function()
     end
 end
 
-M.is_preview_window_open = function()
+M.get_preview_window = function()
     local cur_tabpage_wins = vim.api.nvim_tabpage_list_wins(0)
     for _, win_handle in ipairs(cur_tabpage_wins) do
-        local previewwindow = vim.api.nvim_win_get_option(win_handle, "previewwindow")
-        if previewwindow then
-            return true
+        if vim.api.nvim_win_get_option(win_handle, "previewwindow") then
+            return win_handle
         end
     end
     return false

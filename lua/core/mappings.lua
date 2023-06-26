@@ -359,27 +359,20 @@ M.plugins = {
 	netrw = {
 		n = {
 			["<leader>e"] = {
-				function()
-					local head = vim.fn.expand("%:p:h")
-					local tail = vim.fn.expand("%:p:t")
-					local opened = require("plugins.netrw").toggle_netrw("L", head)
-                    if not opened then
-                        return
-                    end
-					vim.fn.search("\\C^" .. vim.fn.escape(tail, ".^$~[]") .. "$", "cW")
-				end,
+				function() require("plugins.netrw").toggle_netrw_current("L") end,
 				"Toggle file [E]xplorer netrw on current directory with cursor on current file",
 			},
 			["<leader>E"] = {
-				function()
-					local opened = require("plugins.netrw").toggle_netrw("L", "")
-                    if not opened then
-                        return
-                    end
-					-- jump below ../ and ./
-					vim.cmd([[normal! 2j]])
-				end,
+				function() require("plugins.netrw").toggle_netrw("L", "") end,
 				"Toggle file [E]xplorer netrw on root directory",
+			},
+			["<C-W>e"] = {
+                function() require("plugins.netrw").go_to_netrw_window() end,
+				"Go to the [W]indow containing the file [E]xplorer netrw, if no such window is present, open it",
+			},
+			["<C-W><C-E>"] = {
+                function() require("plugins.netrw").go_to_netrw_window() end,
+				"Go to the [W]indow containing the file [E]xplorer netrw, if no such window is present, open it",
 			},
 		},
 	},
