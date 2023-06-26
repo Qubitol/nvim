@@ -3,9 +3,9 @@ local map = vim.keymap.set
 local opts = { buffer = true, noremap = true, silent = true }
 
 -- preview the diagnostic location
-map("n", "p", "<CR>zz<C-w>w", opts)
-map("n", "J", "j<CR>zz<C-w>w", opts)
-map("n", "K", "k<CR>zz<C-w>w", opts)
+map("n", "p", "<CR>zz<C-w>p", opts)
+map("n", "J", "j<CR>zz<C-w>p", opts)
+map("n", "K", "k<CR>zz<C-w>p", opts)
 
 -- remove element from quickfix
 -- map("n", "dd", "<cmd>setlocal modifiable<CR>dd<cmd>setlocal nomodifiable<CR>", opts)
