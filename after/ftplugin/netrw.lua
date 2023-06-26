@@ -155,7 +155,7 @@ map("n", "Y", [["+yy<cmd>let @+=@%.@+<CR>]], opts)
 -- Create file
 map("n", "f", function()
     local file_name = vim.fn.input("Enter filename: ")
-    vim.cmd("silent !touch " .. file_name)
+    vim.cmd("silent exec \"!touch " .. file_name .. "\"")
 end, opts)
 
 -- Quick one-character search
