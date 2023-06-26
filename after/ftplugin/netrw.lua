@@ -140,10 +140,18 @@ map("n", "K", function()
 end, opts)
 
 -- Scroll preview
-map("n", "<C-u>", function() utils.call_cmd_in_preview_window("<C-u>") end, opts)
-map("n", "<C-d>", function() utils.call_cmd_in_preview_window("<C-d>") end, opts)
-map("n", "<C-b>", function() utils.call_cmd_in_preview_window("<C-b>") end, opts)
-map("n", "<C-f>", function() utils.call_cmd_in_preview_window("<C-f>") end, opts)
+local function safe_call_in_preview_window(cmd)
+    if utils.call_cmd_in_preview_window(cmd) then
+        return
+    end
+    local replaced_keys = vim.api.nvim_replace_termcodes("normal! " .. cmd, true, true, true)
+    vim.cmd(replaced_keys)
+end
+
+map("n", "<C-u>", function() safe_call_in_preview_window("<C-u>") end, opts)
+map("n", "<C-d>", function() safe_call_in_preview_window("<C-d>") end, opts)
+map("n", "<C-b>", function() safe_call_in_preview_window("<C-b>") end, opts)
+map("n", "<C-f>", function() safe_call_in_preview_window("<C-f>") end, opts)
 
 -- Copy current selection in clipboard
 map("n", "y", [["+yy]], opts)

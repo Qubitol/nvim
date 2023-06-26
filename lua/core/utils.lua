@@ -3,10 +3,11 @@ local M = {}
 M.call_cmd_in_preview_window = function(cmd)
     local win = M.get_preview_window()
     if not win then
-        return
+        return false
     end
     local replaced_keys = vim.api.nvim_replace_termcodes("normal " .. cmd, true, true, true)
     vim.api.nvim_win_call(win, function() vim.cmd(replaced_keys) end)
+    return true
 end
 
 M.concat_file_lines = function(file_path)
