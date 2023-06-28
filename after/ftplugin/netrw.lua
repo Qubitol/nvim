@@ -15,11 +15,12 @@ map("n", "l", function()
     if win then
         vim.api.nvim_win_close(win, true)
     end
-    vim.cmd(replaced_keys)
+    vim.cmd(replaced_keys) -- TODO replace with normal P to open in previous window
     if not line:find("/$") then
         vim.api.nvim_win_close(netrw_win, true)
         return
     end
+    -- needed when changing directories
     netrw.force_filetype_netrw()
 end, opts)
 
@@ -101,43 +102,34 @@ map("n", "P", function()
 end, opts)
 
 -- Update preview if open
-local function is_cur_line_dir()
+local function _is_cur_line_dir()
     local cur_line = vim.api.nvim_win_get_cursor(0)
     local line = vim.fn.getline(cur_line[1])
     return line:find("/$")
 end
 
-map("n", "j", function()
+local function update_preview(move)
     local count = vim.api.nvim_get_vvar("count1")
-    vim.api.nvim_command("normal! " .. count .. "j") -- use "!" to avoid recursion and execute original version of j
-    if utils.get_preview_window() and not is_cur_line_dir() then
+    vim.api.nvim_command("normal! " .. count .. move) -- use "!" to avoid recursion and execute original version of j
+    local pwin = utils.get_preview_window()
+    if pwin and not _is_cur_line_dir() then
+        local pbuf = vim.api.nvim_win_get_buf(pwin)
         vim.cmd("normal P") -- no "!" because we need to execute what p is mapped to
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+            if vim.api.nvim_win_get_option(win, "previewwindow") == true then
+                goto continue
+            end
+            if pbuf == vim.api.nvim_win_get_buf(win) then
+                return
+            end
+            ::continue::
+        end
+        vim.api.nvim_buf_delete(pbuf, { force = true })
     end
-end, opts)
+end
 
-map("n", "k", function()
-    local count = vim.api.nvim_get_vvar("count1")
-    vim.api.nvim_command("normal! " .. count .. "k")
-    if utils.get_preview_window() and not is_cur_line_dir() then
-        vim.cmd("normal P")
-    end
-end, opts)
-
-map("n", "J", function() -- like the lowercase but always open the preview
-    local count = vim.api.nvim_get_vvar("count1")
-    vim.api.nvim_command("normal! " .. count .. "j")
-    if not is_cur_line_dir() then
-        vim.cmd("normal P")
-    end
-end, opts)
-
-map("n", "K", function()
-    local count = vim.api.nvim_get_vvar("count1")
-    vim.api.nvim_command("normal! " .. count .. "k")
-    if not is_cur_line_dir() then
-        vim.cmd("normal P")
-    end
-end, opts)
+map("n", "j", function() update_preview("j") end, opts)
+map("n", "k", function() update_preview("k") end, opts)
 
 -- Scroll preview
 local function safe_call_in_preview_window(cmd)
@@ -192,6 +184,7 @@ set.list = false
 set.scrolloff = 0
 set.timeout = true
 set.timeoutlen = 500
+set.bufhidden = "wipe" -- remove annoying NoName hidden buffers
 
 -- highlighting groups
 set.winhighlight = "Normal:FileBrowser"

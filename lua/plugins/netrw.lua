@@ -156,11 +156,7 @@ end
 M.force_filetype_netrw = function()
     -- used to force the filetype to be 'netrw' because sometimes it gets
     -- it wrong and it is very annoying
-    -- local netrw_buf = vim.api.nvim_win_get_buf(0)
-    local filetype = vim.api.nvim_win_call(0, function() return vim.bo.filetype end)
-    if filetype == "netrw" then
-        return
-    end
+    if vim.api.nvim_buf_get_option(0, "filetype") == "netrw" then return end
     vim.api.nvim_buf_set_option(0, "filetype", "netrw")
 end
 
@@ -195,7 +191,7 @@ end
 M.get_netrw_window = function()
     local cur_tabpage_wins = vim.api.nvim_tabpage_list_wins(0)
     for _, win_handle in ipairs(cur_tabpage_wins) do
-        if vim.api.nvim_win_call(win_handle, function() return vim.bo.filetype end) == "netrw" then
+        if vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(win_handle), "filetype") == "netrw" then
             return win_handle
         end
     end
@@ -211,10 +207,7 @@ M.go_to_netrw_window = function()
 end
 
 M.place_cursor = function()
-    local cur_line = vim.api.nvim_win_get_cursor(0)[1]
-    if cur_line < 3 then
-        vim.cmd[[normal 3G]]
-    end
+    if vim.api.nvim_win_get_cursor(0)[1] < 3 then vim.cmd[[normal 3G]] end
 end
 
 M.toggle_netrw = function(split, dir)
@@ -237,7 +230,6 @@ end
 M.toggle_netrw_current = function(split)
     local head = vim.fn.expand("%:p:h")
     local tail = vim.fn.expand("%:p:t")
-    vim.cmd("echo '" .. head .. "'")
     local opened = M.toggle_netrw(split, head)
     if not opened then
         return

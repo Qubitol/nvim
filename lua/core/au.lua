@@ -78,8 +78,7 @@ autocmd("QuitPre", {
     pattern = "*",
     callback = function()
         -- if current window is netrw do not do anything
-        local filetype = vim.api.nvim_win_call(0, function() return vim.bo.filetype end)
-        if filetype == "netrw" then
+        if vim.api.nvim_buf_get_option(0, "filetype") == "netrw" then
             return
         end
         local win = netrw.get_netrw_window()
@@ -88,3 +87,20 @@ autocmd("QuitPre", {
         end
     end,
 })
+--
+-- autocmd("BufLeave", {
+--     group = netrw_group,
+--     callback = function(opts)
+--         if not vim.api.nvim_win_get_option(0, "previewwindow") then return end
+--         for _, win in ipairs(vim.api.nvim_list_wins()) do
+--             if vim.api.nvim_win_get_option(win, "previewwindow") == true then
+--                 goto continue
+--             end
+--             if opts.buf == vim.api.nvim_win_get_buf(win) then
+--                 return
+--             end
+--             ::continue::
+--         end
+--         vim.api.nvim_buf_delete(opts.buf, { force = true })
+--     end,
+-- })
