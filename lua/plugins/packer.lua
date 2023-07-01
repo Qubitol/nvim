@@ -202,16 +202,16 @@ return require("packer").startup(function(use)
     })
 
     -- Task runner
-    use({
-        "stevearc/overseer.nvim",
-        commit = "92e4ba8d51191365e1da63f1f1f0e48efbd4ada7",
-    })
+    -- use({
+    --     "stevearc/overseer.nvim",
+    --     commit = "92e4ba8d51191365e1da63f1f1f0e48efbd4ada7",
+    -- })
 
     -- Quickfix list improvement
-    use({
-        "yorickpeterse/nvim-pqf",
-        commit = "0c83602f9b3de057c5d4bf76e849c3d589a1d836",
-    })
+    -- use({
+    --     "yorickpeterse/nvim-pqf",
+    --     commit = "0c83602f9b3de057c5d4bf76e849c3d589a1d836",
+    -- })
 
     -- LaTeX
     use({
