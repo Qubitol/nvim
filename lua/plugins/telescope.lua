@@ -161,7 +161,7 @@ telescope.setup({
 		color_devicons = true,
 		mappings = {
 			i = {
-				["<C-t>"] = actions_layout.toggle_preview,
+				["<C-/>"] = actions_layout.toggle_preview,
 				["<C-l>"] = actions.cycle_previewers_next,
 				["<C-h>"] = actions.cycle_previewers_prev,
 				["<C-j>"] = actions.move_selection_next,
@@ -171,7 +171,7 @@ telescope.setup({
                 ["<M-q>"] = actions.nop, -- clash with map from tmux
 			},
             n = {
-				["<C-t>"] = actions_layout.toggle_preview,
+				["<C-/>"] = actions_layout.toggle_preview,
 				["<C-l>"] = actions.cycle_previewers_next,
 				["<C-h>"] = actions.cycle_previewers_prev,
                 ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
@@ -215,7 +215,7 @@ telescope.setup({
 					["<CR>"] = stopinsert(custom_actions.multi_selection_open),
 				},
 				n = {
-					["dd"] = actions.delete_buffer,
+					["d"] = actions.delete_buffer,
 					["<C-v>"] = custom_actions.multi_selection_open_vertical,
 					["<C-s>"] = custom_actions.multi_selection_open_horizontal,
 					["<C-t>"] = custom_actions.multi_selection_open_tab,

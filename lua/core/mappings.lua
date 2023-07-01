@@ -54,7 +54,7 @@ M.general = {
 			[[<cmd>cd `=expand("%:p:h")`<CR>]],
 			"[C]hange current [D]irectory to the base directory of the active buffer",
 		},
-		["<leader>ct"] = {
+		["<leader>tcd"] = {
 			[[<cmd>tcd `=expand("%:p:h")`<CR>]],
 			"[C]hange current directory to the base directory of the active buffer, locally to the [T]ab page",
 		},
@@ -133,8 +133,8 @@ M.plugins = {
 			["<leader>hr"] = { "<cmd>Gitsigns reset_hunk<CR>", "Consider the current [H]unk and [R]eset it" },
 			["<leader>hu"] = { "<cmd>Gitsigns undo_stage_hunk<CR>", "Consider the current [H]unk and [U]nstage it" },
 			["<leader>hp"] = { "<cmd>Gitsigns preview_hunk<CR>", "Consider the current [H]unk and [P]review it" },
-			["<leader>td"] = { "<cmd>Gitsigns toggle_current_line_blame<CR>", "[T]oggle inline [B]lame" },
-			["<leader>tb"] = { "<cmd>Gitsigns toggle_deleted<CR>", "[T]oggle [D]eleted lines" },
+			["<leader>tb"] = { "<cmd>Gitsigns toggle_current_line_blame<CR>", "[T]oggle inline [B]lame" },
+			["<leader>td"] = { "<cmd>Gitsigns toggle_deleted<CR>", "[T]oggle [D]eleted lines" },
 			["<leader>tB"] = {
 				function()
 					package.loaded.gitsigns.blame_line({ full = true })
