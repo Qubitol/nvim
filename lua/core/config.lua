@@ -23,7 +23,7 @@ set.clipboard = "unnamedplus"
 
 -- Time
 set.timeout = false
-set.ttimeout = true
+set.ttimeout = false
 set.ttimeoutlen = 200
 set.updatetime = 250
 

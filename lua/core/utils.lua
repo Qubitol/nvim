@@ -10,6 +10,14 @@ M.call_cmd_in_preview_window = function(cmd)
     return true
 end
 
+M.safe_call_in_preview_window = function(cmd)
+    if M.call_cmd_in_preview_window(cmd) then
+        return
+    end
+    local replaced_keys = vim.api.nvim_replace_termcodes("normal! " .. cmd, true, true, true)
+    vim.cmd(replaced_keys)
+end
+
 M.concat_file_lines = function(file_path)
 	local f = io.open(file_path)
 	if not f then

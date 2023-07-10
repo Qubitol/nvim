@@ -5,24 +5,7 @@ local map = vim.keymap.set
 local opts = { buffer = true, noremap = true, silent = true }
 
 -- Open file and close netrw
-map("n", "l", function()
-    local netrw_win = vim.api.nvim_get_current_win()
-    local cur_line = vim.api.nvim_win_get_cursor(0)[1]
-    local line = vim.fn.getline(cur_line)
-    local replaced_keys = vim.api.nvim_replace_termcodes("normal <CR>", true, true, true)
-    -- close preview window if open
-    local win = utils.get_preview_window()
-    if win then
-        vim.api.nvim_win_close(win, true)
-    end
-    vim.cmd(replaced_keys) -- TODO replace with normal P to open in previous window
-    if not line:find("/$") then
-        vim.api.nvim_win_close(netrw_win, true)
-        return
-    end
-    -- needed when changing directories
-    netrw.force_filetype_netrw()
-end, opts)
+map("n", "l", netrw.forward, opts)
 
 -- Go up with h
 -- apparently, I could not do simply
@@ -31,15 +14,7 @@ end, opts)
 -- (at the end I also needed to put other stuff in the function, but I keep
 -- this thing here as a note)
 -- map("n", "h", function() vim.cmd("normal -") end, opts)
-map("n", "h", function()
-    -- close preview window if open
-    local win = utils.get_preview_window()
-    if win then
-        vim.api.nvim_win_close(win, true)
-    end
-    vim.cmd("normal -")
-    netrw.force_filetype_netrw()
-end, opts)
+map("n", "h", netrw.backward, opts)
 
 -- Preview
 map("n", "P", function()
@@ -49,11 +24,11 @@ map("n", "P", function()
     -- Check if only one window (which is netrw buffer)
     if #vim.api.nvim_tabpage_list_wins(0) == 1 then
         -- if only one window that is the file explorer: spawn float starting from the size specified for Lexplore + scrolloff
-        local netrw_winsize = vim.api.nvim_get_var("netrw_winsize")
+        local explorer_winsize = vim.api.nvim_get_var("explorer_winsize")
         vim.cmd("normal p")
         netrw.float_preview({
-            corner = { scrolloff, netrw_winsize + scrolloff },
-            width = explorer_width - netrw_winsize - 2*scrolloff,
+            corner = { scrolloff, explorer_winsize + scrolloff },
+            width = explorer_width - explorer_winsize - 2*scrolloff,
             height = explorer_height - 2*scrolloff,
         })
         return
@@ -102,17 +77,11 @@ map("n", "P", function()
 end, opts)
 
 -- Update preview if open
-local function _is_cur_line_dir()
-    local cur_line = vim.api.nvim_win_get_cursor(0)
-    local line = vim.fn.getline(cur_line[1])
-    return line:find("/$")
-end
-
 local function update_preview(move)
     local count = vim.api.nvim_get_vvar("count1")
     vim.api.nvim_command("normal! " .. count .. move) -- use "!" to avoid recursion and execute original version of j
     local pwin = utils.get_preview_window()
-    if pwin and not _is_cur_line_dir() then
+    if pwin and not netrw._is_cur_line_dir() then
         local pbuf = vim.api.nvim_win_get_buf(pwin)
         vim.cmd("normal P") -- no "!" because we need to execute what p is mapped to
         for _, win in ipairs(vim.api.nvim_list_wins()) do
@@ -132,46 +101,33 @@ map("n", "j", function() update_preview("j") end, opts)
 map("n", "k", function() update_preview("k") end, opts)
 
 -- Scroll preview
-local function safe_call_in_preview_window(cmd)
-    if utils.call_cmd_in_preview_window(cmd) then
-        return
-    end
-    local replaced_keys = vim.api.nvim_replace_termcodes("normal! " .. cmd, true, true, true)
-    vim.cmd(replaced_keys)
-end
+map("n", "<C-u>", function() utils.safe_call_in_preview_window("<C-u>") end, opts)
+map("n", "<C-d>", function() utils.safe_call_in_preview_window("<C-d>") end, opts)
+map("n", "<C-b>", function() utils.safe_call_in_preview_window("<C-b>") end, opts)
+map("n", "<C-f>", function() utils.safe_call_in_preview_window("<C-f>") end, opts)
 
-map("n", "<C-u>", function() safe_call_in_preview_window("<C-u>") end, opts)
-map("n", "<C-d>", function() safe_call_in_preview_window("<C-d>") end, opts)
-map("n", "<C-b>", function() safe_call_in_preview_window("<C-b>") end, opts)
-map("n", "<C-f>", function() safe_call_in_preview_window("<C-f>") end, opts)
-
--- Copy current selection in clipboard
-map("n", "y", [["+yy]], opts)
-
--- Copy current selection full path in clipboard
--- (the path of the directory in netrw contains the trailing /)
-map("n", "Y", [["+yy<cmd>let @+=@%.@+<CR>]], opts)
+-- Copy path in clipboard
+map("n", "y", netrw.yank_path_under_cursor, opts)
+map("n", "Y", netrw.yank_relative_path_under_cursor, opts)
+map("n", "<C-Y>", netrw.yank_full_path_under_cursor, opts)
 
 -- Create file
-map("n", "f", function()
-    local file_name = vim.fn.input("Enter filename: ")
-    vim.cmd("silent exec \"!touch " .. file_name .. "\"")
-end, opts)
+map("n", "f", netrw.create_file, opts)
 
 -- Quick one-character search
-local one_char = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXUZ123456789._-$~[]"
-for c in one_char:gmatch(".") do
-    map("n", "f" .. c, function()
-        vim.fn.search("\\C^" .. vim.fn.escape(c, ".$~[]"), "cw")
-    end, opts)
-    map("n", "F" .. c, function()
-        vim.fn.search("\\C^" .. vim.fn.escape(c, ".$~[]"), "cw")
-    end, opts)
-end
+-- local one_char = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXUZ123456789._-$~[]"
+-- for c in one_char:gmatch(".") do
+--     map("n", "f" .. c, function()
+--         vim.fn.search("\\C^" .. vim.fn.escape(c, ".$~[]"), "cw")
+--     end, opts)
+--     map("n", "F" .. c, function()
+--         vim.fn.search("\\C^" .. vim.fn.escape(c, ".$~[]"), "cw")
+--     end, opts)
+-- end
 
 -- Mark files with Tab
-map("n", "<Tab>", function() vim.cmd("normal mfj") end, opts)
-map("n", "<S-Tab>", function() vim.cmd("normal mfk") end, opts)
+map("n", "<Tab>", netrw.mark_and_go_down, opts)
+map("n", "<S-Tab>", netrw.mark_and_go_up, opts)
 
 -- options
 set.colorcolumn = ""
@@ -182,8 +138,6 @@ set.cursorline = true
 set.wrap = false
 set.list = false
 set.scrolloff = 0
-set.timeout = true
-set.timeoutlen = 500
 set.bufhidden = "wipe" -- remove annoying NoName hidden buffers
 
 -- highlighting groups

@@ -371,19 +371,19 @@ M.plugins = {
 	netrw = {
 		n = {
 			["<leader>e"] = {
-				function() require("plugins.netrw").toggle_netrw_current("L") end,
+				function() require("plugins.netrw").toggle_explorer_current("L", false) end,
 				"Toggle file [E]xplorer netrw on current directory with cursor on current file",
 			},
 			["<leader>E"] = {
-				function() require("plugins.netrw").toggle_netrw("L", "") end,
+				function() require("plugins.netrw").toggle_explorer("L", "", false) end,
 				"Toggle file [E]xplorer netrw on root directory",
 			},
 			["<C-W>e"] = {
-                function() require("plugins.netrw").go_to_netrw_window() end,
+                function() require("plugins.netrw").go_to_explorer_window() end,
 				"Go to the [W]indow containing the file [E]xplorer netrw, if no such window is present, open it",
 			},
 			["<C-W><C-E>"] = {
-                function() require("plugins.netrw").go_to_netrw_window() end,
+                function() require("plugins.netrw").go_to_explorer_window() end,
 				"Go to the [W]indow containing the file [E]xplorer netrw, if no such window is present, open it",
 			},
 		},
