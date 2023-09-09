@@ -28,26 +28,26 @@ local autosnippets = {
         trig = "cha",
         dscr = "Chapter"
     },
-        c(1, {
-            sn(nil, fmta(
-                [[
-                    \chapter{<>}
-
-                ]],
-                { r(1, "the_title") }
-            )),
-            sn(nil, fmta(
-                [[
-                    \chapter{<>}
-                    \label{ch:<>}
-
-                ]],
-                {
-                    r(1, "the_title"),
-                    f(set_label, {1}),
-                }
-            ))
-        }),
+        -- c(1, {
+        --     sn(nil, fmta(
+        --         [[
+        --             \chapter{<>}
+        --
+        --         ]],
+        --         { r(1, "the_title") }
+        --     )),
+        --     sn(nil, fmta(
+        --         [[
+        --             \chapter{<>}
+        --             \label{ch:<>}
+        --
+        --         ]],
+        --         {
+        --             r(1, "the_title"),
+        --             f(set_label, {1}),
+        --         }
+        --     ))
+        -- }),
         -- c(1, {
         --     sn(nil, { t("\\chapter{"), r(1, "the_title"), t({ "}", "" }) }),
         --     sn(nil, {
@@ -55,10 +55,22 @@ local autosnippets = {
         --         t("\\label{ch:"), f(set_label, {1}), t({ "}", "" })
         --     })
         -- })},
-        {
-            stored = { ["the_title"] = i(1, "title") },
-            condition = conds.line_begin
-        }
+        -- {
+        --     stored = { ["the_title"] = i(1, "title") },
+        --     condition = conds.line_begin
+        -- }
+        fmta(
+            [[
+                \chapter{<>}
+                \label{ch:<>}
+
+            ]],
+            {
+                i(1, "title"),
+                f(set_label, {1}),
+            }
+        ),
+        { condition = conds.line_begin }
     ),
 
     s({
