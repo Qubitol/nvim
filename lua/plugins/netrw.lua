@@ -69,6 +69,11 @@ vim.cmd("hi! link netrwMarkFile Search")
 -- Load generic mappings
 utils.load_mappings(mappings.plugins.netrw)
 
+M.margin_top_bottom = 0.05 -- fraction
+M.margin_left_right = 0.1 -- fraction
+M.min_width = 40 -- columns
+M.min_height = 15 -- rows
+
 M.backward = function()
     -- close preview window if open
     local win = utils.get_preview_window()
@@ -284,6 +289,12 @@ end
 
 M.get_explorer_window = function()
     return next(M._get_current_neatrw_branch())
+end
+
+M.go_down_and_open_preview = function()
+end
+
+M.go_up_and_open_preview = function()
 end
 
 M.go_to_explorer_window = function()

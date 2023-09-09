@@ -97,8 +97,8 @@ local function update_preview(move)
     end
 end
 
-map("n", "j", function() update_preview("j") end, opts)
-map("n", "k", function() update_preview("k") end, opts)
+map("n", "J", netrw.go_down_and_open_preview, opts)
+map("n", "K", netrw.go_up_and_open_preview, opts)
 
 -- Scroll preview
 map("n", "<C-u>", function() utils.safe_call_in_preview_window("<C-u>") end, opts)
