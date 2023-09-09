@@ -127,9 +127,13 @@ local vimgrep_arguments = { unpack(telescope_config.values.vimgrep_arguments) }
 
 -- I want to search in hidden/dot files.
 table.insert(vimgrep_arguments, "--hidden")
--- I don't want to search in the `.git` directory.
+-- I don't want to search in the VCS directories.
 table.insert(vimgrep_arguments, "--glob")
 table.insert(vimgrep_arguments, "!**/.git/*")
+table.insert(vimgrep_arguments, "--glob")
+table.insert(vimgrep_arguments, "!**/.bzr/*")
+table.insert(vimgrep_arguments, "--glob")
+table.insert(vimgrep_arguments, "!**/.bare/*")
 
 telescope.setup({
 	defaults = {
@@ -187,7 +191,7 @@ telescope.setup({
 			-- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
 			-- find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
             find_command = { "fd", "--type", "f", "--threads", "4", "--color", "never", "--relative-path", "--hidden",
-                "--exclude", "**/.git/*", "--exclude", "**/.bzr/*", "." },
+                "--exclude", "**/.git/*", "--exclude", "**/.bzr/*", "--exclude", "**/.bare/*", "." },
 			mappings = {
 				i = {
 					["<C-v>"] = stopinsert(custom_actions.multi_selection_open_vertical),
