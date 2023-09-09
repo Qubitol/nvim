@@ -62,8 +62,6 @@ M.general = {
 		["<leader>D"] = { [["_D]], "Delete without polluting the register" },
 		["<leader>c"] = { [["_c]], "Change without polluting the register" },
 		["<leader>C"] = { [["_C]], "Change without polluting the register" },
-		[ [[<C-w>\]] ] = { ":vsplit<CR>", "Split current window vertically |" },
-		[ [[<C-w>-]] ] = { ":split<CR>", "Split current window horizontally -" },
 		["<leader>tq"] = { require("core.utils").toggle_qf, "[T]oggle [Q]uickfix list" },
 	},
 	v = {
@@ -106,27 +104,29 @@ M.plugins = {
 			["]c"] = {
 				function()
 					if vim.wo.diff then
-						return "]c"
+                        vim.fn.search("^\\(<<<<<<<\\||||||||\\|=======\\|>>>>>>>\\)$", "csw")
+						return "<Ignore>"
 					end
 					vim.schedule(function()
 						package.loaded.gitsigns.next_hunk()
 					end)
 					return "<Ignore>"
 				end,
-				"Go to the next [C]hange (git hunk)",
+				"Go to the next [C]hange (git hunk) or [C]onflict marker (in diff mode)",
 				{ expr = true },
 			},
 			["[c"] = {
 				function()
 					if vim.wo.diff then
-						return "[c"
+                        vim.fn.search("^\\(>>>>>>>\\|=======\\||||||||\\|<<<<<<<\\)$", "csw")
+						return "<Ignore>"
 					end
 					vim.schedule(function()
 						package.loaded.gitsigns.prev_hunk()
 					end)
 					return "<Ignore>"
 				end,
-				"Go to the previous [C]hange (git hunk)",
+				"Go to the previous [C]hange (git hunk) or [C]onflict marker (in diff mode)",
 				{ expr = true },
 			},
 			["<leader>hs"] = { "<cmd>Gitsigns stage_hunk<CR>", "Consider the current [H]unk and [S]tage it" },
@@ -210,19 +210,11 @@ M.plugins = {
 			},
 			["<C-W><C-G>D"] = {
 				"<cmd>vsplit | lua vim.lsp.buf.declaration()<CR>",
-				"Same as \"CTRL-W gi\"",
+				"Same as \"CTRL-W gD\"",
 			},
 			["<C-W>D"] = {
 				"<cmd>split | lua vim.lsp.buf.declaration()<CR>",
 				"Split [W]indow and jump to [D]eclaration of identifier under the cursor",
-			},
-			["<C-W>i"] = {
-				"<cmd>split | lua vim.lsp.buf.declaration()<CR>",
-				"Split [W]indow and jump to declaration of [I]dentifier under the cursor",
-			},
-			["<C-W><C-I>"] = {
-				"<cmd>split | lua vim.lsp.buf.declaration()<CR>",
-				"Same as \"CTRL-W i\"",
 			},
 			["gd"] = { "<cmd>lua vim.lsp.buf.definition()<CR>", "[G]o to [D]efinition under the cursor" },
 			["<C-W>gd"] = {
@@ -407,54 +399,58 @@ M.plugins = {
 		},
 	},
 
-	telescope = {
-		n = {
-			["<leader>fo"] = { "<cmd>Telescope find_files<CR>", "Telescope over files -- [F]ind [O]pen" },
-			["<leader>fb"] = { "<cmd>Telescope buffers<CR>", "Telescope over loaded buffers -- [F]ind [B]uffers" },
-			["<leader>ft"] = { "<cmd>Telescope aerial<CR>", "Telescope over documents tags -- [F]ind [T]ags" },
-			["<leader>fq"] = {
-				"<cmd>Telescope quickfixhistory<CR>",
-				"Telescope over quickfix lists history -- [F]ind [Q]uickfix",
-			},
-			["<leader>/"] = {
-				function()
-					require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-						winblend = 10,
-						previewer = false,
-					}))
-				end,
-				"Fuzzy search in current buffer [/]",
-			},
-			["<leader>go"] = { "<cmd>Telescope live_grep<CR>", "Live grep over files -- [G]rep [O]pen" },
-			["<leader>gt"] = {
-				"<cmd>Telescope grep_string<CR>",
-				"Live grep of the word under the cursor -- [G]rep [T]his",
-			},
-			["<leader>sf"] = {
-				"<cmd>Telescope lsp_document_symbols<CR>",
-				"Telescope over LSP [S]ymbols in the current [F]ile",
-			},
-			["<leader>sw"] = {
-				"<cmd>Telescope lsp_workspace_symbols<CR>",
-				"Telescope over LSP [S]ymbols in the current [W]orkspace",
-			},
-			["<leader>gl"] = { "<cmd>Telescope git_commits<CR>", "Telescope over [G]it [L]og" },
-			["<leader>gb"] = { "<cmd>Telescope git_branches<CR>", "Telescope over [G]it [B]ranches" },
-			["<leader>gz"] = {
-				"<cmd>Telescope git_stash<CR>",
-				"Telescope over [G]it Stashes (mnemonic: S is similar to [Z])",
-			},
-			["<leader>gw"] = {
-				[[<cmd>lua require("telescope").extensions.git_worktree.git_worktrees()<CR>]],
-				"Open a different [G]it [W]orktree",
-			},
-			["<leader>gW"] = {
-				[[<cmd>lua require("telescope").extensions.git_worktree.create_git_worktree()<CR>]],
-				"Run `git worktree add ...`, choosing the branch with Telescope -- [G]it [W]orktree",
-			},
-			["<leader>ff"] = { "<cmd>Telescope resume<CR>", "Resume latest Telescope search -- [F]ind [F]ind" },
-		},
-	},
+    telescope = {
+        n = {
+            ["<leader>fo"] = { "<cmd>Telescope find_files<CR>", "Telescope over files -- [F]ind [O]pen" },
+            ["<leader>fb"] = { "<cmd>Telescope buffers<CR>", "Telescope over loaded buffers -- [F]ind [B]uffers" },
+            ["<leader>ft"] = { "<cmd>Telescope aerial<CR>", "Telescope over documents tags -- [F]ind [T]ags" },
+            ["<leader>fq"] = {
+                "<cmd>Telescope quickfixhistory<CR>",
+                "Telescope over quickfix lists history -- [F]ind [Q]uickfix",
+            },
+            ["<leader>/"] = {
+                function()
+                    require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+                        winblend = 0,
+                        previewer = false,
+                    }))
+                end,
+                "Fuzzy search in current buffer [/]",
+            },
+            ["<leader>go"] = { "<cmd>Telescope live_grep<CR>", "Live grep over files -- [G]rep [O]pen" },
+            ["<leader>gt"] = {
+                "<cmd>Telescope grep_string<CR>",
+                "Live grep of the word under the cursor -- [G]rep [T]his",
+            },
+            ["<leader>sf"] = {
+                "<cmd>Telescope lsp_document_symbols<CR>",
+                "Telescope over LSP [S]ymbols in the current [F]ile",
+            },
+            ["<leader>sw"] = {
+                "<cmd>Telescope lsp_workspace_symbols<CR>",
+                "Telescope over LSP [S]ymbols in the current [W]orkspace",
+            },
+            ["<leader>gl"] = { "<cmd>Telescope git_commits<CR>", "Telescope over [G]it [L]og, checkout on enter" },
+            ["<leader>gc"] = { "<cmd>Telescope git_bcommits<CR>", "Telescope over [G]it [C]ommits on the current buffer, checkout on enter" },
+            ["<leader>gb"] = { "<cmd>Telescope git_branches<CR>", "Telescope over [G]it [B]ranches, switch on enter" },
+            ["<leader>gz"] = {
+                "<cmd>Telescope git_stash<CR>",
+                "Telescope over [G]it Stashes (mnemonic: S is similar to [Z])",
+            },
+            ["<leader>gw"] = {
+                [[<cmd>lua require("telescope").extensions.git_worktree.git_worktrees()<CR>]],
+                "Open a different [G]it [W]orktree",
+            },
+            ["<leader>gW"] = {
+                [[<cmd>lua require("telescope").extensions.git_worktree.create_git_worktree()<CR>]],
+                "Run `git worktree add ...`, choosing the branch with Telescope -- [G]it [W]orktree",
+            },
+            ["<leader>ff"] = { "<cmd>Telescope resume<CR>", "Resume latest Telescope search -- [F]ind [F]ind" },
+        },
+        v = {
+            ["<leader>gc"] = { "<cmd>Telescope git_bcommits_range<CR>", "Telescope over [G]it [C]ommits on the selected range of lines, checkout on enter" },
+        },
+    },
 
 	undotree = {
 		n = {

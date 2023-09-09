@@ -219,7 +219,8 @@ telescope.setup({
 					["<CR>"] = stopinsert(custom_actions.multi_selection_open),
 				},
 				n = {
-					["d"] = actions.delete_buffer,
+					["D"] = actions.delete_buffer,
+					["dd"] = actions.delete_buffer,
 					["<C-v>"] = custom_actions.multi_selection_open_vertical,
 					["<C-s>"] = custom_actions.multi_selection_open_horizontal,
 					["<C-t>"] = custom_actions.multi_selection_open_tab,
