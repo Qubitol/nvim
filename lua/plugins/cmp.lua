@@ -139,11 +139,18 @@ cmp.setup({
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
         -- Accept/Abort
         ["<C-Space>"] = cmp.config.disable,
+        -- ["<C-y>"] = cmp.config.disable,
         ["<C-y>"] = cmp.mapping({
-            i = cmp.mapping.confirm({
-                behavior = cmp.ConfirmBehavior.Insert,
-                select = true
-            }),
+            i = function(fallback)
+                if cmp.visible() then
+                    cmp.confirm({
+                        behavior = cmp.ConfirmBehavior.Insert,
+                        select = true,
+                    })
+                else
+                    fallback()
+                end
+            end,
             s = cmp.mapping.confirm({
                 select = true
             }),
@@ -156,53 +163,53 @@ cmp.setup({
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
         }),
-        ["<CR>"] = cmp.mapping({
-            i = function(fallback)
-                if cmp.visible() and cmp.get_active_entry() then
-                    cmp.confirm({
-                        behavior = cmp.ConfirmBehavior.Insert,
-                        select = false,
-                    })
-                else
-                    fallback()
-                end
-            end,
-            s = cmp.mapping.confirm({
-                select = true
-            }),
-            c = function(fallback)
-                if cmp.visible() and cmp.get_active_entry() then
-                    cmp.confirm({
-                        behavior = cmp.ConfirmBehavior.Insert,
-                        select = false,
-                    })
-                else
-                    fallback()
-                end
-            end,
-        }),
-        -- Multi-purpose Tab
-        ["<Tab>"] = cmp.mapping(function(fallback)
-            if luasnip.expand_or_locally_jumpable() then
-                luasnip.expand_or_jump()
-            elseif cmp.visible() then
-                cmp.select_next_item()
-            -- elseif has_words_before() then
-            --     cmp.complete()
-            else
-                fallback()
-            end
-        end, { "i", "s" }),
-        -- Multi-purpose Shift+Tab
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if luasnip.locally_jumpable(-1) then
-                luasnip.jump(-1)
-            elseif cmp.visible() then
-                cmp.select_prev_item()
-            else
-                fallback()
-            end
-        end, { "i", "s" }),
+        -- ["<CR>"] = cmp.mapping({
+        --     i = function(fallback)
+        --         if cmp.visible() and cmp.get_active_entry() then
+        --             cmp.confirm({
+        --                 behavior = cmp.ConfirmBehavior.Insert,
+        --                 select = false,
+        --             })
+        --         else
+        --             fallback()
+        --         end
+        --     end,
+        --     s = cmp.mapping.confirm({
+        --         select = true
+        --     }),
+        --     c = function(fallback)
+        --         if cmp.visible() and cmp.get_active_entry() then
+        --             cmp.confirm({
+        --                 behavior = cmp.ConfirmBehavior.Insert,
+        --                 select = false,
+        --             })
+        --         else
+        --             fallback()
+        --         end
+        --     end,
+        -- }),
+        -- -- Multi-purpose Tab
+        -- ["<Tab>"] = cmp.mapping(function(fallback)
+        --     if luasnip.expand_or_locally_jumpable() then
+        --         luasnip.expand_or_jump()
+        --     elseif cmp.visible() then
+        --         cmp.select_next_item()
+        --     -- elseif has_words_before() then
+        --     --     cmp.complete()
+        --     else
+        --         fallback()
+        --     end
+        -- end, { "i", "s" }),
+        -- -- Multi-purpose Shift+Tab
+        -- ["<S-Tab>"] = cmp.mapping(function(fallback)
+        --     if luasnip.locally_jumpable(-1) then
+        --         luasnip.jump(-1)
+        --     elseif cmp.visible() then
+        --         cmp.select_prev_item()
+        --     else
+        --         fallback()
+        --     end
+        -- end, { "i", "s" }),
     }),
 
     -- Formatting
