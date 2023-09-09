@@ -107,7 +107,11 @@ M.load_mappings = function(mappings, additional_opts)
     end
 end
 
-M.original_cwd = vim.fn.getcwd()
+M.table_length = function(a_table)
+    local count = 0
+    for _ in pairs(a_table) do count = count + 1 end
+    return count
+end
 
 M.toggle_qf = function()
     local qf_exists = false
