@@ -14,6 +14,7 @@ require("plugins.lsp")
 require("plugins.null_ls")
 
 -- CMP
+require("plugins.luasnip")
 require("plugins.cmp")
 
 -- Other plugins in alphabetic order
@@ -24,7 +25,6 @@ require("plugins.gitsigns")
 require("plugins.git-worktree")
 require("plugins.harpoon")
 require("plugins.indent-blankline")
-require("plugins.luasnip")
 require("plugins.neorg")
 require("plugins.no-neck-pain")
 require("plugins.netrw")

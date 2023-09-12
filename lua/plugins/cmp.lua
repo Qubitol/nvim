@@ -6,6 +6,10 @@ local status_luasnip_ok, luasnip = pcall(require, "luasnip")
 if not status_luasnip_ok then
 	return
 end
+
+local utils = require("core.utils")
+local mappings = require("core.mappings")
+
 -- local status_tabnine_ok, tabnine = pcall(require, "cmp_tabnine.config")
 -- if not status_tabnine_ok then
 -- 	return
@@ -36,7 +40,7 @@ local kind_icons = {
     Text = "",
     Method = "m",
     Function = "",
-    Constructor = "", -- ""
+    Constructor = "", -- ""
     Field = "󰜢",
     Variable = "󰀫",
     Class = "󰠱",
@@ -90,10 +94,15 @@ cmp.setup({
         end
     end,
 
+    -- Autocompletion on demand by calling cmp.complete()
+    completion = {
+        autocomplete = false,
+    },
+
     -- Snippet engine
 	snippet = {
 		expand = function(args)
-			require('luasnip').lsp_expand(args.body)
+			luasnip.lsp_expand(args.body)
 		end,
 	},
 
@@ -139,7 +148,6 @@ cmp.setup({
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
         -- Accept/Abort
         ["<C-Space>"] = cmp.config.disable,
-        -- ["<C-y>"] = cmp.config.disable,
         ["<C-y>"] = cmp.mapping({
             i = function(fallback)
                 if cmp.visible() then
@@ -163,53 +171,53 @@ cmp.setup({
             i = cmp.mapping.abort(),
             c = cmp.mapping.close(),
         }),
-        -- ["<CR>"] = cmp.mapping({
-        --     i = function(fallback)
-        --         if cmp.visible() and cmp.get_active_entry() then
-        --             cmp.confirm({
-        --                 behavior = cmp.ConfirmBehavior.Insert,
-        --                 select = false,
-        --             })
-        --         else
-        --             fallback()
-        --         end
-        --     end,
-        --     s = cmp.mapping.confirm({
-        --         select = true
-        --     }),
-        --     c = function(fallback)
-        --         if cmp.visible() and cmp.get_active_entry() then
-        --             cmp.confirm({
-        --                 behavior = cmp.ConfirmBehavior.Insert,
-        --                 select = false,
-        --             })
-        --         else
-        --             fallback()
-        --         end
-        --     end,
-        -- }),
-        -- -- Multi-purpose Tab
-        -- ["<Tab>"] = cmp.mapping(function(fallback)
-        --     if luasnip.expand_or_locally_jumpable() then
-        --         luasnip.expand_or_jump()
-        --     elseif cmp.visible() then
-        --         cmp.select_next_item()
-        --     -- elseif has_words_before() then
-        --     --     cmp.complete()
-        --     else
-        --         fallback()
-        --     end
-        -- end, { "i", "s" }),
-        -- -- Multi-purpose Shift+Tab
-        -- ["<S-Tab>"] = cmp.mapping(function(fallback)
-        --     if luasnip.locally_jumpable(-1) then
-        --         luasnip.jump(-1)
-        --     elseif cmp.visible() then
-        --         cmp.select_prev_item()
-        --     else
-        --         fallback()
-        --     end
-        -- end, { "i", "s" }),
+        ["<CR>"] = cmp.mapping({
+            i = function(fallback)
+                if cmp.visible() and cmp.get_active_entry() then
+                    cmp.confirm({
+                        behavior = cmp.ConfirmBehavior.Insert,
+                        select = false,
+                    })
+                else
+                    fallback()
+                end
+            end,
+            s = cmp.mapping.confirm({
+                select = true
+            }),
+            c = function(fallback)
+                if cmp.visible() and cmp.get_active_entry() then
+                    cmp.confirm({
+                        behavior = cmp.ConfirmBehavior.Insert,
+                        select = false,
+                    })
+                else
+                    fallback()
+                end
+            end,
+        }),
+        -- Multi-purpose Tab
+        ["<Tab>"] = cmp.mapping(function(fallback)
+            if luasnip.expand_or_locally_jumpable() then
+                luasnip.expand_or_jump()
+            elseif cmp.visible() then
+                cmp.select_next_item()
+            elseif has_words_before() then
+                cmp.complete()
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
+        -- Multi-purpose Shift+Tab
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if luasnip.locally_jumpable(-1) then
+                luasnip.jump(-1)
+            elseif cmp.visible() then
+                cmp.select_prev_item()
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
     }),
 
     -- Formatting
@@ -241,7 +249,7 @@ cmp.setup({
     -- sources belonging to the same group are not shown together
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
-		{ name = 'luasnip' },
+		{ name = "luasnip" },
 		-- { name = "cmp_tabnine" },
 		{ name = "path" },
     }, {
@@ -260,6 +268,11 @@ cmp.setup.filetype("gitcommit", {
     }, {
 		{ name = "buffer" },
 	}),
+    completion = {
+        autocomplete = {
+            cmp.TriggerEvent.TextChanged,
+        },
+    },
 })
 
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
@@ -277,6 +290,11 @@ cmp.setup.cmdline({ "/", "?" }, {
             separator = "|",
         },
     },
+    completion = {
+        autocomplete = {
+            cmp.TriggerEvent.TextChanged,
+        },
+    },
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
@@ -290,4 +308,12 @@ cmp.setup.cmdline(":", {
     }, {
 		{ name = "cmdline" },
 	}),
+    completion = {
+        autocomplete = {
+            cmp.TriggerEvent.TextChanged,
+        },
+    },
 })
+
+-- Global mappings
+utils.load_mappings(mappings.plugins["cmp"])

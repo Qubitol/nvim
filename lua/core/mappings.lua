@@ -99,6 +99,33 @@ M.plugins = {
 		},
 	},
 
+    cmp = {
+        n = {
+            ["<leader>ta"] = {
+                function()
+                    local cmp = require("cmp")
+                    local autocomplete = vim.b.autocomplete
+                    local set_autocomplete
+                    if autocomplete then
+                        set_autocomplete = false
+                        vim.api.nvim_buf_set_var(0, "autocomplete", false)
+                        vim.api.nvim_echo({ { "Autocompletion disabled" } }, false, {})
+                    else
+                        set_autocomplete = { cmp.TriggerEvent.TextChanged }
+                        vim.api.nvim_buf_set_var(0, "autocomplete", true)
+                        vim.api.nvim_echo({ { "Autocompletion enabled" } }, false, {})
+                    end
+                    cmp.setup.buffer({
+                        completion = {
+                            autocomplete = set_autocomplete,
+                        },
+                    })
+                end,
+                "[T]oggle nvim-cmp [A]utocompletion for the current buffer"
+            },
+        },
+    },
+
 	gitsigns = {
 		n = {
 			["]c"] = {
