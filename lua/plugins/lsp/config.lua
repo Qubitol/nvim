@@ -4,7 +4,7 @@ if not status_ok then
 end
 
 local servers = {
-    -- "awk_ls",
+    "awk_ls",
     -- "angularls",
     -- "arduino_language_server",
     "bashls",
@@ -12,7 +12,7 @@ local servers = {
     -- "csharp_ls",
     "cmake",
 	"cssls",
-    -- "dockerls",
+    "dockerls",
     -- "emmet_ls",
     "fortls",
     -- "ltex",
@@ -22,9 +22,9 @@ local servers = {
     -- "julials",
     "texlab",
 	"sumneko_lua",
-    "zk",
+    -- "zk",
     "pyright",
-    -- "rust_analyzer",
+    "rust_analyzer",
     -- "sqls",
     -- "tamplo",
     -- "volar",
@@ -38,15 +38,14 @@ mason_lspconfig.setup({
 
 local lspconfig = require("lspconfig")
 
-local opts = {}
+-- default options for each language server
+local opts = {
+    on_attach = require("plugins.lsp.handlers").on_attach,
+    capabilities = require("plugins.lsp.handlers").capabilities,
+    handlers = require("plugins.lsp.handlers").handlers,
+}
 
 for _, server in pairs(servers) do
-    -- default options for each language server
-	opts = {
-		on_attach = require("plugins.lsp.handlers").on_attach,
-		capabilities = require("plugins.lsp.handlers").capabilities,
-	}
-
 	server = vim.split(server, "@")[1]
 
 	local require_ok, conf_opts = pcall(require, "plugins.lsp.settings." .. server)

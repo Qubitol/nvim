@@ -43,20 +43,6 @@ M.setup = function()
     }
 
     vim.diagnostic.config(config)
-
-    -- Set rounded borders
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = "rounded",
-    })
-
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = "rounded",
-    })
-
-    -- Delay update diagnostics
-    -- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    --     update_in_insert = false,
-    -- })
 end
 
 local function lsp_keymaps(bufnr)
@@ -74,5 +60,32 @@ M.on_attach = function(client, bufnr)
 
     lsp_keymaps(bufnr)
 end
+
+-- Fix lsp showing two equal results in quickfix when going to definition
+local function get_first_if_equal(result)
+  if not vim.tbl_islist(result) or type(result) ~= "table" then
+    return result
+  end
+
+  return { result[1] }
+end
+
+M.handlers = {
+    ["textDocument/definition"] = function(err, result, ctx, config)
+        vim.lsp.handlers["textDocument/definition"](err, get_first_if_equal(result), ctx, config)
+    end,
+    -- Set rounded borders
+    ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = "rounded",
+    }),
+    -- Set rounded borders
+    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+        border = "rounded",
+    }),
+    -- Delay update diagnostics
+    -- ["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+    --     update_in_insert = false,
+    -- }),
+}
 
 return M
