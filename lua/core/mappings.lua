@@ -42,13 +42,13 @@ M.general = {
 		["]a"] = { ":next<CR>", "Go to next [A]rg" },
 		["[A"] = { ":first<CR>", "Go to first [A]rg" },
 		["]A"] = { ":last<CR>", "Go to last [A]rg" },
-		["gl"] = {
-			"<cmd>diffget //3<CR>",
-			"[G]et the merge resolution from the buffer on the right (in the direction of the [L] key)",
+		["g["] = {
+            "<cmd>diffget //2 | :diffupdate<CR>",
+            "[G]et the merge resolution from the buffer on the [left ",
 		},
-		["gh"] = {
-			"<cmd>diffget //2<CR>",
-			"[G]et the merge resolution from the buffer on the left (in the direction of the [H] key)",
+		["g]"] = {
+            "<cmd>diffget //3 | :diffupdate<CR>",
+            "[G]et the merge resolution from the buffer on the right]",
 		},
 		["<leader>cd"] = {
 			[[<cmd>cd `=expand("%:p:h")`<CR>]],
