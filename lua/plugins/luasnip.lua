@@ -40,31 +40,14 @@ ls.config.set_config({
 	},
 })
 
--- Mappings
-vim.cmd([[
-" " press <Tab> to expand or jump in a snippet. These can also be mapped separately
-" " via <Plug>luasnip-expand-snippet and <Plug>luasnip-jump-next.
-" imap <silent><expr> <Tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>' 
-" " -1 for jumping backwards.
-" inoremap <silent> <S-Tab> <cmd>lua require'luasnip'.jump(-1)<Cr>
-"
-" snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
-" snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
-
-" For changing choices in choiceNodes (not strictly necessary for a basic setup).
-imap <silent><expr> <C-N> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-N>'
-smap <silent><expr> <C-N> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-N>'
-imap <silent><expr> <C-P> luasnip#choice_active() ? '<Plug>luasnip-prev-choice' : '<C-P>'
-smap <silent><expr> <C-P> luasnip#choice_active() ? '<Plug>luasnip-prev-choice' : '<C-P>'
-]])
-
--- Load the snippets and map a key to update during runtime
+-- Load the snippets
 require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/LuaSnip/" })
-vim.keymap.set(
-	"n",
-	"<Leader>U",
-	[[<cmd>lua require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/LuaSnip/"})<CR>]]
-)
+
+-- Mappings: load this file before cmp, that redefine the mappings keeping a fallback
+local utils = require("core.utils")
+local mappings = require("core.mappings")
+
+utils.load_mappings(mappings.plugins["luasnip"])
 
 -- Useful functions for snippets
 local M = {}

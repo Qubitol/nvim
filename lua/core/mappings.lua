@@ -312,7 +312,94 @@ M.plugins = {
 		},
 	},
 
-	luasnip = {},
+    luasnip = {
+        n = {
+            ["<leader>U"] = {
+                [[<cmd>lua require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/LuaSnip/"})<CR>]],
+                "Reload/[U]pdate the snippets at runtime",
+            },
+        },
+        i = {
+            ["<Tab>"] = { -- need expression map because we are falling back to <Tab>
+                function()
+                    if require("luasnip").expand_or_locally_jumpable() then
+                        return [[<cmd>lua require("luasnip").expand_or_jump()<CR>]]
+                    else
+                        return "<Tab>"
+                    end
+                end,
+                "If there is an expandable snippet, expand it, otherwise jump forward or fallback to default map",
+                { silent = true, expr = true, noremap = false }
+            },
+            ["<S-Tab>"] = {
+                function()
+                    require("luasnip").jump(-1)
+                end,
+                "When inside a snippet, jump back",
+                { silent = true }
+            },
+            ["<C-n>"] = {
+                function()
+                    if require("luasnip").choice_active() then
+                        return [[<cmd>lua require("luasnip").next_choice()<CR>]]
+                    else
+                        return "<C-n>"
+                    end
+                end,
+                "When inside a choice node, select next choice",
+                { silent = true, expr = true, noremap = false }
+            },
+            ["<C-p>"] = {
+                function()
+                    if require("luasnip").choice_active() then
+                        return [[<cmd>lua require("luasnip").prev_choice()<CR>]]
+                    else
+                        return "<C-p>"
+                    end
+                end,
+                "When inside a choice node, select previous choice",
+                { silent = true, expr = true, noremap = false }
+            },
+        },
+        s = {
+            ["<Tab>"] = {
+                function()
+                    require("luasnip").jump(1)
+                end,
+                "When inside a snippet, jump forward",
+                { silent = true }
+            },
+            ["<S-Tab>"] = {
+                function()
+                    require("luasnip").jump(-1)
+                end,
+                "When inside a snippet, jump back",
+                { silent = true }
+            },
+            ["<C-n>"] = {
+                function()
+                    if require("luasnip").choice_active() then
+                        return [[<cmd>lua require("luasnip").next_choice()<CR>]]
+                    else
+                        return "<C-n>"
+                    end
+                end,
+                "When inside a choice node, select next choice",
+                { silent = true, expr = true, noremap = false }
+            },
+            ["<C-p>"] = {
+                function()
+                    if require("luasnip").choice_active() then
+                        return [[<cmd>lua require("luasnip").prev_choice()<CR>]]
+                    else
+                        return "<C-p>"
+                    end
+                end,
+                "When inside a choice node, select previous choice",
+                { silent = true, expr = true, noremap = false }
+            },
+        },
+    },
 
 	neorg = {
 		n = {
