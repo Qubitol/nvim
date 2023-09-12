@@ -54,7 +54,7 @@ M.general = {
 			[[<cmd>cd `=expand("%:p:h")`<CR>]],
 			"[C]hange current [D]irectory to the base directory of the active buffer",
 		},
-		["<leader>tcd"] = {
+		["<leader>ct"] = {
 			[[<cmd>tcd `=expand("%:p:h")`<CR>]],
 			"[C]hange current directory to the base directory of the active buffer, locally to the [T]ab page",
 		},
@@ -129,10 +129,10 @@ M.plugins = {
 				"Go to the previous [C]hange (git hunk) or [C]onflict marker (in diff mode)",
 				{ expr = true },
 			},
-			["<leader>hs"] = { "<cmd>Gitsigns stage_hunk<CR>", "Consider the current [H]unk and [S]tage it" },
-			["<leader>hr"] = { "<cmd>Gitsigns reset_hunk<CR>", "Consider the current [H]unk and [R]eset it" },
-			["<leader>hu"] = { "<cmd>Gitsigns undo_stage_hunk<CR>", "Consider the current [H]unk and [U]nstage it" },
-			["<leader>hp"] = { "<cmd>Gitsigns preview_hunk<CR>", "Consider the current [H]unk and [P]review it" },
+			["<leader>hs"] = { "<cmd>Gitsigns stage_hunk<CR>", "Current [H]unk and [S]tage it" },
+			["<leader>hr"] = { "<cmd>Gitsigns reset_hunk<CR>", "Current [H]unk and [R]eset it" },
+			["<leader>hu"] = { "<cmd>Gitsigns undo_stage_hunk<CR>", "Current [H]unk and [U]nstage it" },
+			["<leader>hp"] = { "<cmd>Gitsigns preview_hunk<CR>", "Current [H]unk and [P]review it" },
 			["<leader>tb"] = { "<cmd>Gitsigns toggle_current_line_blame<CR>", "[T]oggle inline [B]lame" },
 			["<leader>td"] = { "<cmd>Gitsigns toggle_deleted<CR>", "[T]oggle [D]eleted lines" },
 			["<leader>tB"] = {
@@ -149,8 +149,8 @@ M.plugins = {
 			},
 		},
 		v = {
-			["<leader>hs"] = { "<cmd>Gitsigns stage_hunk<CR>", "Consider the current [H]unk and [S]tage it" },
-			["<leader>hr"] = { "<cmd>Gitsigns reset_hunk<CR>", "Consider the current [H]unk and [R]eset it" },
+			["<leader>hs"] = { "<cmd>Gitsigns stage_hunk<CR>", "Current [H]unk and [S]tage it" },
+			["<leader>hr"] = { "<cmd>Gitsigns reset_hunk<CR>", "Current [H]unk and [R]eset it" },
 		},
 		o = {
 			["ih"] = { "<cmd><C-U>Gitsigns select_hunk<CR>", "Select [I]nside the current [H]unk" },
@@ -353,7 +353,7 @@ M.plugins = {
 				"<cmd>Neorg keybind norg core.promp.demote<CR>",
 				"Demote list item (non-recursively)",
 			},
-			["<C-n>"] = { -- I rebinded Shift-Enter on my terminal to output \x0e
+			["<C-n>"] = {
 				"<cmd>Neorg keybind norg core.itero.next-iteration<CR>",
 				"Create next list item",
 			},
