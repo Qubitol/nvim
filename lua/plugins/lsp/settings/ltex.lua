@@ -18,9 +18,7 @@ for _, language in pairs(dictionaries) do
 end
 
 return {
-    settings = {
-        ltex = {
-            dictionary = words_tables,
-        },
+    ltex = {
+        dictionary = words_tables,
     },
 }

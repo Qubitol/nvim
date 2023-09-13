@@ -48,11 +48,10 @@ local opts = {
 for _, server in pairs(servers) do
 	server = vim.split(server, "@")[1]
 
-	local require_ok, conf_opts = pcall(require, "plugins.lsp.settings." .. server)
+	local require_ok, settings_ls = pcall(require, "plugins.lsp.settings." .. server)
 	if require_ok then
-        -- if there are additional options for this language server, add them to
-        -- the default options
-		opts = vim.tbl_deep_extend("force", conf_opts, opts)
+        -- add settings of each language server
+		opts["settings"] = settings_ls
 	end
 
 	lspconfig[server].setup(opts)
