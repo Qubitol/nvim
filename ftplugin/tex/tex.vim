@@ -23,20 +23,22 @@ setlocal wrap
 let g:tex_indent_items=0
 
 " Compilation
-noremap <leader>b <Cmd>update<CR><Cmd>VimtexCompileSS<CR>
+" noremap <leader>ll <Cmd>update<CR><Cmd>VimtexCompileSS<CR>
 
 " Write the line "TEX" to the file "/tmp/inverse-search-target.txt".
 " I use the file  "/tmp/inverse-search-target.txt" as part of making inverse 
 " search work for both LaTeX and Lilypond LyTeX files.
-call system(printf("echo %s > %s", "TEX", "/tmp/inverse-search-target.txt"))
+" call system(printf("echo %s > %s", "TEX", "/tmp/inverse-search-target.txt"))
 
 " BEGIN FORWARD SHOW
 " ---------------------------------------------
-nmap <leader>v <plug>(vimtex-view)
+nmap <leader>lv <plug>(vimtex-view)
 
 " Linux forward search implementation
 if has('unix')
   " Get Vim's window ID for switching focus from Zathura to Vim using xdotool.
+  " Decomment the vimtex_even_focus augroup to make possible to the focus to
+  " pass from zathura to vim
   " Only set this variable once for the current Vim instance.
   if !exists("g:vim_window_id")
     let g:vim_window_id = system("xdotool getactivewindow")
@@ -48,10 +50,10 @@ if has('unix')
     redraw!
   endfunction
 
-  augroup vimtex_event_focus
-    au!
-    au User VimtexEventView call s:TexFocusVim()
-  augroup END
+  " augroup vimtex_event_focus
+  "   au!
+  "   au User VimtexEventView call s:TexFocusVim()
+  " augroup END
   
 " macOS forward search implementation
 elseif has('macunix')

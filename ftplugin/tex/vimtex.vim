@@ -7,7 +7,7 @@ if exists("b:did_myvimtexsettings")
 endif
 let b:did_myvimtexsettings = 1
 
-nmap <leader>i <plug>(vimtex-info)
+nmap <leader>ot <plug>(vimtex-info)
 
 " nmap <leader>t <CMD>VimtexTocToggle<CR>
 
