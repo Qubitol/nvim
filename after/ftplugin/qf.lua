@@ -14,9 +14,6 @@ map("n", "K", "k<CR>zz<C-w>p", opts)
 -- close quickfix buffer
 map("n", "gq", "<cmd>cclose<CR>", opts)
 
--- populate command line with Cfilter
-map("n", "f", ":Cfilter", opts)
-
 -- options
 set.colorcolumn = ""
 set.wrap = false
