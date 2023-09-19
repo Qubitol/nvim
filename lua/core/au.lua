@@ -53,6 +53,16 @@ autocmd({ "BufWinEnter", "FileType" }, {
     callback = utils.goto_lastplace,
 })
 
+-- Resize
+local resize_group = augroup("ResizeGroup", {})
+
+autocmd("VimResized", {
+    group = resize_group,
+    callback = function()
+        vim.cmd("tabdo wincmd =")
+    end,
+})
+
 -- Netrw
 local netrw = require("plugins.netrw")
 local netrw_group = augroup("netrw_group", {})
