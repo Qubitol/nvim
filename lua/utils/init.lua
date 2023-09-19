@@ -1,21 +1,23 @@
 local M = {}
 
 M.call_cmd_in_preview_window = function(cmd)
-    local win = M.get_preview_window()
-    if not win then
-        return false
-    end
-    local replaced_keys = vim.api.nvim_replace_termcodes("normal " .. cmd, true, true, true)
-    vim.api.nvim_win_call(win, function() vim.cmd(replaced_keys) end)
-    return true
+	local win = M.get_preview_window()
+	if not win then
+		return false
+	end
+	local replaced_keys = vim.api.nvim_replace_termcodes("normal " .. cmd, true, true, true)
+	vim.api.nvim_win_call(win, function()
+		vim.cmd(replaced_keys)
+	end)
+	return true
 end
 
 M.safe_call_in_preview_window = function(cmd)
-    if M.call_cmd_in_preview_window(cmd) then
-        return
-    end
-    local replaced_keys = vim.api.nvim_replace_termcodes("normal! " .. cmd, true, true, true)
-    vim.cmd(replaced_keys)
+	if M.call_cmd_in_preview_window(cmd) then
+		return
+	end
+	local replaced_keys = vim.api.nvim_replace_termcodes("normal! " .. cmd, true, true, true)
+	vim.cmd(replaced_keys)
 end
 
 M.concat_file_lines = function(file_path)
@@ -42,91 +44,108 @@ end
 
 -- adapted from https://github.com/ethanholz/nvim-lastplace/blob/main/lua/nvim-lastplace/init.lua
 M.goto_lastplace = function()
-    local ignore_buftype = { "quickfix", "nofile", "help" }
-    local ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" }
+	local ignore_buftype = { "quickfix", "nofile", "help" }
+	local ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" }
 
-    if vim.tbl_contains(ignore_buftype, vim.bo.buftype) then
-        return
-    end
+	if vim.tbl_contains(ignore_buftype, vim.bo.buftype) then
+		return
+	end
 
-    if vim.tbl_contains(ignore_filetype, vim.bo.filetype) then
-        -- reset cursor to first line
-        vim.cmd [[normal! gg]]
-        return
-    end
+	if vim.tbl_contains(ignore_filetype, vim.bo.filetype) then
+		-- reset cursor to first line
+		vim.cmd([[normal! gg]])
+		return
+	end
 
-    -- If a line has already been specified on the command line, we are done
-    --   nvim file +num
-    if vim.fn.line(".") > 1 then
-        return
-    end
+	-- If a line has already been specified on the command line, we are done
+	--   nvim file +num
+	if vim.fn.line(".") > 1 then
+		return
+	end
 
-    local last_line = vim.fn.line([['"]])
-    local buff_last_line = vim.fn.line("$")
+	local last_line = vim.fn.line([['"]])
+	local buff_last_line = vim.fn.line("$")
 
-    -- If the last line is set and the less than the last line in the buffer
-    if last_line > 0 and last_line <= buff_last_line then
-        local win_last_line = vim.fn.line("w$")
-        local win_first_line = vim.fn.line("w0")
-        -- Check if the last line of the buffer is the same as the win
-        if win_last_line == buff_last_line then
-            -- Set line to last line edited
-            vim.cmd [[normal! g`"]]
-            -- Try to center
-        elseif buff_last_line - last_line > ((win_last_line - win_first_line) / 2) - 1 then
-            vim.cmd [[normal! g`"zz]]
-        else
-            vim.cmd [[normal! G'"<c-e>]]
-        end
-    end
+	-- If the last line is set and the less than the last line in the buffer
+	if last_line > 0 and last_line <= buff_last_line then
+		local win_last_line = vim.fn.line("w$")
+		local win_first_line = vim.fn.line("w0")
+		-- Check if the last line of the buffer is the same as the win
+		if win_last_line == buff_last_line then
+			-- Set line to last line edited
+			vim.cmd([[normal! g`"]])
+			-- Try to center
+		elseif buff_last_line - last_line > ((win_last_line - win_first_line) / 2) - 1 then
+			vim.cmd([[normal! g`"zz]])
+		else
+			vim.cmd([[normal! G'"<c-e>]])
+		end
+	end
 end
 
 M.get_preview_window = function()
-    local cur_tabpage_wins = vim.api.nvim_tabpage_list_wins(0)
-    for _, win_handle in ipairs(cur_tabpage_wins) do
-        if vim.api.nvim_win_get_option(win_handle, "previewwindow") then
-            return win_handle
-        end
-    end
-    return false
+	local cur_tabpage_wins = vim.api.nvim_tabpage_list_wins(0)
+	for _, win_handle in ipairs(cur_tabpage_wins) do
+		if vim.api.nvim_win_get_option(win_handle, "previewwindow") then
+			return win_handle
+		end
+	end
+	return false
 end
 
-M.load_mappings = function(mappings, additional_opts)
-    local default_opts = { noremap = true, silent = true }
-    for mode, mode_mappings in pairs(mappings) do
-        for keybind, mapping_info in pairs(mode_mappings) do
-            local command = mapping_info[1]
-            local opts = vim.tbl_deep_extend("force",
-                default_opts,
-                mapping_info[3] or {},
-                { desc = mapping_info[2] },
-                additional_opts or {}
-            )
-            vim.keymap.set(mode, keybind, command, opts)
-        end
-    end
+M.map = function(mode, lhs, rhs, desc, opts)
+	opts = opts or {}
+	vim.keymap.set(
+		mode,
+		lhs,
+		rhs,
+		vim.tbl_deep_extend("force", { silent = true, noremap = true }, opts, { desc = desc })
+	)
+end
+
+M.lazy_map = function(mode, lhs, rhs, desc, opts)
+	opts = opts or {}
+	return { lhs, rhs, mode, vim.tbl_deep_extend("force", { silent = true, noremap = true }, opts, { desc = desc }) }
 end
 
 M.table_length = function(a_table)
-    local count = 0
-    for _ in pairs(a_table) do count = count + 1 end
-    return count
+	local count = 0
+	for _ in pairs(a_table) do
+		count = count + 1
+	end
+	return count
 end
 
-M.toggle_qf = function()
-    local qf_exists = false
-    for _, win in pairs(vim.fn.getwininfo()) do
-        if win["quickfix"] == 1 then
-            qf_exists = true
-        end
-    end
-    if qf_exists == true then
-        vim.cmd "cclose"
-        return
-    end
-    if not vim.tbl_isempty(vim.fn.getqflist()) then
-        vim.cmd "copen"
-    end
+M.toggle_qflist = function()
+	local qf_exists = false
+	for _, win in pairs(vim.fn.getwininfo()) do
+		if win["quickfix"] == 1 then
+			qf_exists = true
+		end
+	end
+	if qf_exists == true then
+		vim.cmd("cclose")
+		return
+	end
+	if not vim.tbl_isempty(vim.fn.getqflist()) then
+		vim.cmd("copen")
+	end
+end
+
+M.toggle_loclist = function()
+	local loc_exists = false
+	for _, win in pairs(vim.fn.getwininfo()) do
+		if win["quickfix"] == 1 then
+			loc_exists = true
+		end
+	end
+	if loc_exists == true then
+		vim.cmd("lclose")
+		return
+	end
+	if not vim.tbl_isempty(vim.fn.getloclist()) then
+		vim.cmd("lopen")
+	end
 end
 
 return M
