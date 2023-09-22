@@ -93,6 +93,18 @@ M.get_preview_window = function()
 	return false
 end
 
+M.quickfix_or_loclist = function()
+    local win_id = vim.api.nvim_get_current_win()
+    local win_info = vim.fn.getwininfo(win_id)[1]
+    if win_info["quickfix"] == 1 then
+        return "c"
+    end
+    if win_info["loclist"] == 1 then
+        return "l"
+    end
+    return false
+end
+
 M.map = function(mode, lhs, rhs, desc, opts)
 	opts = opts or {}
 	vim.keymap.set(
@@ -117,15 +129,11 @@ M.table_length = function(a_table)
 end
 
 M.toggle_qflist = function()
-	local qf_exists = false
 	for _, win in pairs(vim.fn.getwininfo()) do
 		if win["quickfix"] == 1 then
-			qf_exists = true
+			vim.cmd("cclose")
+			return
 		end
-	end
-	if qf_exists == true then
-		vim.cmd("cclose")
-		return
 	end
 	if not vim.tbl_isempty(vim.fn.getqflist()) then
 		vim.cmd("copen")
@@ -133,15 +141,11 @@ M.toggle_qflist = function()
 end
 
 M.toggle_loclist = function()
-	local loc_exists = false
 	for _, win in pairs(vim.fn.getwininfo()) do
-		if win["quickfix"] == 1 then
-			loc_exists = true
+		if win["loclist"] == 1 then
+			vim.cmd("lclose")
+			return
 		end
-	end
-	if loc_exists == true then
-		vim.cmd("lclose")
-		return
 	end
 	if not vim.tbl_isempty(vim.fn.getloclist()) then
 		vim.cmd("lopen")

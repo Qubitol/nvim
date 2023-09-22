@@ -32,11 +32,11 @@ require("lazy").setup("plugins", {
 		lazy = false,
 	},
 	dev = {
-		path = "~/.config/nvim/dev/",
+		path = "~/Documents/Personal_projects/",
 	},
 	install = {
 		missing = true,
-		colorscheme = { "my_colorscheme" },
+		colorscheme = { "colorscheme" },
 	},
 	performance = {
 		cache = {

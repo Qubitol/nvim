@@ -1,8 +1,10 @@
-local status_ok, treesitter_context = pcall(require, "treesitter-context")
-if not status_ok then
-	return
-end
-
-treesitter_context.setup({
-    enable = true,
-})
+return {
+    "nvim-treesitter/nvim-treesitter-context",
+    dependencies = {
+        "nvim-treesitter/nvim-treesitter"
+    },
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {
+        enable = true,
+    },
+}

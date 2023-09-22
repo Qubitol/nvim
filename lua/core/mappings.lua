@@ -43,6 +43,8 @@ map("n", "[L", "<cmd>lfirst<CR>zz", "Go to first [L]ocation list element and cen
 map("n", "]L", "<cmd>llast<CR>zz", "Go to last [L]ocation list element and center viewport")
 map("n", "[<C-L>", "<cmd>lpfile<CR>", "Display the last error in the previous file in the location list")
 map("n", "]<C-L>", "<cmd>lnfile<CR>", "Display the first error in the next file in the location list")
+map("n", "<leader>ln", "<cmd>lnewer<CR>", "Go to the [L]oclist [N]ext")
+map("n", "<leader>lp", "<cmd>lolder<CR>", "Go to the [L]oclist [P]revious")
 map("n", "[a", "<cmd>previous<CR>", "Go to previous [A]rg")
 map("n", "]a", "<cmd>next<CR>", "Go to next [A]rg")
 map("n", "[A", "<cmd>first<CR>", "Go to first [A]rg")

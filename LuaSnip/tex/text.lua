@@ -1,4 +1,4 @@
-local luasnip = require("plugins.luasnip")
+local luasnip = require("utils.luasnip")
 local get_visual = luasnip.get_visual
 local in_mathzone = luasnip.in_mathzone
 local in_text = luasnip.in_text
