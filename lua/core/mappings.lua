@@ -9,11 +9,11 @@ map("n", "<C-d>", "<C-d>zz", "Scroll half-page down and center viewport")
 map("n", "n", "nzz", "Find next and center viewport")
 map("n", "N", "Nzz", "Find previous and center viewport")
 map(
-	"n",
-	"<leader>sr",
-	":%s/\\<<C-r><C-w>\\>//gI<left><left><left>",
-	"[S]earch and [R]eplace the word under the cursor",
-	{ silent = false }
+    "n",
+    "<leader>sr",
+    ":%s/\\<<C-r><C-w>\\>//gI<left><left><left>",
+    "[S]earch and [R]eplace the word under the cursor",
+    { silent = false }
 )
 map("n", "<leader>th", "<cmd>set hlsearch! hlsearch?<CR>", "[T]oggle search-[H]ighlighting")
 map("n", "<leader>tw", "<cmd>set wrap! wrap?<CR>", "[T]oggle word-[W]rap")
@@ -53,10 +53,10 @@ map("n", "g[", "<cmd>diffget //2 | diffupdate<CR>", "[G]et the merge resolution 
 map("n", "g]", "<cmd>diffget //3 | diffupdate<CR>", "[G]et the merge resolution from the buffer on the right]")
 map("n", "<leader>cd", "%:p:h", "[C]hange current [D]irectory to the base directory of the active buffer")
 map(
-	"n",
-	"<leader>ct",
-	"%:p:h",
-	"[C]hange current directory to the base directory of the active buffer, locally to the [T]ab page"
+    "n",
+    "<leader>ct",
+    "%:p:h",
+    "[C]hange current directory to the base directory of the active buffer, locally to the [T]ab page"
 )
 map("n", "<leader>d", [["_d]], "Delete without polluting the register")
 map("n", "<leader>D", [["_D]], "Delete without polluting the register")
@@ -65,34 +65,34 @@ map("n", "<leader>C", [["_C]], "Change without polluting the register")
 map("n", "<leader>tq", require("utils").toggle_qflist, "[T]oggle [Q]uickfix list")
 map("n", "<leader>tl", require("utils").toggle_loclist, "[T]oggle [L]ocation list")
 map(
-	"v",
-	"<leader>fi",
-	[[""y/\v<C-r>=escape('<C-r>"', '/\\(){}+?~"')<CR><CR>]],
-	"[FI]nd the visual selection in the current file",
-	{ silent = false }
+    "v",
+    "<leader>fi",
+    [[""y/\v<C-r>=escape('<C-r>"', '/\\(){}+?~"')<CR><CR>]],
+    "[FI]nd the visual selection in the current file",
+    { silent = false }
 )
 map(
-	"v",
-	"<leader>sr",
-	[[""y:%s/\v<C-r>=escape('<C-r>"', '/\\(){}+?~"')<CR>//gI<left><left><left>]],
-	"[S]earch and [R]eplace the visual selection",
-	{ silent = false }
+    "v",
+    "<leader>sr",
+    [[""y:%s/\v<C-r>=escape('<C-r>"', '/\\(){}+?~"')<CR>//gI<left><left><left>]],
+    "[S]earch and [R]eplace the visual selection",
+    { silent = false }
 )
 map("v", "<leader>d", [["_d]], "Delete without polluting the register")
 map("v", "<leader>D", [["_D]], "Delete without polluting the register")
 map("v", "<leader>c", [["_c]], "Change without polluting the register")
 map("v", "<leader>C", [["_C]], "Change without polluting the register")
 map(
-	"v",
-	"<leader>p",
-	[["_dP]],
-	"Replace selected text with the content of the default register but don't pollute the register itself"
+    "v",
+    "<leader>p",
+    [["_dP]],
+    "Replace selected text with the content of the default register but don't pollute the register itself"
 )
 map("v", "J", "<Esc><cmd>m '>+1<CR>gv=gv", "Move line down, respect indentation")
 map("v", "K", "<Esc><cmd>m '<-2<CR>gv=gv", "Move line up, respect indentation")
 map(
-	"x",
-	"<leader>p",
-	[["_dP]],
-	"Replace selected text with the content of the default register but don't pollute the register itself"
+    "x",
+    "<leader>p",
+    [["_dP]],
+    "Replace selected text with the content of the default register but don't pollute the register itself"
 )

@@ -1,7 +1,7 @@
 return {
-	settings = {
-		texlab = {
-			bibtexFormatter = "latexindent",
-		},
-	},
+    settings = {
+        texlab = {
+            bibtexFormatter = "latexindent",
+        },
+    },
 }

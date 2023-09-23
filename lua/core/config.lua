@@ -64,26 +64,28 @@ set.hlsearch = false
 -- White characters
 set.autoindent = true
 set.smartindent = true
-set.tabstop = 4 -- \t = 4 spaces
-set.softtabstop = 2 -- 1 tab press = 2 spaces
+set.tabstop = 4             -- \t = 4 spaces
+set.softtabstop = 2         -- 1 tab press = 2 spaces
 set.shiftwidth = 4
-set.formatoptions = "qnj1t" -- q  - comment formatting; n - numbered lists; j - remove comment when joining lines; 1 - don't break after one-letter word
+set.formatoptions =
+"qnj1t"                     -- q  - comment formatting; n - numbered lists; j - remove comment when joining lines; 1 - don't break after one-letter word
 set.expandtab = true
 
 -- Files
-set.undodir = HOME .. '/.config/nvim/undo//'     -- undo files
+set.undodir = HOME .. '/.config/nvim/undo//' -- undo files
 set.undofile = true
 set.backup = false
 set.writebackup = false
 
 -- Commands mode
 set.wildmenu = true
-set.wildignore = 'deps,.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif,.DS_Store,*.aux,*.out,*.toc,*.pyc'
+set.wildignore =
+'deps,.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif,.DS_Store,*.aux,*.out,*.toc,*.pyc'
 
 local default_providers = {
---    "node",
+    --    "node",
     "perl",
---    "python3",
+    --    "python3",
     "ruby",
 }
 

@@ -28,8 +28,8 @@ map("n", "P", function()
         vim.cmd("normal p")
         netrw.float_preview({
             corner = { scrolloff, explorer_winsize + scrolloff },
-            width = explorer_width - explorer_winsize - 2*scrolloff,
-            height = explorer_height - 2*scrolloff,
+            width = explorer_width - explorer_winsize - 2 * scrolloff,
+            height = explorer_height - 2 * scrolloff,
         })
         return
     end
@@ -51,13 +51,13 @@ map("n", "P", function()
     if explorer_height ~= (ui.height - tabline_height - status_height - cmd_height) then
         return
     end
-    local width = ui.width - explorer_width - 2*scrolloff
-    local height = explorer_height - 2*scrolloff
+    local width = ui.width - explorer_width - 2 * scrolloff
+    local height = explorer_height - 2 * scrolloff
     -- left explorer
     if explorer_pos[2] == 0 then
         netrw.float_preview({
             corner = {
-                scrolloff, -- row
+                scrolloff,                  -- row
                 explorer_width + scrolloff, -- col
             },
             width = width,

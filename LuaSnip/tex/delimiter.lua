@@ -7,15 +7,15 @@ local snippets = {}
 local autosnippets = {
 
     s({
-        trig = "([^%a])b%(",
-        regTrig = true,
-        wordTrig = false,
-        dscr = "Big round parenthesis"
-    },
+            trig = "([^%a])b%(",
+            regTrig = true,
+            wordTrig = false,
+            dscr = "Big round parenthesis"
+        },
         fmta(
             "<>\\bigl(<>\\bigr)",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 d(1, get_visual),
             }
         ),
@@ -23,15 +23,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])b%[",
-        regTrig = true,
-        wordTrig = false,
-        dscr = "Big square brackets"
-    },
+            trig = "([^%a])b%[",
+            regTrig = true,
+            wordTrig = false,
+            dscr = "Big square brackets"
+        },
         fmta(
             "<>\\bigl[<>\\bigr]",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 d(1, get_visual),
             }
         ),
@@ -39,15 +39,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])b%{",
-        regTrig = true,
-        wordTrig = false,
-        dscr = "Big curly brackets"
-    },
+            trig = "([^%a])b%{",
+            regTrig = true,
+            wordTrig = false,
+            dscr = "Big curly brackets"
+        },
         fmta(
             "<>\\bigl\\{<>\\bigr\\}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 d(1, get_visual),
             }
         ),
