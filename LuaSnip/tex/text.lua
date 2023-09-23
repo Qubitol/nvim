@@ -1,4 +1,4 @@
-local luasnip = require("plugins.luasnip")
+local luasnip = require("utils.luasnip")
 local get_visual = luasnip.get_visual
 local in_mathzone = luasnip.in_mathzone
 local in_text = luasnip.in_text
@@ -18,16 +18,16 @@ local snippets = {}
 local autosnippets = {
 
     s({
-        trig = "...",
-        dscr = "Dots"
-    },
+            trig = "...",
+            dscr = "Dots"
+        },
         t("\\dots")
     ),
 
     s({
-        trig = "cha",
-        dscr = "Chapter"
-    },
+            trig = "cha",
+            dscr = "Chapter"
+        },
         -- c(1, {
         --     sn(nil, fmta(
         --         [[
@@ -67,16 +67,16 @@ local autosnippets = {
             ]],
             {
                 i(1, "title"),
-                f(set_label, {1}),
+                f(set_label, { 1 }),
             }
         ),
         { condition = conds.line_begin }
     ),
 
     s({
-        trig = "sec",
-        dscr = "Section"
-    },
+            trig = "sec",
+            dscr = "Section"
+        },
         fmta(
             [[
                 \section{<>}
@@ -85,16 +85,16 @@ local autosnippets = {
             ]],
             {
                 i(1, "title"),
-                f(set_label, {1}),
+                f(set_label, { 1 }),
             }
         ),
         { condition = conds.line_begin }
     ),
 
     s({
-        trig = "sse",
-        dscr = "Subsection"
-    },
+            trig = "sse",
+            dscr = "Subsection"
+        },
         fmta(
             [[
                 \subsection{<>}
@@ -103,16 +103,16 @@ local autosnippets = {
             ]],
             {
                 i(1, "title"),
-                f(set_label, {1}),
+                f(set_label, { 1 }),
             }
         ),
         { condition = conds.line_begin }
     ),
 
     s({
-        trig = "sss",
-        dscr = "Subsubsection"
-    },
+            trig = "sss",
+            dscr = "Subsubsection"
+        },
         fmta(
             [[
                 \subsubsection{<>}
@@ -121,16 +121,16 @@ local autosnippets = {
             ]],
             {
                 i(1, "title"),
-                f(set_label, {1}),
+                f(set_label, { 1 }),
             }
         ),
         { condition = conds.line_begin }
     ),
 
     s({
-        trig = "benv",
-        dscr = "Generic environment"
-    },
+            trig = "benv",
+            dscr = "Generic environment"
+        },
         fmta(
             [[
                 \begin{<>}
@@ -148,9 +148,9 @@ local autosnippets = {
     ),
 
     s({
-        trig = "bit",
-        dscr = "Itemize"
-    },
+            trig = "bit",
+            dscr = "Itemize"
+        },
         fmta(
             [[
                 \begin{itemize}
@@ -164,9 +164,9 @@ local autosnippets = {
     ),
 
     s({
-        trig = "benu",
-        dscr = "Enumerate"
-    },
+            trig = "benu",
+            dscr = "Enumerate"
+        },
         fmta(
             [[
                 \begin{enumerate}
@@ -180,15 +180,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])tbf",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Bold"
-    },
+            trig = "([^%a])tbf",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Bold"
+        },
         fmta(
             "<>\\textbf{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 d(1, get_visual)
             }
         ),
@@ -196,15 +196,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])tph",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Emphasis"
-    },
+            trig = "([^%a])tph",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Emphasis"
+        },
         fmta(
             "<>\\emph{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 d(1, get_visual)
             }
         ),
@@ -212,15 +212,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])ttt",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Monospace"
-    },
+            trig = "([^%a])ttt",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Monospace"
+        },
         fmta(
             "<>\\texttt{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 d(1, get_visual)
             }
         ),
@@ -228,15 +228,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])mrm",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Mathrm"
-    },
+            trig = "([^%a])mrm",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Mathrm"
+        },
         fmta(
             "<>\\mathrm{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 d(1, get_visual)
             }
         ),
@@ -244,15 +244,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])mcc",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Mathcal"
-    },
+            trig = "([^%a])mcc",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Mathcal"
+        },
         fmta(
             "<>\\mathcal{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 d(1, get_visual)
             }
         ),

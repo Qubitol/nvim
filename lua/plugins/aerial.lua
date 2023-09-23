@@ -1,30 +1,34 @@
-local status_ok, aerial = pcall(require, "aerial")
-if not status_ok then
-	return
-end
-
-local utils = require("core.utils")
-local mappings = require("core.mappings")
-
-aerial.setup({
-    backends = { "treesitter", "lsp", "markdown", "man" },
-
-    layout = {
-        min_width = 28,
-        placement = "edge",
-        preserve_equality = true,
+return {
+    "stevearc/aerial.nvim",
+    event = "VeryLazy",
+    dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+        "nvim-tree/nvim-web-devicons",
     },
+    opts = {
+        backends = { "treesitter", "lsp", "markdown", "man" },
 
-    attach_mode = "global",
+        layout = {
+            min_width = 28,
+            placement = "edge",
+            preserve_equality = true,
+        },
 
-    filter_kind = false,
+        attach_mode = "global",
 
-    highlight_on_jump = false,
+        filter_kind = false,
 
-    -- on_attach = function(bufnr)
-    -- end,
+        highlight_on_jump = false,
 
-    show_guides = true,
-})
+        -- on_attach = function(bufnr)
+        -- end,
 
-utils.load_mappings(mappings.plugins["aerial"])
+        show_guides = true,
+    },
+    keys = function()
+        local lazy_map = require("utils").lazy_map
+        return {
+            lazy_map("n", "<leader>tt", "<cmd>AerialToggle<CR>", "[T]oggle [T]ags sidebar, powered by Aerial"),
+        }
+    end,
+}

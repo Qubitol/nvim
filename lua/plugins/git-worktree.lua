@@ -1,31 +1,25 @@
-local status_ok, git_worktree = pcall(require, "git-worktree")
-if not status_ok then
-	return
-end
-
--- op = Operations.Switch, Operations.Create, Operations.Delete
--- metadata = table of useful values (structure dependent on op)
---      Switch
---          path = path you switched to
---          prev_path = previous worktree path
---      Create
---          path = path where worktree created
---          branch = branch name
---          upstream = upstream remote name
---      Delete
---          path = path where worktree deleted
-
--- Make it to link the session file inside each branch
--- session file is in the main first cwd neovim is activated in
--- utils = require("core.utils")
--- local file_session_name = utils.original_cwd .. "/Session.vim"
-
-git_worktree.on_tree_change(function(op, metadata)
-	if op == git_worktree.Operations.Switch then
-		print("Switched from " .. metadata.prev_path .. " to " .. metadata.path)
-	end
-	-- if op == git_worktree.Operations.Switch then
-	-- 	print("Switched from " .. metadata.prev_path .. " to " .. metadata.path)
-	--
-	-- end
-end)
+return {
+    -- "ThePrimeagen/git-worktree.nvim",
+    "brandoncc/git-worktree.nvim",
+    branch = "catch-and-handle-telescope-related-error",
+    event = "VeryLazy",
+    config = function()
+        -- op = Operations.Switch, Operations.Create, Operations.Delete
+        -- metadata = table of useful values (structure dependent on op)
+        --      Switch
+        --          path = path you switched to
+        --          prev_path = previous worktree path
+        --      Create
+        --          path = path where worktree created
+        --          branch = branch name
+        --          upstream = upstream remote name
+        --      Delete
+        --          path = path where worktree deleted
+        local git_worktree = require("git-worktree")
+        git_worktree.on_tree_change(function(op, metadata)
+            if op == git_worktree.Operations.Switch then
+                print("Switched from " .. metadata.prev_path .. " to " .. metadata.path)
+            end
+        end)
+    end,
+}

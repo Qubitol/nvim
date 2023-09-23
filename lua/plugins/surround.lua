@@ -1,6 +1,8 @@
-local status_ok, surround = pcall(require, "nvim-surround")
-if not status_ok then
-	return
-end
-
-surround.setup()
+return {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+        require("nvim-surround").setup()
+    end,
+}

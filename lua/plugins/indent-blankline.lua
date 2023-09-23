@@ -1,9 +1,9 @@
-local status_ok, indent_blankline = pcall(require, "indent_blankline")
-if not status_ok then
-	return
-end
-
-indent_blankline.setup({
-    show_end_of_line = false,
-    show_current_context = false,
-})
+return {
+    "lukas-reineke/indent-blankline.nvim",
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {
+        show_end_of_line = false,
+        show_current_context = false,
+        filetype_exclude = { "harpoon", "help", "lazy", "mason", "netrw", "norg", "undotree" },
+    },
+}

@@ -1,4 +1,4 @@
-local luasnip = require("plugins.luasnip")
+local luasnip = require("utils.luasnip")
 local get_visual = luasnip.get_visual
 local in_mathzone = luasnip.in_mathzone
 local in_text = luasnip.in_text
@@ -8,60 +8,60 @@ local snippets = {}
 local autosnippets = {
 
     s({
-        trig = "([^%a])aa",
-        wordTrig = false,
-        regTrig = true,
-        desc = "Expand to siunitx \\ang",
-    },
+            trig = "([^%a])aa",
+            wordTrig = false,
+            regTrig = true,
+            desc = "Expand to siunitx \\ang",
+        },
         fmta(
             "<>\\ang{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1, "numbers list"),
             }
         )
     ),
 
     s({
-        trig = "([^%a])nn",
-        wordTrig = false,
-        regTrig = true,
-        desc = "Expand to siunitx \\num",
-    },
+            trig = "([^%a])nn",
+            wordTrig = false,
+            regTrig = true,
+            desc = "Expand to siunitx \\num",
+        },
         fmta(
             "<>\\num{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1, "numbers list"),
             }
         )
     ),
 
     s({
-        trig = "([^%a])nl",
-        wordTrig = false,
-        regTrig = true,
-        desc = "Expand to siunitx \\numlist",
-    },
+            trig = "([^%a])nl",
+            wordTrig = false,
+            regTrig = true,
+            desc = "Expand to siunitx \\numlist",
+        },
         fmta(
             "<>\\numlist{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1, "numbers list"),
             }
         )
     ),
 
     s({
-        trig = "([^%a])nr",
-        wordTrig = false,
-        regTrig = true,
-        desc = "Expand to siunitx \\numrange",
-    },
+            trig = "([^%a])nr",
+            wordTrig = false,
+            regTrig = true,
+            desc = "Expand to siunitx \\numrange",
+        },
         fmta(
             "<>\\numrange{<>}{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1, "range min"),
                 i(2, "range max"),
             }
@@ -69,15 +69,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])nR",
-        wordTrig = false,
-        regTrig = true,
-        desc = "Expand to siunitx \\numrange[range-phrase = --]",
-    },
+            trig = "([^%a])nR",
+            wordTrig = false,
+            regTrig = true,
+            desc = "Expand to siunitx \\numrange[range-phrase = --]",
+        },
         fmta(
             "<>\\numrange[range-phrase = --]{<>}{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1, "range min"),
                 i(2, "range max"),
             }
@@ -85,15 +85,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])qq",
-        wordTrig = false,
-        regTrig = true,
-        desc = "Expand to siunitx \\qty",
-    },
+            trig = "([^%a])qq",
+            wordTrig = false,
+            regTrig = true,
+            desc = "Expand to siunitx \\qty",
+        },
         fmta(
             "<>\\qty{<>}{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1, "number"),
                 i(2, "unit"),
             }
@@ -101,15 +101,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])ql",
-        wordTrig = false,
-        regTrig = true,
-        desc = "Expand to siunitx \\qtylist",
-    },
+            trig = "([^%a])ql",
+            wordTrig = false,
+            regTrig = true,
+            desc = "Expand to siunitx \\qtylist",
+        },
         fmta(
             "<>\\qtylist{<>}{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1, "numbers list"),
                 i(2, "unit"),
             }
@@ -117,15 +117,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])qr",
-        wordTrig = false,
-        regTrig = true,
-        desc = "Expand to siunitx \\qtyrange",
-    },
+            trig = "([^%a])qr",
+            wordTrig = false,
+            regTrig = true,
+            desc = "Expand to siunitx \\qtyrange",
+        },
         fmta(
             "<>\\qtyrange{<>}{<>}{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1, "range min"),
                 i(2, "range max"),
                 i(3, "unit"),
@@ -134,15 +134,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])qR",
-        wordTrig = false,
-        regTrig = true,
-        desc = "Expand to siunitx \\qtyrange[range-phrase = --]",
-    },
+            trig = "([^%a])qR",
+            wordTrig = false,
+            regTrig = true,
+            desc = "Expand to siunitx \\qtyrange[range-phrase = --]",
+        },
         fmta(
             "<>\\qtyrange[range-phrase = --]{<>}{<>}{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1, "range min"),
                 i(2, "range max"),
                 i(3, "unit"),
@@ -151,15 +151,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])mm",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Inline math",
-    },
+            trig = "([^%a])mm",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Inline math",
+        },
         fmta(
             "<>$<>$",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 d(1, get_visual),
             }
         ),
@@ -167,15 +167,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])vv",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Vector",
-    },
+            trig = "([^%a])vv",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Vector",
+        },
         fmta(
             "<>\\vec{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 d(1, get_visual),
             }
         ),
@@ -183,15 +183,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])ff",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Fraction"
-    },
+            trig = "([^%a])ff",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Fraction"
+        },
         fmta(
             "<>\\frac{<>}{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 d(1, get_visual),
                 i(2)
             }
@@ -200,15 +200,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])odv",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Ordinary derivative",
-    },
+            trig = "([^%a])odv",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Ordinary derivative",
+        },
         fmta(
             "<>\\odv{<>}{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1),
                 i(2)
             }
@@ -217,15 +217,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])pdv",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Partial derivative",
-    },
+            trig = "([^%a])pdv",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Partial derivative",
+        },
         fmta(
             "<>\\pdv{<>}{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1),
                 i(2)
             }
@@ -234,15 +234,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([^%a])dd",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Differential",
-    },
+            trig = "([^%a])dd",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Differential",
+        },
         fmta(
             "<>\\odif{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1),
             }
         ),
@@ -250,9 +250,9 @@ local autosnippets = {
     ),
 
     s({
-        trig = "beq",
-        dscr = "Equation environment"
-    },
+            trig = "beq",
+            dscr = "Equation environment"
+        },
         fmta(
             [[
                 \begin{equation}
@@ -266,9 +266,9 @@ local autosnippets = {
     ),
 
     s({
-        trig = "bes",
-        dscr = "Subequation environment"
-    },
+            trig = "bes",
+            dscr = "Subequation environment"
+        },
         fmta(
             [[
                 \begin{subequations}
@@ -282,9 +282,9 @@ local autosnippets = {
     ),
 
     s({
-        trig = "bal",
-        dscr = "Align environment"
-    },
+            trig = "bal",
+            dscr = "Align environment"
+        },
         fmta(
             [[
                 \begin{align}
@@ -298,9 +298,9 @@ local autosnippets = {
     ),
 
     s({
-        trig = "bga",
-        dscr = "Gather environment"
-    },
+            trig = "bga",
+            dscr = "Gather environment"
+        },
         fmta(
             [[
                 \begin{gather}
@@ -314,15 +314,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([%w%)%]%}]);",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Subscript"
-    },
+            trig = "([%w%)%]%}]);",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Subscript"
+        },
         fmta(
             "<>_{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1)
             }
         ),
@@ -330,15 +330,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([%w%)%]%}])'",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Superscript"
-    },
+            trig = "([%w%)%]%}])'",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Superscript"
+        },
         fmta(
             "<>^{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1)
             }
         ),
@@ -346,15 +346,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([%w%)%]%}]),;",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Textup subscript"
-    },
+            trig = "([%w%)%]%}]),;",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Textup subscript"
+        },
         fmta(
             "<>_\\textup{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1)
             }
         ),
@@ -362,15 +362,15 @@ local autosnippets = {
     ),
 
     s({
-        trig = "([%w%)%]%}]),'",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Textup superscript"
-    },
+            trig = "([%w%)%]%}]),'",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Textup superscript"
+        },
         fmta(
             "<>^\\textup{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
+                f(function(_, snip) return snip.captures[1] end),
                 i(1)
             }
         ),
@@ -378,153 +378,153 @@ local autosnippets = {
     ),
 
     s({
-        trig = "(%^[^%s%}]-)pp",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Prime"
-    },
+            trig = "(%^[^%s%}]-)pp",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Prime"
+        },
         fmta(
             "<>\\prime",
-            { f( function(_, snip) return snip.captures[1] end ) }
+            { f(function(_, snip) return snip.captures[1] end) }
         ),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = "([%w%)%]%}]):([%w])",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "First alphanumeric character into a subscript"
-    },
+            trig = "([%w%)%]%}]):([%w])",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "First alphanumeric character into a subscript"
+        },
         fmta(
             "<>_{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
-                f( function(_, snip) return snip.captures[2] end )
+                f(function(_, snip) return snip.captures[1] end),
+                f(function(_, snip) return snip.captures[2] end)
             }
         ),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = "([%w%)%]%}])\"([%w])",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "First alphanumeric character into a superscript"
-    },
+            trig = "([%w%)%]%}])\"([%w])",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "First alphanumeric character into a superscript"
+        },
         fmta(
             "<>^{<>}",
             {
-                f( function(_, snip) return snip.captures[1] end ),
-                f( function(_, snip) return snip.captures[2] end )
+                f(function(_, snip) return snip.captures[1] end),
+                f(function(_, snip) return snip.captures[2] end)
             }
         ),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = "([%w%)%]%}])%+%+",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Superscript plus"
-    },
+            trig = "([%w%)%]%}])%+%+",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Superscript plus"
+        },
         fmta(
             "<>^{+}",
-            { f( function(_, snip) return snip.captures[1] end ) }
+            { f(function(_, snip) return snip.captures[1] end) }
         ),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = "([%w%)%]%}])%-%-",
-        wordTrig = false,
-        regTrig = true,
-        dscr = "Superscript minus"
-    },
+            trig = "([%w%)%]%}])%-%-",
+            wordTrig = false,
+            regTrig = true,
+            dscr = "Superscript minus"
+        },
         fmta(
             "<>^{-}",
-            { f( function(_, snip) return snip.captures[1] end ) }
+            { f(function(_, snip) return snip.captures[1] end) }
         ),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = "->",
-        dscr = "Right arrow"
-    },
-        t( "\\to" ),
+            trig = "->",
+            dscr = "Right arrow"
+        },
+        t("\\to"),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = "=>",
-        dscr = "Double right arrow"
-    },
-        t( "\\Rightarrow" ),
+            trig = "=>",
+            dscr = "Double right arrow"
+        },
+        t("\\Rightarrow"),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = ">=",
-        dscr = "Greater than or equal to"
-    },
-        t( "\\geq" ),
+            trig = ">=",
+            dscr = "Greater than or equal to"
+        },
+        t("\\geq"),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = "<=",
-        dscr = "Lower than or equal to"
-    },
-        t( "\\leq" ),
+            trig = "<=",
+            dscr = "Lower than or equal to"
+        },
+        t("\\leq"),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = ">>",
-        dscr = "Much great than"
-    },
-        t( "\\gg" ),
+            trig = ">>",
+            dscr = "Much great than"
+        },
+        t("\\gg"),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = "<<",
-        dscr = "Much less than"
-    },
-        t( "\\ll" ),
+            trig = "<<",
+            dscr = "Much less than"
+        },
+        t("\\ll"),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = "!=",
-        dscr = "Not equal to"
-    },
-        t( "\\neq" ),
+            trig = "!=",
+            dscr = "Not equal to"
+        },
+        t("\\neq"),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = "~~",
-        dscr = "Approximately equal to"
-    },
-        t( "\\approx" ),
+            trig = "~~",
+            dscr = "Approximately equal to"
+        },
+        t("\\approx"),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = ">~",
-        dscr = "Greater than or approximately equal to"
-    },
-        t( "\\gtrapprox" ),
+            trig = ">~",
+            dscr = "Greater than or approximately equal to"
+        },
+        t("\\gtrapprox"),
         { condition = in_mathzone }
     ),
 
     s({
-        trig = "<~",
-        dscr = "Less than or approximately equal to"
-    },
-        t( "\\lessapprox" ),
+            trig = "<~",
+            dscr = "Less than or approximately equal to"
+        },
+        t("\\lessapprox"),
         { condition = in_mathzone }
     ),
 }
@@ -654,8 +654,8 @@ for si_prefix, latex in pairs(si_units) do
             fmta(
                 expand,
                 {
-                    f( function(_, snip) return snip.captures[1] end ),
-                    f( function(_, snip) return snip.captures[2] end ),
+                    f(function(_, snip) return snip.captures[1] end),
+                    f(function(_, snip) return snip.captures[2] end),
                 }
             )
         )
