@@ -69,14 +69,14 @@ map(
 	"<leader>fi",
 	[[""y/\v<C-r>=escape('<C-r>"', '/\\(){}+?~"')<CR><CR>]],
 	"[FI]nd the visual selection in the current file",
-	{ noremap = true }
+	{ silent = false }
 )
 map(
 	"v",
 	"<leader>sr",
-	[[""y<cmd>%s/\v<C-r>=escape('<C-r>"', '/\\(){}+?~"')<CR>//gI<left><left><left>]],
+	[[""y:%s/\v<C-r>=escape('<C-r>"', '/\\(){}+?~"')<CR>//gI<left><left><left>]],
 	"[S]earch and [R]eplace the visual selection",
-	{ noremap = true }
+	{ silent = false }
 )
 map("v", "<leader>d", [["_d]], "Delete without polluting the register")
 map("v", "<leader>D", [["_D]], "Delete without polluting the register")

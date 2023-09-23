@@ -33,7 +33,7 @@ return {
 	keys = function()
 		local lazy_map = require("utils").lazy_map
 		return {
-			lazy_map("<leader>tc", "<cmd>Copilot toggle<CR>", "[T]oggle [C]opilot"),
+			lazy_map("n", "<leader>tc", "<cmd>Copilot toggle<CR>", "[T]oggle [C]opilot"),
 		}
 	end,
 }

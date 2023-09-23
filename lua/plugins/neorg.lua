@@ -1,6 +1,9 @@
 return {
 	"nvim-neorg/neorg",
-	tag = "v5.0.0",
+    dependencies = {
+        "hrsh7th/nvim-cmp",
+    },
+	version = "*",
 	ft = "norg",
 	build = ":Neorg sync-parsers",
 	opts = function()

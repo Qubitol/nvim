@@ -81,6 +81,9 @@ return {
 					-- Mason
 					MasonNormal = { fg = colors.text, bg = colors.mantle },
 
+					-- Lazy
+					LazyNormal = { fg = colors.text, bg = colors.mantle },
+
 					-- nvim-cmp and wilder.nvim
 					Pmenu = { fg = colors.overlay2, bg = colors.none or colors.base },
 					PmenuBorder = { fg = colors.surface1, bg = colors.none or colors.base },

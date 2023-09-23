@@ -1,4 +1,4 @@
 return {
     "tpope/vim-obsession",
-    cmd = ":Obsess",
+    cmd = "Obsess",
 }

@@ -54,10 +54,9 @@ return {
 			end,
 
 			-- Autocompletion on demand by calling cmp.complete()
-			completion = {
-				autocomplete = false,
-				completeopt = "menu,menuone,noinsert",
-			},
+            -- completion = {
+            --     autocomplete = false,
+            -- },
 
 			-- Snippet engine
 			snippet = {

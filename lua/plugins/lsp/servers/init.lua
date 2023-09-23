@@ -1,10 +1,8 @@
-local M = {}
-
-M.servers = {
+return {
     "awk_ls",
     "bashls",
     "clangd",
-    "csharp_ls",
+    -- "csharp_ls",
     "cmake",
 	"cssls",
     "dockerls",
@@ -17,9 +15,7 @@ M.servers = {
     "terraformls",
     "texlab",
 	"tsserver",
-	"lua_ls",
+	-- "lua_ls",
     "yamlls",
-    "zk",
+    -- "zk",
 }
-
-return M

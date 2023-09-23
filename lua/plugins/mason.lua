@@ -1,7 +1,5 @@
 return {
 	"williamboman/mason.nvim",
-	event = { "BufReadPre", "BufNewFile" },
-	cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonUpdate", "MasonLog" },
 	build = ":MasonUpdate",
 	opts = {
 		ui = {
@@ -18,7 +16,7 @@ return {
 	keys = function()
 		local lazy_map = require("utils").lazy_map
 		return {
-			lazy_map("<leader>om", "<cmd>Mason<CR>", "[O]pen [M]ason dashboard"),
+			lazy_map("n", "<leader>om", "<cmd>Mason<CR>", "[O]pen [M]ason dashboard"),
 		}
 	end,
 }

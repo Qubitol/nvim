@@ -18,7 +18,7 @@ M.icons = {
 		added = " ",
 		modified = " ",
 		removed = " ",
-        branch = " ", -- 
+        branch = " ", -- 
 	},
     --   פּ ﯟ     some other good icons
 	kinds = {

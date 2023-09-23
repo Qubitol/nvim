@@ -37,6 +37,7 @@ M.heirline = {
 	git_del = palette["mauve"],
 	git_add = palette["mauve"],
 	git_change = palette["mauve"],
+    copilot = palette["sapphire"],
 }
 
 return M
