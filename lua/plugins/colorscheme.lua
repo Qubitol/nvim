@@ -1,139 +1,104 @@
 -- I took inspiration from https://github.com/ayamir/nvimdots
 return {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "ellisonleao/gruvbox.nvim",
+    name = "gruvbox",
     lazy = false,
     priority = 1000,
     opts = {
-        flavour = "mocha", -- latte, frappe, macchiato, mocha
-
-        background = { -- :h background
-            light = "latte",
-            dark = "mocha",
+        terminal_colors = true, -- add neovim terminal colors
+        undercurl = true,
+        underline = true,
+        bold = true,
+        italic = {
+            strings = true,
+            emphasis = true,
+            comments = true,
+            operators = false,
+            folds = true,
         },
-
-        dim_inactive = {
-            enabled = false,
-            shade = "dark",
-            percentage = 0.15,
-        },
-
-        show_end_of_buffer = false,
-        term_colors = true,
-        compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
-
-        integrations = {
-            aerial = true,
-            cmp = true,
-            gitsigns = true,
-            harpoon = true,
-            markdown = true,
-            mason = true,
-            telescope = true,
-            treesitter = true,
-            treesitter_context = true,
-        },
-
-        dap = {
-            enabled = true,
-            enable_ui = true,
-        },
-
-        indent_blankline = {
-            enabled = true,
-            colored_indent_levels = false,
-        },
-
-        native_lsp = {
-            enabled = true,
-            virtual_text = {
-                errors = { "italic" },
-                hints = { "italic" },
-                warnings = { "italic" },
-                information = { "italic" },
-            },
-            underlines = {
-                errors = { "underline" },
-                hints = { "underline" },
-                warnings = { "underline" },
-                information = { "underline" },
-            },
-        },
-
-        color_overrides = {},
-        highlight_overrides = {
-            all = function(colors)
-                return {
-                    -- base configs
-                    NormalFloat = { fg = colors.text, bg = colors.none or colors.mantle },
-                    FloatBorder = {
-                        fg = colors.blue or colors.mantle,
-                        bg = colors.none or colors.mantle,
-                    },
-
-                    -- native lsp configs
-                    DiagnosticVirtualTextError = { bg = colors.none },
-                    DiagnosticVirtualTextWarn = { bg = colors.none },
-                    DiagnosticVirtualTextInfo = { bg = colors.none },
-                    DiagnosticVirtualTextHint = { bg = colors.none },
-                    LspInfoBorder = { link = "FloatBorder" },
-
-                    -- Mason
-                    MasonNormal = { fg = colors.text, bg = colors.mantle },
-
-                    -- Lazy
-                    LazyNormal = { fg = colors.text, bg = colors.mantle },
-
-                    -- nvim-cmp and wilder.nvim
-                    Pmenu = { fg = colors.overlay2, bg = colors.none or colors.base },
-                    PmenuBorder = { fg = colors.surface1, bg = colors.none or colors.base },
-                    PmenuSel = { bg = colors.green, fg = colors.base },
-                    CmpItemAbbr = { fg = colors.overlay2 },
-                    CmpItemAbbrMatch = { fg = colors.blue, style = { "bold" } },
-                    CmpDoc = { link = "NormalFloat" },
-                    CmpDocBorder = {
-                        fg = colors.surface1 or colors.mantle,
-                        bg = colors.none or colors.mantle,
-                    },
-
-                    -- Fidget
-                    FidgetTask = { bg = colors.none, fg = colors.surface2 },
-                    FidgetTitle = { fg = colors.blue, style = { "bold" } },
-
-                    -- Telescope
-                    TelescopeBorder = { fg = colors.mantle, bg = colors.mantle },
-                    TelescopePromptBorder = { fg = colors.surface0, bg = colors.surface0 },
-                    TelescopePromptNormal = { fg = colors.text, bg = colors.surface0 },
-                    TelescopePromptPrefix = { fg = colors.flamingo, bg = colors.surface0 },
-                    TelescopeNormal = { bg = colors.mantle },
-                    TelescopePreviewTitle = { fg = colors.base, bg = colors.green },
-                    TelescopePromptTitle = { fg = colors.base, bg = colors.red },
-                    TelescopeResultsTitle = { fg = colors.mantle, bg = colors.mantle },
-                    TelescopeSelection = { fg = colors.text, bg = colors.surface0 },
-                    TelescopeResultsDiffAdd = { fg = colors.green },
-                    TelescopeResultsDiffChange = { fg = colors.yellow },
-                    TelescopeResultsDiffDelete = { fg = colors.red },
-
-                    -- Harpoon
-                    HarpoonWindow = { bg = colors.mantle },
-                    HarpoonBorder = { fg = colors.mantle, bg = colors.mantle },
-
-                    -- File browser
-                    FileBrowser = { bg = colors.mantle, fg = colors.text },
-
-                    -- Quickfix
-                    Quickfix = { bg = colors.mantle, fg = colors.text },
-
-                    -- Treesitter
-                    ["@keyword.return"] = { fg = colors.pink, style = {} },
-                }
-            end,
-        },
+        strikethrough = true,
+        invert_selection = false,
+        invert_signs = false,
+        invert_tabline = false,
+        invert_intend_guides = false,
+        inverse = true, -- invert background for search, diffs, statuslines and errors
+        contrast = "", -- can be "hard", "soft" or empty string
+        palette_overrides = {},
+        overrides = {},
+        dim_inactive = false,
+        transparent_mode = false,
     },
 
     config = function(_, opts)
-        require("catppuccin").setup(opts)
+        local palette = require("gruvbox.palette")
+        local colors = palette.get_base_colors(opts.palette_overrides, vim.o.background, opts.contrast)
+        local dark0_hard = "#1d2021"
+        local highlight_groups = {
+            -- base configs
+            NormalFloat = { fg = colors.fg0, bg = colors.none or dark0_hard },
+            FloatBorder = {
+                fg = colors.blue or dark0_hard,
+                bg = colors.none or dark0_hard,
+            },
+
+            -- native lsp configs
+            DiagnosticVirtualTextError = { bg = colors.none },
+            DiagnosticVirtualTextWarn = { bg = colors.none },
+            DiagnosticVirtualTextInfo = { bg = colors.none },
+            DiagnosticVirtualTextHint = { bg = colors.none },
+            LspInfoBorder = { link = "FloatBorder" },
+
+            -- Mason
+            MasonNormal = { fg = colors.fg0, bg = dark0_hard },
+
+            -- Lazy
+            LazyNormal = { fg = colors.fg0, bg = dark0_hard },
+
+            -- nvim-cmp and wilder.nvim
+            Pmenu = { fg = colors.fg4, bg = colors.none or colors.bg1 },
+            PmenuBorder = { fg = colors.bg3, bg = colors.none or colors.bg1 },
+            PmenuSel = { bg = colors.green, fg = colors.bg1 },
+            CmpItemAbbr = { fg = colors.fg4 },
+            CmpItemAbbrMatch = { fg = colors.blue },
+            CmpDoc = { link = "NormalFloat" },
+            CmpDocBorder = {
+                fg = colors.bg3 or dark0_hard,
+                bg = colors.none or dark0_hard,
+            },
+
+            -- Fidget
+            FidgetTask = { bg = colors.none, fg = colors.bg4 },
+            FidgetTitle = { fg = colors.blue },
+
+            -- Telescope
+            TelescopeBorder = { fg = dark0_hard, bg = colors.bg0 },
+            TelescopePromptBorder = { fg = colors.bg1, bg = colors.bg1 },
+            TelescopePromptNormal = { fg = colors.fg0, bg = colors.bg1 },
+            TelescopePromptPrefix = { fg = colors.yellow, bg = colors.bg1 },
+            TelescopeNormal = { bg = dark0_hard },
+            TelescopePreviewTitle = { fg = dark0_hard, bg = colors.green },
+            TelescopePromptTitle = { fg = colors.bg1, bg = colors.yellow },
+            TelescopeResultsTitle = { fg = colors.bg1, bg = colors.aqua },
+            TelescopeSelection = { fg = colors.fg0, bg = colors.bg1 },
+            TelescopeResultsDiffAdd = { fg = colors.green },
+            TelescopeResultsDiffChange = { fg = colors.yellow },
+            TelescopeResultsDiffDelete = { fg = colors.red },
+
+            -- Harpoon
+            HarpoonWindow = { bg = dark0_hard },
+            HarpoonBorder = { fg = dark0_hard, bg = colors.bg0 },
+
+            -- File browser
+            FileBrowser = { bg = dark0_hard, fg = colors.fg0 },
+
+            -- Quickfix
+            Quickfix = { bg = dark0_hard, fg = colors.fg0 },
+
+            -- Treesitter
+            ["@keyword.return"] = { fg = colors.neutral_purple },
+        }
+        require("gruvbox").setup(vim.tbl_deep_extend("force", opts, { overrides = highlight_groups }))
         -- setup must be called before loading
-        vim.cmd.colorscheme("catppuccin")
+        vim.cmd.colorscheme("gruvbox")
     end,
 }

@@ -3,6 +3,7 @@ return {
     dependencies = {
         "nvim-tree/nvim-web-devicons",
     },
+    version = "*",
     event = "VeryLazy",
     config = function()
         local heirline = require("heirline")
@@ -22,7 +23,6 @@ return {
         -- Colors
         local hl_colors = {
             bright_bg = utils.get_highlight("Folded").bg,
-            bright_fg = utils.get_highlight("Folded").fg,
             dark_red = utils.get_highlight("DiffDelete").bg,
             gray = utils.get_highlight("NonText").fg,
             orange = utils.get_highlight("Constant").fg,
@@ -113,33 +113,33 @@ return {
             -- Same goes for the highlight. Now the foreground will change according to the current mode.
             hl = function(self)
                 local mode = self.mode:sub(1, 1) -- get only the first mode character
-                return { fg = self.mode_colors[mode], bold = true }
+                return { fg = self.mode_colors[mode], bold = true, reverse = false}
             end,
 
             {
                 provider = "%2(%)",
                 hl = function(self)
                     local mode = self.mode:sub(1, 1) -- get only the first mode character
-                    return { bg = self.mode_colors[mode], fg = "mode_name", bold = true }
+                    return { bg = self.mode_colors[mode], fg = "mode_name", bold = true, reverse = false }
                 end,
             },
             {
                 provider = "",
-                hl = { bg = "mode_name" },
+                hl = { bg = "mode_name", reverse = false },
             },
             {
                 provider = function(self)
                     return " %2(" .. self.mode_names[self.mode] .. "%) "
                 end,
-                hl = { bg = "mode_name" },
+                hl = { bg = "mode_name", reverse = false },
             },
             {
                 provider = "",
-                hl = { fg = "mode_name", bg = "bright_bg" },
+                hl = { fg = "mode_name", bg = "bright_bg", reverse = false },
             },
             {
                 provider = "",
-                hl = { fg = "bright_bg", bg = "bright_black" },
+                hl = { fg = "bright_bg", bg = "bright_black", reverse = false },
             },
             -- Re-evaluate the component only on ModeChanged event!
             -- Also allows the statusline to be re-evaluated when entering operator-pending mode
@@ -157,7 +157,7 @@ return {
             init = function(self)
                 self.filename = vim.api.nvim_buf_get_name(0)
             end,
-            hl = { bg = "file_bg" },
+            hl = { bg = "file_bg", reverse = false },
         }
 
         -- We can now define some children separately and add them later
@@ -171,7 +171,7 @@ return {
                 return self.icon and (self.icon .. " ")
             end,
             hl = function(self)
-                return { fg = self.icon_color }
+                return { fg = self.icon_color, reverse = false }
             end,
         }
 
@@ -184,7 +184,7 @@ return {
                     self.lfilename = "[No Name]"
                 end
             end,
-            hl = { fg = "file_fg" },
+            hl = { fg = "file_fg", reverse = false },
 
             flexible = 1,
 
@@ -206,14 +206,14 @@ return {
                     return vim.bo.modified
                 end,
                 provider = "[+]",
-                hl = { fg = "green" },
+                hl = { fg = "green", reverse = false },
             },
             {
                 condition = function()
                     return not vim.bo.modifiable or vim.bo.readonly
                 end,
                 provider = "  ",
-                hl = { fg = "red" },
+                hl = { fg = "red", reverse = false },
             },
             -- {
             --     condition = function()
@@ -223,14 +223,14 @@ return {
             -- },
             -- {
             --     provider = "",
-            --     hl = { fg = "file_bg" },
+            --     hl = { fg = "file_bg", reverse = false },
             -- },
         }
 
         -- let's add the children to our FileNameBlock component
         FileNameBlock = utils.insert(
             FileNameBlock,
-            { provider = " ", hl = { bg = "file_bg" } },
+            { provider = " ", hl = { bg = "file_bg", reverse = false } },
             FileIcon,
             FileName,
             FileFlags
@@ -242,18 +242,21 @@ return {
 
         local RulerSymbol = {
             flexible = 1,
+
+            hl = { bg = "file_bg", reverse = false },
+
             {
                 {
                     provider = "",
-                    hl = { fg = "bright_bg" },
+                    hl = { fg = "bright_bg", reverse = false },
                 },
                 {
                     provider = "",
-                    hl = { fg = "ruler", bg = "bright_bg" },
+                    hl = { fg = "ruler", bg = "bright_bg", reverse = false },
                 },
                 {
                     provider = "󰦨 ",
-                    hl = { fg = "ruler_bg", bg = "ruler" },
+                    hl = { fg = "ruler_bg", bg = "ruler", reverse = false },
                 },
             },
             {
@@ -270,7 +273,7 @@ return {
             {
                 {
                     provider = " %3(%l%):%-2(%c%) %P ",
-                    hl = { bg = "ruler_bg" },
+                    hl = { fg = "bright_white", bg = "ruler_bg", reverse = false },
                 },
             },
             {
@@ -294,8 +297,8 @@ return {
                 end
                 return string.rep(self.sbar[i], 2)
             end,
-            -- hl = { fg = "ruler", bg = "bright_bg" },
-            hl = { fg = "bright_bg", bg = "ruler" },
+            -- hl = { fg = "ruler", bg = "bright_bg", reverse = false },
+            hl = { fg = "bright_bg", bg = "ruler", reverse = false },
         }
 
         RulerBlock = utils.insert(
@@ -310,7 +313,7 @@ return {
             condition = conditions.lsp_attached,
             update = { "LspAttach", "LspDetach" },
 
-            hl = { fg = "lsp", bold = true },
+            hl = { bg = "file_bg", fg = "lsp", bold = true, reverse = false },
 
             flexible = 3,
 
@@ -334,7 +337,7 @@ return {
                 return ok and #clients > 0
             end,
 
-            hl = { fg = "copilot", bold = true },
+            hl = { bg = "file_bg", fg = "copilot", bold = true, reverse = false },
 
             flexible = 3,
 
@@ -377,31 +380,33 @@ return {
 
             flexible = 2,
 
+            hl = { bg = "file_bg", reverse = false },
+
             {
                 {
                     provider = function(self)
                         -- 0 is just another output, we can decide to print it or not!
                         return self.errors > 0 and (self.error_icon .. self.errors .. " ")
                     end,
-                    hl = { fg = "diag_error" },
+                    hl = { fg = "diag_error", reverse = false },
                 },
                 {
                     provider = function(self)
                         return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
                     end,
-                    hl = { fg = "diag_warn" },
+                    hl = { fg = "diag_warn", reverse = false },
                 },
                 {
                     provider = function(self)
                         return self.info > 0 and (self.info_icon .. self.info .. " ")
                     end,
-                    hl = { fg = "diag_info" },
+                    hl = { fg = "diag_info", reverse = false },
                 },
                 {
                     provider = function(self)
                         return self.hints > 0 and (self.hint_icon .. self.hints)
                     end,
-                    hl = { fg = "diag_hint" },
+                    hl = { fg = "diag_hint", reverse = false },
                 },
             },
 
@@ -420,23 +425,25 @@ return {
                     or self.status_dict.changed ~= 0
             end,
 
+            hl = { bg = "file_bg", reverse = false },
+
             {
                 provider = "",
-                hl = { fg = "bright_bg" },
+                hl = { fg = "bright_bg", reverse = false },
             },
             {
                 provider = "",
-                hl = { fg = "git", bg = "bright_bg" },
+                hl = { fg = "git", bg = "bright_bg", reverse = false },
             },
             {
                 provider = icons.git.branch,
-                hl = { fg = "bright_black", bg = "git" },
+                hl = { fg = "bright_black", bg = "git", reverse = false },
             },
             { -- git branch name
                 provider = function(self)
                     return " " .. self.status_dict.head
                 end,
-                hl = { fg = "git", bg = "git_branch", bold = true },
+                hl = { fg = "git", bg = "git_branch", bold = true, reverse = false },
             },
         }
 
@@ -450,6 +457,8 @@ return {
                     or self.status_dict.changed ~= 0
             end,
 
+            hl = { bg = "file_bg", reverse = false },
+
             flexible = 2,
 
             {
@@ -458,21 +467,21 @@ return {
                         local count = self.status_dict.added or 0
                         return count > 0 and (" " .. icons.git.added .. count)
                     end,
-                    hl = { fg = "git_add" },
+                    hl = { fg = "git_add", reverse = false },
                 },
                 {
                     provider = function(self)
                         local count = self.status_dict.removed or 0
                         return count > 0 and (" " .. icons.git.removed .. count)
                     end,
-                    hl = { fg = "git_del" },
+                    hl = { fg = "git_del", reverse = false },
                 },
                 {
                     provider = function(self)
                         local count = self.status_dict.changed or 0
                         return count > 0 and (" " .. icons.git.modified .. count)
                     end,
-                    hl = { fg = "git_change" },
+                    hl = { fg = "git_change", reverse = false },
                 },
             },
             {
@@ -485,7 +494,7 @@ return {
                 local cwd = vim.fn.getcwd(0)
                 self.cwd = vim.fn.fnamemodify(cwd, ":~")
             end,
-            hl = { fg = "white", bold = true },
+            hl = { fg = "white", bg = "file_bg", bold = true, reverse = false },
 
             flexible = 2,
 
@@ -514,8 +523,14 @@ return {
             },
         }
 
-        local Align = { provider = "%=" }
-        local Space = { provider = " " }
+        local Align = {
+            provider = "%=",
+            hl = { bg = "file_bg", reverse = false },
+        }
+        local Space = {
+            provider = " ",
+            hl = { bg = "file_bg", reverse = false },
+        }
 
         -- Statusline
         local DefaultStatusline = {

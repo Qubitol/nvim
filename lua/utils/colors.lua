@@ -1,43 +1,46 @@
 local M = {}
 
-local palette = require("catppuccin.palettes").get_palette("mocha")
+local gruvbox = require("gruvbox.palette")
+local palette = gruvbox.get_base_colors({}, "dark", "")
+local dark0_hard = "#1d2021"
 
 M.theme = {
-    black = palette["crust"],
-    red = palette["red"],
-    green = palette["green"],
-    yellow = palette["yellow"],
-    blue = palette["blue"],
-    magenta = palette["mauve"],
-    cyan = palette["sapphire"],
-    white = palette["subtext1"],
-    bright_black = palette["base"],
-    bright_red = palette["flamingo"],
-    bright_green = palette["teal"],
-    bright_yellow = palette["yellow"],
-    bright_blue = palette["blue"],
-    bright_magenta = palette["lavender"],
-    bright_cyan = palette["sky"],
-    bright_white = palette["text"],
+    black = dark0_hard,
+    red = palette.red,
+    green = palette.green,
+    yellow = palette.yellow,
+    blue = palette.blue,
+    magenta = palette.purple,
+    cyan = palette.aqua,
+    white = palette.fg4,
+    bright_black = palette.bg0,
+    bright_red = palette.neutral_red,
+    bright_green = palette.neutral_green,
+    bright_yellow = palette.neutral_yellow,
+    bright_blue = palette.neutral_blue,
+    bright_magenta = palette.neutral_purple,
+    bright_cyan = palette.neutral_aqua,
+    bright_white = palette.fg0,
 }
 
 M.heirline = {
+    -- bright_bg = palette.bg1,
     mode_name = M.theme["bright_black"],
     file_fg = M.theme["bright_white"],
-    file_bg = palette["mantle"],
+    file_bg = M.theme["black"],
     file_modified = M.theme["green"],
-    file_locked = palette["orange"],
-    git = palette["mauve"],
-    git_branch = palette["crust"],
+    file_locked = palette.orange,
+    git = M.theme["magenta"],
+    git_branch = M.theme["black"],
     lsp = M.theme["green"],
     filetype = M.theme["yellow"],
     work_dir = M.theme["red"],
     ruler = M.theme["blue"],
-    ruler_bg = palette["mantle"],
-    git_del = palette["mauve"],
-    git_add = palette["mauve"],
-    git_change = palette["mauve"],
-    copilot = palette["sapphire"],
+    ruler_bg = M.theme["black"],
+    git_del = M.theme["magenta"],
+    git_add = M.theme["magenta"],
+    git_change = M.theme["magenta"],
+    copilot = palette.aqua,
 }
 
 return M
