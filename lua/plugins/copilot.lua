@@ -12,7 +12,12 @@ return {
             suggestion = {
                 enabled = true,
                 auto_trigger = true,
-                accept = false, -- disable built-in keymapping
+                keymap = {
+                    accept = "<C-y>",
+                    next = "<C-n>",
+                    prev = "<C-p>",
+                    dismiss = "<C-e>",
+                },
             },
         })
 
