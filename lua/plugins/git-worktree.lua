@@ -2,7 +2,7 @@ return {
     -- "ThePrimeagen/git-worktree.nvim",
     "brandoncc/git-worktree.nvim",
     branch = "catch-and-handle-telescope-related-error",
-    event = "VeryLazy",
+    lazy = true,
     config = function()
         -- op = Operations.Switch, Operations.Create, Operations.Delete
         -- metadata = table of useful values (structure dependent on op)

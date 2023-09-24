@@ -1,7 +1,6 @@
 return {
     "lewis6991/gitsigns.nvim",
     commit = "d4f8c01280413919349f5df7daccd0c172143d7c",
-    -- event = "VeryLazy",
     event = { "BufReadPre", "BufNewFile" },
     opts = {
         signs = {

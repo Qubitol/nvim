@@ -1,6 +1,5 @@
 return {
     "mbbill/undotree",
-    event = "VeryLazy",
     keys = function()
         local lazy_map = require("utils").lazy_map
         return {

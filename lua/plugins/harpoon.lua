@@ -1,6 +1,5 @@
 return {
     "ThePrimeagen/harpoon",
-    event = "VeryLazy",
     keys = function()
         local lazy_map = require("utils").lazy_map
         local harpoon_ui = require("harpoon.ui")
