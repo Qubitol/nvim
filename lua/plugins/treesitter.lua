@@ -5,8 +5,7 @@ return {
     },
     version = false, -- last release is way too old and doesn't work on Windows
     build = ":TSUpdate",
-    event = { "BufReadPost", "BufNewFile" },
-    cmd = { "TSUpdateSync" },
+    lazy = false,
     opts = {
         -- A list of parser names, or "all"
         ensure_installed = {
