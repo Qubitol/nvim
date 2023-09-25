@@ -35,11 +35,20 @@ return {
         local dark0_hard = "#1d2021"
         local highlight_groups = {
             -- base configs
-            NormalFloat = { fg = colors.fg0, bg = colors.none or dark0_hard },
-            FloatBorder = {
-                fg = colors.blue or dark0_hard,
-                bg = colors.none or dark0_hard,
-            },
+            NormalFloat = { fg = colors.fg0, bg = colors.bg0 },
+            FloatBorder = { fg = colors.blue, bg = colors.bg0 },
+            SignColumn = { bg = colors.bg0 },
+            CursorLineNr = { bg = colors.bg0 },
+            GruvboxGreenSign = { fg = vim.api.nvim_get_hl(0, { name = "GruvboxGreenSign" }).fg, bg = colors.bg0 },
+            GruvboxAquaSign = { fg = vim.api.nvim_get_hl(0, { name = "GruvboxAquaSign" }).fg, bg = colors.bg0 },
+            GruvboxRedSign = { fg = vim.api.nvim_get_hl(0, { name = "GruvboxRedSign" }).fg, bg = colors.bg0 },
+            GruvboxYellowSign = { fg = vim.api.nvim_get_hl(0, { name = "GruvboxYellowSign" }).fg, bg = colors.bg0 },
+            GruvboxPurpleSign = { fg = vim.api.nvim_get_hl(0, { name = "GruvboxPurpleSign" }).fg, bg = colors.bg0 },
+            GruvboxOrangeSign = { fg = vim.api.nvim_get_hl(0, { name = "GruvboxOrangeSign" }).fg, bg = colors.bg0 },
+            GruvboxBlueSign = { fg = vim.api.nvim_get_hl(0, { name = "GruvboxBlueSign" }).fg, bg = colors.bg0 },
+
+            -- Dim inactive
+            DimInactive = { bg = "#212323" },
 
             -- native lsp configs
             DiagnosticVirtualTextError = { bg = colors.none },
@@ -55,50 +64,45 @@ return {
             LazyNormal = { fg = colors.fg0, bg = dark0_hard },
 
             -- nvim-cmp and wilder.nvim
-            Pmenu = { fg = colors.fg4, bg = colors.none or colors.bg1 },
-            PmenuBorder = { fg = colors.bg3, bg = colors.none or colors.bg1 },
-            PmenuSel = { bg = colors.green, fg = colors.bg1 },
-            CmpItemAbbr = { fg = colors.fg4 },
+            Pmenu = { fg = colors.fg4, bg = colors.bg0 },
+            PmenuBorder = { fg = colors.bg3, bg = colors.bg0 },
+            PmenuSel = { bg = colors.green, fg = colors.bg0 },
             CmpItemAbbrMatch = { fg = colors.blue },
-            CmpDoc = { link = "NormalFloat" },
-            CmpDocBorder = {
-                fg = colors.bg3 or dark0_hard,
-                bg = colors.none or dark0_hard,
-            },
-
-            -- Fidget
-            FidgetTask = { bg = colors.none, fg = colors.bg4 },
-            FidgetTitle = { fg = colors.blue },
+            CmpDoc = { fg = colors.fg0, bg = colors.bg0 },
+            CmpDocBorder = { fg = colors.bg3, bg = colors.bg0 },
 
             -- Telescope
-            TelescopeBorder = { fg = dark0_hard, bg = colors.bg0 },
+            TelescopeBorder = { fg = dark0_hard, bg = dark0_hard },
+            TelescopePreviewBorder = { fg = dark0_hard, bg = dark0_hard },
+            TelescopeResultsBorder = { fg = dark0_hard, bg = dark0_hard },
             TelescopePromptBorder = { fg = colors.bg1, bg = colors.bg1 },
             TelescopePromptNormal = { fg = colors.fg0, bg = colors.bg1 },
-            TelescopePromptPrefix = { fg = colors.yellow, bg = colors.bg1 },
+            TelescopePromptPrefix = { fg = colors.fg0, bg = colors.bg1 },
             TelescopeNormal = { bg = dark0_hard },
             TelescopePreviewTitle = { fg = dark0_hard, bg = colors.green },
-            TelescopePromptTitle = { fg = colors.bg1, bg = colors.yellow },
+            TelescopePromptTitle = { fg = colors.bg1, bg = colors.purple },
             TelescopeResultsTitle = { fg = colors.bg1, bg = colors.aqua },
-            TelescopeSelection = { fg = colors.fg0, bg = colors.bg1 },
+            TelescopeSelection = { fg = colors.fg0, bg = colors.bg0 },
             TelescopeResultsDiffAdd = { fg = colors.green },
-            TelescopeResultsDiffChange = { fg = colors.yellow },
+            TelescopeResultsDiffChange = { fg = colors.aqua },
             TelescopeResultsDiffDelete = { fg = colors.red },
 
             -- Harpoon
             HarpoonWindow = { bg = dark0_hard },
-            HarpoonBorder = { fg = dark0_hard, bg = colors.bg0 },
+            HarpoonBorder = { fg = dark0_hard, bg = dark0_hard },
 
-            -- File browser
+            -- FileBrowser
             FileBrowser = { bg = dark0_hard, fg = colors.fg0 },
 
             -- Quickfix
             Quickfix = { bg = dark0_hard, fg = colors.fg0 },
+            QuickfixLine = { bg = colors.bg2 },
 
             -- Treesitter
             ["@keyword.return"] = { fg = colors.neutral_purple },
         }
-        require("gruvbox").setup(vim.tbl_deep_extend("force", opts, { overrides = highlight_groups }))
         -- setup must be called before loading
+        require("gruvbox").setup(vim.tbl_deep_extend("force", opts, { overrides = highlight_groups }))
         vim.cmd.colorscheme("gruvbox")
     end,
 }
