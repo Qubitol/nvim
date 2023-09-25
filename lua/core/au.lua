@@ -34,11 +34,45 @@ autocmd("FileType", {
     end,
 })
 
+-- Dim inactive windows
+local dim_inactive_group = augroup("DimInactiveGroup", {})
+local filetype_blacklist = { "aerial", "netrw", "qf", "TelescopePrompt", "TelescopeResults", "TelescopePreview",
+    "undotree", "fugitive" }
+local buftype_blacklist = { "nofile", "nowrite", "acwrite", "help" }
+
+autocmd({ "WinEnter", "BufEnter" }, {
+    group = dim_inactive_group,
+    pattern = "*",
+    callback = function(opts)
+        local buf_ft = vim.api.nvim_buf_get_option(opts.buf, "filetype")
+        local buftype = vim.api.nvim_buf_get_option(opts.buf, "buftype")
+        if (buf_ft and vim.tbl_contains(filetype_blacklist, buf_ft)) or (buftype and vim.tbl_contains(buftype_blacklist, buftype)) then
+            return
+        end
+        vim.opt_local.cursorline = true
+        vim.opt_local.winhighlight = ""
+    end,
+})
+
+autocmd({ "WinLeave", "BufLeave" }, {
+    group = dim_inactive_group,
+    pattern = "*",
+    callback = function(opts)
+        local buf_ft = vim.api.nvim_buf_get_option(opts.buf, "filetype")
+        local buftype = vim.api.nvim_buf_get_option(opts.buf, "buftype")
+        if (buf_ft and vim.tbl_contains(filetype_blacklist, buf_ft)) or (buftype and vim.tbl_contains(buftype_blacklist, buftype)) then
+            return
+        end
+        vim.opt_local.cursorline = false
+        vim.opt_local.winhighlight = "Normal:DimInactive,SignColumn:DimInactive"
+    end,
+})
+
 -- Autosave on FocusLost
-local focuslost_group = augroup("FocusLostGroup", {})
+local autosave_group = augroup("AutosaveGroup", {})
 
 autocmd("FocusLost", {
-    group = focuslost_group,
+    group = autosave_group,
     pattern = "*",
     callback = function()
         vim.cmd("silent! wa")
