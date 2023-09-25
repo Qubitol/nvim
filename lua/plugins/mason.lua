@@ -1,5 +1,6 @@
 return {
     "williamboman/mason.nvim",
+    version = "*",
     lazy = "false",
     build = ":MasonUpdate",
     opts = {

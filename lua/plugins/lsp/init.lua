@@ -4,6 +4,7 @@ return {
     dependencies = {
         {
             "williamboman/mason-lspconfig.nvim",
+            version = "*",
             opts = {
                 ensure_installed = require("plugins.lsp.servers"),
                 automatic_installation = true,
@@ -13,6 +14,7 @@ return {
         "hrsh7th/cmp-nvim-lsp",
         {
             "barreiroleo/ltex_extra.nvim",
+            version = "*",
             ft = { "markdown", "tex" },
         },
     },

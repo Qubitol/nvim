@@ -1,5 +1,6 @@
 return {
     "numToStr/Comment.nvim",
+    version = "*",
     event = "BufReadPost",
     dependencies = {
         "nvim-treesitter/nvim-treesitter",

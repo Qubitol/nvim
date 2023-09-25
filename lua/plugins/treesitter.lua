@@ -1,9 +1,9 @@
 return {
     "nvim-treesitter/nvim-treesitter",
+    version = "*",
     dependencies = {
         "JoosepAlviste/nvim-ts-context-commentstring",
     },
-    version = false, -- last release is way too old and doesn't work on Windows
     build = ":TSUpdate",
     lazy = false,
     opts = {

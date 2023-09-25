@@ -1,5 +1,6 @@
 return {
     "nvim-telescope/telescope.nvim",
+    version = "*",
     dependencies = {
         "nvim-lua/plenary.nvim",
         {
@@ -9,7 +10,6 @@ return {
         "stevearc/aerial.nvim",
         "brandoncc/git-worktree.nvim",
     },
-    version = false,
     cmd = "Telescope",
 
     opts = function()

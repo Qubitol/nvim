@@ -1,5 +1,6 @@
 return {
     "L3MON4D3/LuaSnip",
+    version = "*",
     build = "make install_jsregexp",
     priority = 100, -- needs to be loaded before nvim-cmp
     config = function()
