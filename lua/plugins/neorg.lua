@@ -164,15 +164,16 @@ return {
                             local default_opts = { noremap = true, silent = true }
                             for mode, keys in pairs(neorg_mappings) do
                                 keymaps[mode] = {}
-                                for key, mapping_info in pairs(keys) do
-                                    local command = mapping_info[1]
+                                for _, mapping_info in ipairs(keys) do
+                                    local lhs = mapping_info[1]
+                                    local rhs = mapping_info[2]
                                     local opts = vim.tbl_deep_extend(
                                         "force",
                                         default_opts,
-                                        mapping_info[3] or {},
-                                        { desc = mapping_info[2] }
+                                        mapping_info[4] or {},
+                                        { desc = mapping_info[3] }
                                     )
-                                    table.insert(keymaps[mode], { key, command, opts })
+                                    table.insert(keymaps[mode], { lhs, rhs, opts })
                                 end
                             end
 
