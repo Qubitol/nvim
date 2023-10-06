@@ -7,7 +7,7 @@ return {
     "cssls",
     "dockerls",
     "fortls",
-    "ltex",
+    -- "ltex",
     "html",
     "jsonls",
     "pyright",
