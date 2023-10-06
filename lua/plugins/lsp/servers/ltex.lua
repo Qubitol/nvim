@@ -22,7 +22,7 @@ return {
         require("ltex_extra").setup({
             load_langs = { "en-US", "it" },
             init_check = true,
-            path = vim.fn.expand("~") .. ".config/nvim/spell",
+            path = vim.fn.expand("~") .. "/.config/nvim/spell",
         })
     end,
     settings = {
