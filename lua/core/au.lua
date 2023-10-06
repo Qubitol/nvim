@@ -35,13 +35,13 @@ autocmd("FileType", {
 })
 
 -- Dim inactive windows
-local dim_inactive_group = augroup("DimInactiveGroup", {})
+local inactive_group = augroup("InactiveGroup", {})
 local filetype_blacklist = { "aerial", "netrw", "qf", "TelescopePrompt", "TelescopeResults", "TelescopePreview",
-    "undotree", "fugitive" }
+    "undotree", "fugitive", "harpoon" }
 local buftype_blacklist = { "nofile", "nowrite", "acwrite", "help" }
 
 autocmd({ "WinEnter", "BufEnter" }, {
-    group = dim_inactive_group,
+    group = inactive_group,
     pattern = "*",
     callback = function(opts)
         local buf_ft = vim.api.nvim_buf_get_option(opts.buf, "filetype")
@@ -50,12 +50,12 @@ autocmd({ "WinEnter", "BufEnter" }, {
             return
         end
         vim.opt_local.cursorline = true
-        vim.opt_local.winhighlight = ""
+        -- vim.opt_local.winhighlight = ""
     end,
 })
 
 autocmd({ "WinLeave", "BufLeave" }, {
-    group = dim_inactive_group,
+    group = inactive_group,
     pattern = "*",
     callback = function(opts)
         local buf_ft = vim.api.nvim_buf_get_option(opts.buf, "filetype")
@@ -64,7 +64,7 @@ autocmd({ "WinLeave", "BufLeave" }, {
             return
         end
         vim.opt_local.cursorline = false
-        vim.opt_local.winhighlight = "Normal:DimInactive,SignColumn:DimInactive"
+        -- vim.opt_local.winhighlight = "Normal:DimInactive,SignColumn:DimInactive"
     end,
 })
 
