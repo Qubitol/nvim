@@ -253,7 +253,7 @@ return {
         local RulerBlock = {}
 
         local RulerSymbol = {
-            flexible = 1,
+            flexible = 2,
 
             hl = { bg = "file_bg", reverse = false },
 
@@ -281,7 +281,7 @@ return {
             -- %L = number of lines in the buffer
             -- %c = column number
             -- %P = percentage through file of displayed window
-            flexible = 1,
+            flexible = 2,
             {
                 {
                     provider = " %3(%l%):%-2(%c%) %P ",
@@ -351,7 +351,7 @@ return {
 
             hl = { bg = "file_bg", fg = "copilot", bold = true, reverse = false },
 
-            flexible = 3,
+            flexible = 2,
 
             {
                 provider = function()
@@ -387,7 +387,7 @@ return {
 
             update = { "DiagnosticChanged", "BufEnter" },
 
-            flexible = 2,
+            flexible = 4,
 
             hl = { bg = "file_bg", reverse = false },
 
@@ -436,23 +436,30 @@ return {
 
             hl = { bg = "file_bg", reverse = false },
 
+            flexible = 4,
+
             {
-                provider = "",
-                hl = { fg = "bright_bg", reverse = false },
+                {
+                    provider = "",
+                    hl = { fg = "bright_bg", reverse = false },
+                },
+                {
+                    provider = "",
+                    hl = { fg = "git", bg = "bright_bg", reverse = false },
+                },
+                {
+                    provider = icons.git.branch,
+                    hl = { fg = "bright_black", bg = "git", reverse = false },
+                },
+                { -- git branch name
+                    provider = function(self)
+                        return " " .. self.status_dict.head .. " "
+                    end,
+                    hl = { fg = "git", bg = "git_branch", bold = true, reverse = false },
+                },
             },
             {
-                provider = "",
-                hl = { fg = "git", bg = "bright_bg", reverse = false },
-            },
-            {
-                provider = icons.git.branch,
-                hl = { fg = "bright_black", bg = "git", reverse = false },
-            },
-            { -- git branch name
-                provider = function(self)
-                    return " " .. self.status_dict.head .. " "
-                end,
-                hl = { fg = "git", bg = "git_branch", bold = true, reverse = false },
+                provider = "",
             },
         }
 
@@ -468,7 +475,7 @@ return {
 
             hl = { bg = "file_bg", reverse = false },
 
-            flexible = 2,
+            flexible = 3,
 
             {
                 {
@@ -505,7 +512,7 @@ return {
             end,
             hl = { fg = "white", bg = "file_bg", bold = true, reverse = false },
 
-            flexible = 2,
+            flexible = 1,
 
             {
                 -- evaluates to the full-lenth path
