@@ -100,6 +100,8 @@ return {
 
             -- Treesitter
             ["@keyword.return"] = { fg = colors.neutral_purple },
+            TreesitterContext = { bg = dark0_hard },
+            TreesitterContextLineNumber = { bg = dark0_hard, fg = colors.fg0 },
         }
         -- setup must be called before loading
         require("gruvbox").setup(vim.tbl_deep_extend("force", opts, { overrides = highlight_groups }))
