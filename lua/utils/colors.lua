@@ -1,30 +1,27 @@
 local M = {}
 
-local gruvbox = require("gruvbox.palette")
-local palette = gruvbox.get_base_colors({}, "dark", "")
-local dark0_hard = "#1d2021"
+local palette = require("gruvbox").palette
 
 M.theme = {
-    black = dark0_hard,
-    red = palette.red,
-    green = palette.green,
-    yellow = palette.yellow,
-    blue = palette.blue,
-    magenta = palette.purple,
+    black = palette.dark0_hard,
+    red = palette.bright_red,
+    green = palette.bright_green,
+    yellow = palette.bright_yellow,
+    blue = palette.bright_blue,
+    magenta = palette.bright_purple,
     cyan = palette.aqua,
-    white = palette.fg4,
-    bright_black = palette.bg0,
+    white = palette.light4,
+    bright_black = palette.dark0,
     bright_red = palette.neutral_red,
     bright_green = palette.neutral_green,
     bright_yellow = palette.neutral_yellow,
     bright_blue = palette.neutral_blue,
     bright_magenta = palette.neutral_purple,
     bright_cyan = palette.neutral_aqua,
-    bright_white = palette.fg0,
+    bright_white = palette.light0,
 }
 
 M.heirline = {
-    -- bright_bg = palette.bg1,
     mode_name = M.theme["bright_black"],
     file_fg = M.theme["bright_white"],
     file_bg = M.theme["black"],

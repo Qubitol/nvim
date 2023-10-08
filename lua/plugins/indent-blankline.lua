@@ -1,10 +1,18 @@
 return {
     "lukas-reineke/indent-blankline.nvim",
     version = "*",
+    main = "ibl",
     event = { "BufReadPost", "BufNewFile" },
     opts = {
-        show_end_of_line = false,
-        show_current_context = false,
-        filetype_exclude = { "harpoon", "help", "lazy", "mason", "netrw", "norg", "undotree" },
+        indent = {
+            char = "▏",
+        },
+        scope = {
+            show_start = false,
+            show_end = false,
+        },
+        exclude = {
+            filetypes = { "harpoon", "help", "lazy", "mason", "netrw", "norg", "undotree" },
+        },
     },
 }
