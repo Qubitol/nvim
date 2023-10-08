@@ -438,7 +438,7 @@ return {
             },
             { -- git branch name
                 provider = function(self)
-                    return " " .. self.status_dict.head
+                    return " " .. self.status_dict.head .. " "
                 end,
                 hl = { fg = "git", bg = "git_branch", bold = true, reverse = false },
             },
@@ -542,7 +542,6 @@ return {
             -- CopilotActive,
             Space,
             Git,
-            Space,
             RulerBlock,
         }
 
