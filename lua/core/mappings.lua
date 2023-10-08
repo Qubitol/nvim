@@ -96,3 +96,15 @@ map(
     [["_dP]],
     "Replace selected text with the content of the default register but don't pollute the register itself"
 )
+
+-- Readline on command line
+map("c", "<C-a>", "<Home>", "Move cursor to the beginning of the line", { silent = false })
+map("c", "<C-e>", "<End>", "Move cursor to the end of the line", { silent = false })
+map("c", "<C-b>", "<Left>", "Move cursor one character to the left", { silent = false })
+map("c", "<C-f>", "<Right>", "Move cursor one character to the right", { silent = false })
+map("c", "<C-d>", "<Del>", "Delete the character under the cursor", { silent = false })
+map("c", "<M-d>", "<C-Right><C-w>", "Delete the word after the cursor", { silent = false })
+map("c", "<C-t>", "<C-R>", "Paste the default register", { silent = false })
+map("c", "<M-b>", "<C-Left>", "Move cursor one word to the left", { silent = false })
+map("c", "<M-f>", "<C-Right>", "Move cursor one word to the right", { silent = false })
+

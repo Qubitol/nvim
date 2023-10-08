@@ -88,9 +88,6 @@ return {
                     s = cmp.mapping.select_prev_item({
                         behavior = cmp.SelectBehavior.Insert,
                     }),
-                    c = cmp.mapping.select_prev_item({
-                        behavior = cmp.SelectBehavior.Insert,
-                    }),
                 }),
                 ["<C-j>"] = cmp.mapping({
                     i = cmp.mapping.select_next_item({
@@ -99,13 +96,10 @@ return {
                     s = cmp.mapping.select_next_item({
                         behavior = cmp.SelectBehavior.Insert,
                     }),
-                    c = cmp.mapping.select_next_item({
-                        behavior = cmp.SelectBehavior.Insert,
-                    }),
                 }),
                 -- Documentation
-                ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-                ["<C-f>"] = cmp.mapping.scroll_docs(4),
+                ["<C-b>"] = cmp.mapping.scroll_docs(-4, { "i", "s" }),
+                ["<C-f>"] = cmp.mapping.scroll_docs(4, { "i", "s" }),
                 -- Accept/Abort
                 ["<C-Space>"] = cmp.config.disable,
                 ["<C-y>"] = cmp.mapping({
@@ -136,7 +130,10 @@ return {
                         end
                         cmp.abort()
                     end,
-                    c = cmp.mapping.close(),
+                    c = function(fallback)
+                        cmp.mapping.close()
+                        fallback()
+                    end,
                 }),
                 ["<CR>"] = cmp.mapping({
                     i = function(fallback)
