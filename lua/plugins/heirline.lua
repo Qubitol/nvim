@@ -182,6 +182,18 @@ return {
                 self.lfilename = vim.fn.fnamemodify(self.filename, ":.")
                 if self.lfilename == "" then
                     self.lfilename = "[No Name]"
+                elseif self.lfilename == self.filename then
+                    -- this happens if it is not a child of the current directory
+                    local path = require("plenary.path")
+                    local parent = path:new(vim.fn.fnamemodify(self.filename, "%")):parents()[1]
+                    self.lfilename = vim.fn.expand("%:t")
+                    for _, cwd_parent in ipairs(path:new(vim.fn.getcwd()):parents()) do
+                        if cwd_parent == parent then
+                            break
+                        end
+                        self.lfilename = ".." .. path.path.sep .. self.lfilename
+                        -- self.lfilename = parent
+                    end
                 end
             end,
             hl = { fg = "file_fg", reverse = false },
