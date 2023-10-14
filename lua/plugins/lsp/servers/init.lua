@@ -8,6 +8,7 @@ return {
     "dockerls",
     "fortls",
     -- "ltex",
+    "lua_ls",
     "html",
     "jsonls",
     "pyright",
@@ -15,7 +16,7 @@ return {
     "terraformls",
     "texlab",
     "tsserver",
-    "lua_ls",
+    "vimls",
     "yamlls",
     -- "zk",
 }
