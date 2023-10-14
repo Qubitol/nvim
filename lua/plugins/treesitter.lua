@@ -60,6 +60,7 @@ return {
 
         indent = {
             enable = true,
+            disable = { "lua" },
         },
 
         -- Enable nvim-ts-context-commentstring
