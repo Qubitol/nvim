@@ -15,7 +15,7 @@ return {
                     "<cmd>Neorg keybind all core.looking-glass.magnify-code-block<CR>",
                     "Run [N]eorg looking glass to [O]pen code blocks in separate buffers",
                 },
-                { "<leader>nt", "<cmd>Neorg toc<CR>",              "Open [N]eorg [T]oc" },
+                { "<leader>nt", "<cmd>Neorg toc<CR>", "Open [N]eorg [T]oc" },
                 {
                     "<leader>nu",
                     "<cmd>Neorg keybind norg core.qol.todo_items.todo.task_undone<CR>",
@@ -63,11 +63,11 @@ return {
                 },
                 {
                     "<<",
-                    "<cmd>Neorg keybind norg core.promo.promote_range<CR><cmd>Neorg keybind norg core.promp.demote<CR>",
+                    "<cmd>Neorg keybind norg core.promo.promote_range<CR><cmd>Neorg keybind norg core.promo.demote<CR>",
                     "Demote list item (recursively)",
                 },
                 { ">.", "<cmd>Neorg keybind norg core.promo.promote<CR>", "Promote list item (non-recursively)" },
-                { "<.", "<cmd>Neorg keybind norg core.promp.demote<CR>",  "Demote list item (non-recursively)" },
+                { "<.", "<cmd>Neorg keybind norg core.promo.demote<CR>",  "Demote list item (non-recursively)" },
             },
             i = {
                 {
@@ -98,6 +98,11 @@ return {
                 ["core.concealer"] = {
                     config = {
                         icon_preset = "diamond",
+                    },
+                    icons = {
+                        code_block = {
+                            conceal = true,
+                        },
                     },
                 },
 
