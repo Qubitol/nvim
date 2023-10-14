@@ -156,6 +156,7 @@ return {
         local FileNameBlock = {
             -- let's first set up some attributes needed by this component and it's children
             init = function(self)
+                -- full path of current buffer
                 self.filename = vim.api.nvim_buf_get_name(0)
             end,
             hl = { bg = "file_bg", reverse = false },
@@ -178,23 +179,35 @@ return {
 
         local FileName = {
             provider = function(self)
-                -- first, trim the pattern relative to the current directory. For other
-                -- options, see :h filename-modifers
+                -- first, trim the pattern relative to the current directory.
+                -- For other options, see :h filename-modifers
                 self.lfilename = vim.fn.fnamemodify(self.filename, ":.")
                 if self.lfilename == "" then
                     self.lfilename = "[No Name]"
                 elseif self.lfilename == self.filename then
                     -- this happens if it is not a child of the current directory
+                    -- in this case, we want to show the relative path
                     local path = require("plenary.path")
-                    local parent = path:new(vim.fn.fnamemodify(self.filename, "%")):parents()[1]
-                    self.lfilename = vim.fn.expand("%:t")
+                    local up_dots = ".." .. path.path.sep -- because we start already from the first parent of the cwd
+                    local parent = nil
+                    local file_parents = path:new(vim.fn.fnamemodify(self.filename, "%")):parents()
                     for _, cwd_parent in ipairs(path:new(vim.fn.getcwd()):parents()) do
-                        if cwd_parent == parent then
-                            break
+                        for _, file_parent in ipairs(file_parents) do
+                            if cwd_parent == file_parent then
+                                parent = file_parent
+                                break
+                            end
                         end
-                        self.lfilename = ".." .. path.path.sep .. self.lfilename
-                        -- self.lfilename = parent
+                        if parent then break end
+                        up_dots = ".." .. path.path.sep .. up_dots
                     end
+                    -- now build the relative path by appending the up_dots and
+                    -- (allowing to reach the common anchestor directory between
+                    -- the current directory and the file's directory) and the
+                    -- relative path from the common anchestor to the file, which
+                    -- can be build by taking the file's full path and removing
+                    -- the common anchestor's path from the left
+                    self.lfilename = up_dots .. path:new(self.filename):make_relative(parent)
                 end
             end,
             hl = { fg = "file_fg", reverse = false },
@@ -344,32 +357,32 @@ return {
             },
         }
 
-        local CopilotActive = {
-            condition = function()
-                local ok, clients = pcall(vim.lsp.get_active_clients, { name = "copilot", bufnr = 0 })
-                return ok and #clients > 0
-            end,
-
-            hl = { bg = "file_bg", fg = "copilot", bold = true, reverse = false },
-
-            flexible = 2,
-
-            {
-                provider = function()
-                    local icon = require("utils.ui").icons.kinds.Copilot
-                    local status = require("copilot.api").status.data
-                    return icon .. (status.message or "")
-                end,
-            },
-
-            {
-                provider = require("utils.ui").icons.kinds.Copilot,
-            },
-
-            {
-                provider = "",
-            },
-        }
+        -- local CopilotActive = {
+        --     condition = function()
+        --         local ok, clients = pcall(vim.lsp.get_active_clients, { name = "copilot", bufnr = 0 })
+        --         return ok and #clients > 0
+        --     end,
+        --
+        --     hl = { bg = "file_bg", fg = "copilot", bold = true, reverse = false },
+        --
+        --     flexible = 2,
+        --
+        --     {
+        --         provider = function()
+        --             local icon = require("utils.ui").icons.kinds.Copilot
+        --             local status = require("copilot.api").status.data
+        --             return icon .. (status.message or "")
+        --         end,
+        --     },
+        --
+        --     {
+        --         provider = require("utils.ui").icons.kinds.Copilot,
+        --     },
+        --
+        --     {
+        --         provider = "",
+        --     },
+        -- }
 
         local Diagnostics = {
 
@@ -396,19 +409,19 @@ return {
                 {
                     provider = function(self)
                         -- 0 is just another output, we can decide to print it or not!
-                        return self.errors > 0 and (self.error_icon .. self.errors .. " ")
+                        return self.errors > 0 and (self.error_icon .. self.errors)
                     end,
                     hl = { fg = "diag_error", reverse = false },
                 },
                 {
                     provider = function(self)
-                        return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
+                        return self.warnings > 0 and (self.warn_icon .. self.warnings)
                     end,
                     hl = { fg = "diag_warn", reverse = false },
                 },
                 {
                     provider = function(self)
-                        return self.info > 0 and (self.info_icon .. self.info .. " ")
+                        return self.info > 0 and (self.info_icon .. self.info)
                     end,
                     hl = { fg = "diag_info", reverse = false },
                 },
