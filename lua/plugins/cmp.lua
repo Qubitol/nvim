@@ -289,16 +289,16 @@ return {
         return {
             lazy_map("n", "<leader>ta", function()
                 local cmp = require("cmp")
-                local autocomplete = vim.b.autocomplete
+                local noautocomplete = vim.b.noautocomplete
                 local set_autocomplete
-                if autocomplete then
-                    set_autocomplete = false
-                    vim.api.nvim_buf_set_var(0, "autocomplete", false)
-                    vim.api.nvim_echo({ { "Autocompletion disabled" } }, false, {})
-                else
+                if noautocomplete then
                     set_autocomplete = { cmp.TriggerEvent.TextChanged }
-                    vim.api.nvim_buf_set_var(0, "autocomplete", true)
+                    vim.api.nvim_buf_set_var(0, "noautocomplete", true)
                     vim.api.nvim_echo({ { "Autocompletion enabled" } }, false, {})
+                else
+                    set_autocomplete = false
+                    vim.api.nvim_buf_set_var(0, "noautocomplete", false)
+                    vim.api.nvim_echo({ { "Autocompletion disabled" } }, false, {})
                 end
                 cmp.setup.buffer({
                     completion = {
