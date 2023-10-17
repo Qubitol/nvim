@@ -29,7 +29,7 @@ set.sidescrolloff = 5
 set.synmaxcol = 500
 set.laststatus = 3
 set.colorcolumn = "80"
-set.ruler = false
+set.ruler = true
 set.cursorline = true
 
 -- set.foldenable = false
@@ -67,8 +67,7 @@ set.smartindent = true
 set.tabstop = 4             -- \t = 4 spaces
 set.softtabstop = 2         -- 1 tab press = 2 spaces
 set.shiftwidth = 4
-set.formatoptions =
-"qnj1t"                     -- q  - comment formatting; n - numbered lists; j - remove comment when joining lines; 1 - don't break after one-letter word
+set.formatoptions = "qnj1t" -- q  - comment formatting; n - numbered lists; j - remove comment when joining lines; 1 - don't break after one-letter word
 set.expandtab = true
 
 -- Files
