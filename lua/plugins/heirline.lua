@@ -140,7 +140,7 @@ return {
             },
             {
                 provider = "",
-                hl = { fg = "bright_bg", bg = "bright_black", reverse = false },
+                hl = { fg = "bright_bg", bg = "file_bg", reverse = false },
             },
             -- Re-evaluate the component only on ModeChanged event!
             -- Also allows the statusline to be re-evaluated when entering operator-pending mode
