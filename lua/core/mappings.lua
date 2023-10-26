@@ -8,6 +8,7 @@ map("n", "<C-u>", "<C-u>zz", "Scroll half-page up and center viewport")
 map("n", "<C-d>", "<C-d>zz", "Scroll half-page down and center viewport")
 map("n", "n", "nzz", "Find next and center viewport")
 map("n", "N", "Nzz", "Find previous and center viewport")
+map("n", "'", "`", "Jump to mark (easy to press on my keyboard, and more efficient)")
 map(
     "n",
     "<leader>sr",
@@ -23,6 +24,7 @@ map("n", "[b", "<cmd>bprevious<CR>", "Go to previous [B]uffer")
 map("n", "]b", "<cmd>bnext<CR>", "Go to next [B]uffer")
 map("n", "[B", "<cmd>bfirst<CR>", "Go to first [B]uffer")
 map("n", "]B", "<cmd>blast<CR>", "Go to last [B]uffer")
+map("n", "<leader>ct", "<cmd>!ctags -R .<CR>", "[C]reate [T]ags file")
 map("n", "[t", "<cmd>tprevious<CR>", "Go to previous [T]ag")
 map("n", "]t", "<cmd>tnext<CR>", "Go to next [T]ag")
 map("n", "[T", "<cmd>tfirst<CR>", "Go to first [T]ag")
@@ -51,37 +53,33 @@ map("n", "[A", "<cmd>first<CR>", "Go to first [A]rg")
 map("n", "]A", "<cmd>last<CR>", "Go to last [A]rg")
 map("n", "g[", "<cmd>diffget //2<CR>", "[G]et the merge resolution from the buffer on the [left (target parent)")
 map("n", "g]", "<cmd>diffget //3<CR>", "[G]et the merge resolution from the buffer on the right] (merge parent)")
-map("n", "<leader>cd", "%:p:h", "[C]hange current [D]irectory to the base directory of the active buffer")
+map("n", "<leader>cd", "<cmd>cd %:p:h<CR>", "[C]hange current [D]irectory to the base directory of the active buffer")
 map(
     "n",
-    "<leader>ct",
-    "%:p:h",
+    "<leader>tcd",
+    "<cmd>tcd %:p:h<CR>",
     "[C]hange current directory to the base directory of the active buffer, locally to the [T]ab page"
 )
 map("n", "<leader>d", [["_d]], "Delete without polluting the register")
 map("n", "<leader>D", [["_D]], "Delete without polluting the register")
-map("n", "<leader>c", [["_c]], "Change without polluting the register")
-map("n", "<leader>C", [["_C]], "Change without polluting the register")
 map("n", "<leader>tq", require("utils").toggle_qflist, "[T]oggle [Q]uickfix list")
 map("n", "<leader>tl", require("utils").toggle_loclist, "[T]oggle [L]ocation list")
 map(
     "v",
     "<leader>fi",
-    [[""y/\v<C-r>=escape('<C-r>"', '/\\(){}+?~"')<CR><CR>]],
+    [[""y/\v<C-r>=escape('<C-r>"', '/\\(){}+?~"^')<CR><CR>]],
     "[FI]nd the visual selection in the current file",
     { silent = false }
 )
 map(
     "v",
     "<leader>sr",
-    [[""y:%s/\v<C-r>=escape('<C-r>"', '/\\(){}+?~"')<CR>//gI<left><left><left>]],
+    [[""y:%s/\v<C-r>=escape('<C-r>"', '/\\(){}+?~"^')<CR>//gI<left><left><left>]],
     "[S]earch and [R]eplace the visual selection",
     { silent = false }
 )
 map("v", "<leader>d", [["_d]], "Delete without polluting the register")
 map("v", "<leader>D", [["_D]], "Delete without polluting the register")
-map("v", "<leader>c", [["_c]], "Change without polluting the register")
-map("v", "<leader>C", [["_C]], "Change without polluting the register")
 map(
     "v",
     "<leader>p",
@@ -107,4 +105,3 @@ map("c", "<M-d>", "<C-Right><C-w>", "Delete the word after the cursor", { silent
 map("c", "<C-t>", "<C-R>", "Paste the default register", { silent = false })
 map("c", "<M-b>", "<C-Left>", "Move cursor one word to the left", { silent = false })
 map("c", "<M-f>", "<C-Right>", "Move cursor one word to the right", { silent = false })
-
