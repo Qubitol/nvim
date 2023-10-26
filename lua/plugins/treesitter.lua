@@ -4,8 +4,9 @@ return {
     dependencies = {
         "JoosepAlviste/nvim-ts-context-commentstring",
     },
-    build = ":TSUpdate",
+    main = "nvim-treesitter.configs",
     lazy = false,
+    build = ":TSUpdate",
     opts = {
         -- A list of parser names, or "all"
         ensure_installed = {
@@ -60,7 +61,7 @@ return {
 
         indent = {
             enable = true,
-            disable = { "lua" },
+            disable = { "lua", "python" },
         },
 
         -- Enable nvim-ts-context-commentstring
@@ -69,7 +70,4 @@ return {
             enable_autocmd = false,
         },
     },
-    config = function(_, opts)
-        require("nvim-treesitter.configs").setup(opts)
-    end,
 }

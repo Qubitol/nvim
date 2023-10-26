@@ -3,6 +3,7 @@ return {
     version = "*",
     build = "make install_jsregexp",
     priority = 100, -- needs to be loaded before nvim-cmp
+    event = { "InsertEnter" },
     config = function()
         -- Useful redefinitions
         local ls = require("luasnip")

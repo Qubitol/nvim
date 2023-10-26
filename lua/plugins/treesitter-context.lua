@@ -4,7 +4,7 @@ return {
     dependencies = {
         "nvim-treesitter/nvim-treesitter"
     },
-    event = { "BufReadPost", "BufNewFile" },
+    event = { "BufReadPre" },
     opts = {
         enable = true,
     },

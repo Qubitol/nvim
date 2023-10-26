@@ -1,5 +1,8 @@
 return {
     "ThePrimeagen/harpoon",
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+    },
     keys = function()
         local lazy_map = require("utils").lazy_map
         local harpoon_ui = require("harpoon.ui")

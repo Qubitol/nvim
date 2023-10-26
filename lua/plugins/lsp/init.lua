@@ -1,6 +1,6 @@
 return {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPost" },
     dependencies = {
         {
             "williamboman/mason-lspconfig.nvim",
@@ -130,14 +130,14 @@ return {
             map("n", "<C-W><C-D>", "<cmd>split | lua vim.lsp.buf.definition()<CR>", "Same as 'CTRL-W d'", opts)
             map(
                 "n",
-                "<leader>li",
+                "gi",
                 "<cmd>lua vim.lsp.buf.implementation()<CR>",
                 "[L]ist of [I]mplementations under the cursor in quickfix window",
                 opts
             )
             map(
                 "n",
-                "<leader>lr",
+                "gr",
                 "<cmd>lua vim.lsp.buf.references()<CR>",
                 "[L]ist of [R]eferences under the cursor in quickfix window",
                 opts
@@ -150,13 +150,13 @@ return {
                 "Show information about the term under the cursor, like hovering",
                 opts
             )
-            map(
-                "n",
-                "<leader>cf",
-                "<cmd>lua vim.lsp.buf.format({ async = true })<cr>",
-                "Run the [C]ode [F]ormatter on the current file",
-                opts
-            )
+            -- map(
+            --     "n",
+            --     "<leader>cf",
+            --     "<cmd>lua vim.lsp.buf.format({ async = true })<cr>",
+            --     "Run the [C]ode [F]ormatter on the current file",
+            --     opts
+            -- )
             map(
                 "n",
                 "<leader>ca",
