@@ -72,8 +72,8 @@ return {
                 "]c",
                 function()
                     if vim.wo.diff then
-                        vim.fn.search("^\\(<<<<<<<\\||||||||\\|=======\\|>>>>>>>\\)$", "csw")
-                        return "<Ignore>"
+                        -- vim.fn.search("^\\(<<<<<<<\\||||||||\\|=======\\|>>>>>>>\\)$", "csw")
+                        return "]c"
                     end
                     vim.schedule(function()
                         gs.next_hunk()
@@ -88,8 +88,8 @@ return {
                 "[c",
                 function()
                     if vim.wo.diff then
-                        vim.fn.search("^\\(>>>>>>>\\|=======\\||||||||\\|<<<<<<<\\)$", "csw")
-                        return "<Ignore>"
+                        -- vim.fn.search("^\\(>>>>>>>\\|=======\\||||||||\\|<<<<<<<\\)$", "csw")
+                        return "[c"
                     end
                     vim.schedule(function()
                         gs.prev_hunk()
