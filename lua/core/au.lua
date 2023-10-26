@@ -73,7 +73,7 @@ autocmd("VimResized", {
 --    callback = netrw._draw_icons
 --})
 --
---autocmd("Filetype", {
+--autocmd("FileType", {
 --    group = netrw_group,
 --    pattern = "netrw",
 --    callback = function(opts)
