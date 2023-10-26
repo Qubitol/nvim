@@ -9,7 +9,6 @@
   "cmp_luasnip": { "branch": "master", "commit": "05a9ab28b53f71d1aece421ef32fee2cb857a843" },
   "conform.nvim": { "branch": "master", "commit": "278bcd8bf2017e187e963b515017341fdd87fe2f" },
   "copilot.lua": { "branch": "master", "commit": "688762a3999eeee54b78f447719854f52672ec02" },
-  "dap": { "branch": "master", "commit": "3eb26a63a3674e3722182a92f21d04c4e5ce0f43" },
   "git-worktree.nvim": { "branch": "catch-and-handle-telescope-related-error", "commit": "02a69bf02503d44de11913312bb447190bb685e5" },
   "gitsigns.nvim": { "branch": "main", "commit": "d4f8c01280413919349f5df7daccd0c172143d7c" },
   "gruvbox": { "branch": "main", "commit": "477c62493c82684ed510c4f70eaf83802e398898" },

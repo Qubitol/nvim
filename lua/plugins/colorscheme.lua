@@ -92,6 +92,9 @@ return {
             -- FileBrowser
             FileBrowser = { bg = palette.dark0_hard, fg = palette.light0 },
 
+            -- DapUI
+            DapUINormal = { link = "FileBrowser" },
+
             -- Quickfix
             Quickfix = { bg = palette.dark0_hard, fg = palette.light0 },
             QuickfixLine = { bg = palette.dark2 },
