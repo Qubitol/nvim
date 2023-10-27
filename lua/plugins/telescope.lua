@@ -185,12 +185,6 @@ return {
             ),
             lazy_map(
                 "n",
-                "<leader>sw",
-                "<cmd>Telescope lsp_workspace_symbols<CR>",
-                "Telescope over LSP [S]ymbols in the current [W]orkspace"
-            ),
-            lazy_map(
-                "n",
                 "<leader>gl",
                 "<cmd>Telescope git_commits<CR>",
                 "Telescope over [G]it [L]og, checkout on enter"
