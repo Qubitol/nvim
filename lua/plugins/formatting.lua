@@ -24,6 +24,8 @@ return {
             python = { "black" },
             -- Use a sub-list to run only the first available formatter
             javascript = { { "prettierd", "prettier" } },
+            html = { { "prettierd", "prettier" } },
+            css = { { "prettierd", "prettier" } },
             -- Use the "*" filetype to run formatters on all filetypes.
             -- ["*"] = { "codespell" },
             -- Use the "_" filetype to run formatters on filetypes that don't
