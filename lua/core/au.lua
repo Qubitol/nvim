@@ -34,6 +34,17 @@ autocmd("FileType", {
     end,
 })
 
+-- DAP autocommands
+local dap_group = augroup("DAPGroup", {})
+
+autocmd("BufWinEnter", { -- also BufEnter works
+    group = dap_group,
+    pattern = "DAP *,\\[dap-repl\\]",
+    callback = function()
+        vim.opt_local.cursorline = false
+    end,
+})
+
 -- Autosave on FocusLost
 local autosave_group = augroup("AutosaveGroup", {})
 
