@@ -1,7 +1,7 @@
 local set = vim.opt
 local g = vim.g
 
-HOME = os.getenv("HOME")
+local HOME = os.getenv("HOME")
 
 g.compatible = false
 
