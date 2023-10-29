@@ -75,7 +75,6 @@ return {
                         ["<C-k>"] = actions.move_selection_previous,
                         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
                         ["<C-x>"] = actions.smart_add_to_qflist + actions.open_qflist,
-                        ["<M-q>"] = actions.nop, -- clash with map from tmux
                     },
                     n = {
                         ["<C-/>"] = actions_layout.toggle_preview,
@@ -83,7 +82,6 @@ return {
                         ["<C-h>"] = actions.cycle_previewers_prev,
                         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
                         ["<C-x>"] = actions.smart_add_to_qflist + actions.open_qflist,
-                        ["<M-q>"] = actions.nop, -- clash with map from tmux
                     },
                 },
                 vimgrep_arguments = vimgrep_arguments,
@@ -152,17 +150,17 @@ return {
         return {
             lazy_map("n", "<leader>fo", "<cmd>Telescope find_files<CR>", "Telescope over files -- [F]ind [O]pen"),
             lazy_map(
-                "n",
-                "<leader>fb",
-                "<cmd>Telescope buffers<CR>",
-                "Telescope over loaded buffers -- [F]ind [B]uffers"
+            "n",
+            "<leader>fb",
+            "<cmd>Telescope buffers<CR>",
+            "Telescope over loaded buffers -- [F]ind [B]uffers"
             ),
             lazy_map("n", "<leader>ft", "<cmd>Telescope aerial<CR>", "Telescope over documents tags -- [F]ind [T]ags"),
             lazy_map(
-                "n",
-                "<leader>fq",
-                "<cmd>Telescope quickfixhistory<CR>",
-                "Telescope over quickfix lists history -- [F]ind [Q]uickfix"
+            "n",
+            "<leader>fq",
+            "<cmd>Telescope quickfixhistory<CR>",
+            "Telescope over quickfix lists history -- [F]ind [Q]uickfix"
             ),
             lazy_map("n", "<leader>/", function()
                 require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
@@ -172,59 +170,64 @@ return {
             end, "Fuzzy search in current buffer [/]"),
             lazy_map("n", "<leader>go", "<cmd>Telescope live_grep<CR>", "Live grep over files -- [G]rep [O]pen"),
             lazy_map(
-                "n",
-                "<leader>gt",
-                "<cmd>Telescope grep_string<CR>",
-                "Live grep of the word under the cursor -- [G]rep [T]his"
+            "n",
+            "<leader>gt",
+            "<cmd>Telescope grep_string<CR>",
+            "Live grep of the word under the cursor -- [G]rep [T]his"
             ),
             lazy_map(
-                "n",
-                "<leader>sf",
-                "<cmd>Telescope lsp_document_symbols<CR>",
-                "Telescope over LSP [S]ymbols in the current [F]ile"
+            "n",
+            "<leader>sf",
+            "<cmd>Telescope lsp_document_symbols<CR>",
+            "Telescope over LSP [S]ymbols in the current [F]ile"
             ),
             lazy_map(
-                "n",
-                "<leader>gl",
-                "<cmd>Telescope git_commits<CR>",
-                "Telescope over [G]it [L]og, checkout on enter"
+            "n",
+            "<leader>gl",
+            "<cmd>Telescope git_commits<CR>",
+            "Telescope over [G]it [L]og, checkout on enter"
             ),
             lazy_map(
-                "n",
-                "<leader>gc",
-                "<cmd>Telescope git_bcommits<CR>",
-                "Telescope over [G]it [C]ommits on the current buffer, checkout on enter"
+            "n",
+            "<leader>gc",
+            "<cmd>Telescope git_bcommits<CR>",
+            "Telescope over [G]it [C]ommits on the current buffer, checkout on enter"
             ),
             lazy_map(
-                "n",
-                "<leader>gb",
-                "<cmd>Telescope git_branches<CR>",
-                "Telescope over [G]it [B]ranches, switch on enter"
+            "n",
+            "<leader>gb",
+            "<cmd>Telescope git_branches<CR>",
+            "Telescope over [G]it [B]ranches, switch on enter"
             ),
             lazy_map(
-                "n",
-                "<leader>gz",
-                "<cmd>Telescope git_stash<CR>",
-                "Telescope over [G]it Stashes (mnemonic: S is similar to [Z])"
+            "n",
+            "<leader>gz",
+            "<cmd>Telescope git_stash<CR>",
+            "Telescope over [G]it Stashes (mnemonic: S is similar to [Z])"
             ),
             lazy_map(
-                "n",
-                "<leader>gw",
-                [[<cmd>lua require("telescope").extensions.git_worktree.git_worktrees()<CR>]],
-                "Open a different [G]it [W]orktree"
+            "n",
+            "<leader>gw",
+            function()
+                require("telescope").extensions.git_worktree.git_worktrees(require("telescope.themes").get_dropdown({
+                    winblend = 0,
+                    previewer = false,
+                }))
+            end,
+            "Open a different [G]it [W]orktree"
             ),
             lazy_map(
-                "n",
-                "<leader>gW",
-                [[<cmd>lua require("telescope").extensions.git_worktree.create_git_worktree()<CR>]],
-                "Run `git worktree add ...`, choosing the branch with Telescope -- [G]it [W]orktree"
+            "n",
+            "<leader>gW",
+            [[<cmd>lua require("telescope").extensions.git_worktree.create_git_worktree()<CR>]],
+            "Run `git worktree add ...`, choosing the branch with Telescope -- [G]it [W]orktree"
             ),
             lazy_map("n", "<leader>ff", "<cmd>Telescope resume<CR>", "Resume latest Telescope search -- [F]ind [F]ind"),
             lazy_map(
-                "v",
-                "<leader>gc",
-                "<cmd>Telescope git_bcommits_range<CR>",
-                "Telescope over [G]it [C]ommits on the selected range of lines, checkout on enter"
+            "v",
+            "<leader>gc",
+            "<cmd>Telescope git_bcommits_range<CR>",
+            "Telescope over [G]it [C]ommits on the selected range of lines, checkout on enter"
             ),
         }
     end,
