@@ -12,11 +12,6 @@ return {
         },
         "williamboman/mason.nvim",
         "hrsh7th/cmp-nvim-lsp",
-        {
-            "barreiroleo/ltex_extra.nvim",
-            version = "*",
-            ft = { "markdown", "tex" },
-        },
     },
 
     config = function()
@@ -74,7 +69,6 @@ return {
             ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
                 border = "rounded",
             }),
-            -- Set rounded borders
             ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
                 border = "rounded",
             }),
