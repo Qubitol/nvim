@@ -3,10 +3,6 @@ undo/
 backup/
 swp/
 
-# Vim sessions
-.vim_session
-Session.vim
-
 # Dictionaries
 spell/
 
@@ -55,5 +51,4 @@ luac.out
 *.hex
 
 # Other
-.luarc.json
 *.log
