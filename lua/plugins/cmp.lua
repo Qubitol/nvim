@@ -4,7 +4,12 @@ return {
     event = { "InsertEnter", "CmdlineChanged" },
     dependencies = {
         "L3MON4D3/LuaSnip",
-        "hrsh7th/cmp-nvim-lsp",
+        {
+            "hrsh7th/cmp-nvim-lsp",
+            dependencies = {
+                "neovim/nvim-lspconfig",
+            },
+        },
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
@@ -115,13 +120,26 @@ return {
                             fallback()
                         end
                     end,
-                    s = cmp.mapping.confirm({
-                        select = true,
-                    }),
-                    c = cmp.mapping.confirm({
-                        behavior = cmp.ConfirmBehavior.Insert,
-                        select = true,
-                    }),
+                    s = function(fallback)
+                        if cmp.visible() then
+                            cmp.confirm({
+                                behavior = cmp.ConfirmBehavior.Insert,
+                                select = true,
+                            })
+                        else
+                            fallback()
+                        end
+                    end,
+                    c = function(fallback)
+                        if cmp.visible() then
+                            cmp.confirm({
+                                behavior = cmp.ConfirmBehavior.Insert,
+                                select = true,
+                            })
+                        else
+                            fallback()
+                        end
+                    end,
                 }),
                 ["<C-e>"] = cmp.mapping({
                     i = function()
@@ -171,7 +189,7 @@ return {
                     else
                         fallback()
                     end
-                end, { "i", "s" }),
+                end, { "i", "s", "c" }),
                 -- Multi-purpose Shift+Tab
                 ["<S-Tab>"] = cmp.mapping(function(fallback)
                     if luasnip.locally_jumpable(-1) then
@@ -181,7 +199,7 @@ return {
                     else
                         fallback()
                     end
-                end, { "i", "s" }),
+                end, { "i", "s", "c" }),
             }),
 
             -- Formatting

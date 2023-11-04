@@ -126,3 +126,8 @@ autocmd("VimResized", {
 --        netrw._neatrw_tree[tab][win].cwd = vim.fn.getcwd(netrw._neatrw_tree[tab][win].open_target)
 --    end,
 --})
+--
+
+vim.cmd([[
+autocmd User TmuxAttach ""
+]])

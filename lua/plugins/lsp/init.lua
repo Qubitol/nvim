@@ -1,6 +1,11 @@
 return {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPost" },
+    event = function()
+        if vim.g.__from_tmux then
+            return { "User TmuxAttach" }
+        end
+        return { "BufReadPost" }
+    end,
     dependencies = {
         {
             "williamboman/mason-lspconfig.nvim",

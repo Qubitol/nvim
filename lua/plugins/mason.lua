@@ -2,7 +2,6 @@ return {
     "williamboman/mason.nvim",
     version = "*",
     build = ":MasonUpdate",
-    event = { "BufReadPost" },
     opts = {
         ui = {
             border = "rounded",
