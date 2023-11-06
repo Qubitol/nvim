@@ -52,8 +52,8 @@ map("n", "[a", "<cmd>previous<CR>", "Go to previous [A]rg")
 map("n", "]a", "<cmd>next<CR>", "Go to next [A]rg")
 map("n", "[A", "<cmd>first<CR>", "Go to first [A]rg")
 map("n", "]A", "<cmd>last<CR>", "Go to last [A]rg")
-map("n", "g[", "<cmd>diffget //2<CR>", "[G]et the merge resolution from the buffer on the [left (target parent)")
-map("n", "g]", "<cmd>diffget //3<CR>", "[G]et the merge resolution from the buffer on the right] (merge parent)")
+map("n", "gl", "<cmd>diffget //2<CR>", "[G]et the merge resolution from the buffer on the left [h] (target parent)")
+map("n", "gh", "<cmd>diffget //3<CR>", "[G]et the merge resolution from the buffer on the right [l] (merge parent)")
 map("n", "<leader>cd", "<cmd>cd %:p:h<CR>", "[C]hange current [D]irectory to the base directory of the active buffer")
 map(
     "n",
