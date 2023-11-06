@@ -10,7 +10,7 @@ return {
             cmake = { "cmakelint" },
             cpp = { "cpplint" },
             lua = { "luacheck" },
-            python = { "flake8" },
+            python = { "pylint" },
             yaml = { "yamllint" },
             zsh = { "shellcheck" },
             -- Use the "*" filetype to run linters on all filetypes.
@@ -18,11 +18,7 @@ return {
             -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
             ["_"] = {},
         },
-        linters = {
-            flake8 = {
-                args = { "--max-line-length=100" },
-            },
-        },
+        linters = {},
     },
     config = function(_, opts)
         local lint = require("lint")
