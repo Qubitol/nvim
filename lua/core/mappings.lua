@@ -4,7 +4,7 @@ local map = require("utils").map
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-map("n", "<M-t>", "<cmd>silent! doautocmd User TmuxAttach | silent! doautocmd BufRead<CR>", "Fire the TmuxAttach event")
+map("n", "<M-t>", "<cmd>silent! doautocmd User TmuxAttach | tabdo silent! doautocmd BufRead<CR>", "Fire the TmuxAttach event")
 map("n", "<C-u>", "<C-u>zz", "Scroll half-page up and center viewport")
 map("n", "<C-d>", "<C-d>zz", "Scroll half-page down and center viewport")
 map("n", "n", "nzz", "Find next and center viewport")
