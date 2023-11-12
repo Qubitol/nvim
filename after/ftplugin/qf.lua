@@ -18,26 +18,10 @@ map("n", "gq", function()
     end
 end, opts)
 
-map("n", "f", function()
-    local list_type = require("utils").quickfix_or_loclist()
-    if list_type then
-        return ":" .. string.upper(list_type) .. "filter "
-    end
-    return "<Ignore>"
-end, { buffer = true, noremap = true, expr = true })
-
-map("n", "do", function()
-    local list_type = require("utils").quickfix_or_loclist()
-    if list_type then
-        return ":" .. list_type .. "do "
-    end
-    return "<Ignore>"
-end, { buffer = true, noremap = true, expr = true })
-
 -- e - error message
---  		    w - warning message
---  		    i - info message
---  		    n - note message  => hint
+-- w - warning message
+-- i - info message
+-- n - note message  => hint
 
 -- options
 set.colorcolumn = ""
