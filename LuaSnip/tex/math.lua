@@ -72,10 +72,10 @@ local autosnippets = {
             trig = "([^%a])nR",
             wordTrig = false,
             regTrig = true,
-            desc = "Expand to siunitx \\numrange[range-phrase = \\text{--}]",
+            desc = "Expand to siunitx \\numrange[range-open-phrase = {\\text{from} }]",
         },
         fmta(
-            "<>\\numrange[range-phrase = \\text{--}]{<>}{<>}",
+            "<>\\numrange[range-open-phrase = {\\text{from} }]{<>}{<>}",
             {
                 f(function(_, snip) return snip.captures[1] end),
                 i(1, "range min"),
@@ -137,10 +137,10 @@ local autosnippets = {
             trig = "([^%a])qR",
             wordTrig = false,
             regTrig = true,
-            desc = "Expand to siunitx \\qtyrange[range-phrase = \\text{--}]",
+            desc = "Expand to siunitx \\qtyrange[range-open-phrase = {\\text{from} }]",
         },
         fmta(
-            "<>\\qtyrange[range-phrase = \\text{--}]{<>}{<>}{<>}",
+            "<>\\qtyrange[range-phrase = {\\text{from} }]{<>}{<>}{<>}",
             {
                 f(function(_, snip) return snip.captures[1] end),
                 i(1, "range min"),
