@@ -48,6 +48,8 @@ map("n", "[<C-L>", "<cmd>lpfile<CR>", "Display the last error in the previous fi
 map("n", "]<C-L>", "<cmd>lnfile<CR>", "Display the first error in the next file in the location list")
 map("n", "<leader>ln", "<cmd>lnewer<CR>", "Go to the [L]oclist [N]ext")
 map("n", "<leader>lp", "<cmd>lolder<CR>", "Go to the [L]oclist [P]revious")
+map("n", "]d", "<cmd>lua vim.diagnostic.goto_next({ buffer = 0 })<cr>zz", "Go to next [D]iagnostic, center viewport")
+map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev({ buffer = 0 })<cr>zz", "Go to previous [D]iagnostic, center viewport")
 map("n", "[a", "<cmd>previous<CR>", "Go to previous [A]rg")
 map("n", "]a", "<cmd>next<CR>", "Go to next [A]rg")
 map("n", "[A", "<cmd>first<CR>", "Go to first [A]rg")
@@ -59,10 +61,12 @@ map(
     "n",
     "<leader>tcd",
     "<cmd>tcd %:p:h<CR>",
-    "[C]hange current directory to the base directory of the active buffer, locally to the [T]ab page"
+    "[C]hange current [D]irectory to the base directory of the active buffer, locally to the [T]ab page"
 )
 map("n", "<leader>d", [["_d]], "Delete without polluting the register")
 map("n", "<leader>D", [["_D]], "Delete without polluting the register")
+map("n", "<leader>lq", vim.diagnostic.setqflist, "Open the [L]ist of diagnostics in the [Q]uickfix list")
+map("n", "<leader>ll", vim.diagnostic.setloclist, "Open the [L]ist of diagnostics in the [L]ocation list")
 map("n", "<leader>tq", require("utils").toggle_qflist, "[T]oggle [Q]uickfix list")
 map("n", "<leader>tl", require("utils").toggle_loclist, "[T]oggle [L]ocation list")
 map(

@@ -163,40 +163,12 @@ return {
                 "Open possible LSP [C]ode [A]ctions for the diagnostic under the cursor",
                 opts
             )
-            map(
-                "n",
-                "]d",
-                "<cmd>lua vim.diagnostic.goto_next({ buffer = 0 })<cr>zz",
-                "Go to next [D]iagnostic, center viewport",
-                opts
-            )
-            map(
-                "n",
-                "[d",
-                "<cmd>lua vim.diagnostic.goto_prev({ buffer = 0 })<cr>zz",
-                "Go to previous [D]iagnostic, center viewport",
-                opts
-            )
             map("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename the identifier under the cursor", opts)
             map(
                 "n",
                 "<leader>H",
                 "<cmd>lua vim.lsp.buf.signature_help()<CR>",
                 "Show an [H]elper with the signature of the term under the cursor",
-                opts
-            )
-            map(
-                "n",
-                "<leader>ll",
-                "<cmd>lua vim.diagnostic.setloclist()<CR>",
-                "Open the [L]SP diagnostics in the [L]ocation list",
-                opts
-            )
-            map(
-                "n",
-                "<leader>lq",
-                "<cmd>lua vim.diagnostic.setqflist()<CR>",
-                "Open the [L]SP diagnostics in the [Q]uickfix list",
                 opts
             )
 
