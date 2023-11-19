@@ -68,7 +68,7 @@ return {
                 color_devicons = true,
                 mappings = {
                     i = {
-                        ["<C-/>"] = actions_layout.toggle_preview,
+                        ["<C-w>"] = actions_layout.toggle_preview,
                         ["<C-l>"] = actions.cycle_previewers_next,
                         ["<C-h>"] = actions.cycle_previewers_prev,
                         ["<C-j>"] = actions.move_selection_next,
@@ -163,8 +163,7 @@ return {
             "Telescope over quickfix lists history -- [F]ind [Q]uickfix"
             ),
             lazy_map("n", "<leader>/", function()
-                require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-                    winblend = 0,
+                require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_ivy({
                     previewer = false,
                 }))
             end, "Fuzzy search in current buffer [/]"),
@@ -184,14 +183,20 @@ return {
             lazy_map(
             "n",
             "<leader>gl",
-            "<cmd>Telescope git_commits<CR>",
-            "Telescope over [G]it [L]og, checkout on enter"
+            function()
+                require("telescope.builtin").git_commits(require("telescope.themes").get_ivy({
+                    previewer = false,
+                }))
+            end, "Telescope over [G]it [L]og, checkout on enter"
             ),
             lazy_map(
             "n",
             "<leader>gc",
-            "<cmd>Telescope git_bcommits<CR>",
-            "Telescope over [G]it [C]ommits on the current buffer, checkout on enter"
+            function()
+                require("telescope.builtin").git_bcommits(require("telescope.themes").get_ivy({
+                    previewer = false,
+                }))
+            end, "Telescope over [G]it [C]ommits on the current buffer, checkout on enter"
             ),
             lazy_map(
             "n",
@@ -223,12 +228,12 @@ return {
             "Run `git worktree add ...`, choosing the branch with Telescope -- [G]it [W]orktree"
             ),
             lazy_map("n", "<leader>ff", "<cmd>Telescope resume<CR>", "Resume latest Telescope search -- [F]ind [F]ind"),
-            lazy_map(
-            "v",
-            "<leader>gc",
-            "<cmd>Telescope git_bcommits_range<CR>",
-            "Telescope over [G]it [C]ommits on the selected range of lines, checkout on enter"
-            ),
+            -- lazy_map(
+            -- "v",
+            -- "<leader>gc",
+            -- "<cmd>Telescope git_bcommits_range<CR>",
+            -- "Telescope over [G]it [C]ommits on the selected range of lines, checkout on enter"
+            -- ),
         }
     end,
 }
