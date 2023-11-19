@@ -11,6 +11,7 @@ return {
             cpp = { "cpplint" },
             lua = { "luacheck" },
             python = { "pylint" },
+            sh = { "shellcheck" },
             yaml = { "yamllint" },
             zsh = { "shellcheck" },
             -- Use the "*" filetype to run linters on all filetypes.
