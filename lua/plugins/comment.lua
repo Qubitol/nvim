@@ -3,7 +3,6 @@ return {
     version = "*",
     event = "VeryLazy",
     dependencies = {
-        "nvim-treesitter/nvim-treesitter",
         "JoosepAlviste/nvim-ts-context-commentstring",
     },
     config = function()

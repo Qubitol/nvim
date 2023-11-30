@@ -1,9 +1,6 @@
 return {
     "nvim-treesitter/nvim-treesitter",
     version = "*",
-    dependencies = {
-        "JoosepAlviste/nvim-ts-context-commentstring",
-    },
     main = "nvim-treesitter.configs",
     lazy = false,
     build = ":TSUpdate",
@@ -62,12 +59,6 @@ return {
         indent = {
             enable = true,
             disable = { "lua" },
-        },
-
-        -- Enable nvim-ts-context-commentstring
-        context_commentstring = {
-            enable = true,
-            enable_autocmd = false,
         },
     },
 }
