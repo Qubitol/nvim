@@ -149,6 +149,28 @@ return {
         local lazy_map = require("utils").lazy_map
         return {
             lazy_map("n", "<leader>fo", "<cmd>Telescope find_files<CR>", "Telescope over files -- [F]ind [O]pen"),
+            lazy_map("n", "<leader>fO", function()
+                require("telescope.builtin").find_files({
+                    find_command = {
+                        "fd",
+                        "--type",
+                        "f",
+                        "--threads",
+                        "4",
+                        "--color",
+                        "never",
+                        "--relative-path",
+                        "--unrestricted",
+                        "--exclude",
+                        "**/.git/*",
+                        "--exclude",
+                        "**/.bzr/*",
+                        "--exclude",
+                        "**/.bare/*",
+                        ".",
+                    },
+                })
+            end, "Telescope over files [unrestricted] -- [F]ind [O]pen"),
             lazy_map(
             "n",
             "<leader>fb",
