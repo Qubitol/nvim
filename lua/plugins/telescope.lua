@@ -1,6 +1,6 @@
 return {
     "nvim-telescope/telescope.nvim",
-    version = "*",
+    -- version = "*",
     dependencies = {
         "nvim-lua/plenary.nvim",
         {
@@ -68,18 +68,24 @@ return {
                 color_devicons = true,
                 mappings = {
                     i = {
-                        ["<C-w>"] = actions_layout.toggle_preview,
-                        ["<C-l>"] = actions.cycle_previewers_next,
-                        ["<C-h>"] = actions.cycle_previewers_prev,
+                        ["<C-u>"] = actions.preview_scrolling_up,
+                        ["<C-d>"] = actions.preview_scrolling_down,
+                        ["<C-l>"] = actions.preview_scrolling_right,
+                        ["<C-h>"] = actions.preview_scrolling_left,
+                        ["<C-p>"] = actions_layout.toggle_preview,
+                        ["<C-n>"] = actions.cycle_previewers_next,
                         ["<C-j>"] = actions.move_selection_next,
                         ["<C-k>"] = actions.move_selection_previous,
                         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
                         ["<C-x>"] = actions.smart_add_to_qflist + actions.open_qflist,
                     },
                     n = {
-                        ["<C-/>"] = actions_layout.toggle_preview,
-                        ["<C-l>"] = actions.cycle_previewers_next,
-                        ["<C-h>"] = actions.cycle_previewers_prev,
+                        ["<C-u>"] = actions.results_scrolling_up,
+                        ["<C-d>"] = actions.results_scrolling_down,
+                        ["<C-l>"] = actions.results_scrolling_right,
+                        ["<C-h>"] = actions.results_scrolling_left,
+                        ["<C-p>"] = actions_layout.toggle_preview,
+                        ["<C-n>"] = actions.cycle_previewers_next,
                         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
                         ["<C-x>"] = actions.smart_add_to_qflist + actions.open_qflist,
                     },
