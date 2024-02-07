@@ -110,6 +110,14 @@ return {
                         ".",
                     },
                 },
+                live_grep = {
+                    mappings = {
+                        i = {
+                            ["<C-f>"] = actions.to_fuzzy_refine,
+                            ["<C-r>"] = actions.to_fuzzy_refine,
+                        },
+                    },
+                },
                 buffers = {
                     sort_lastused = true,
                     sort_mru = true,
