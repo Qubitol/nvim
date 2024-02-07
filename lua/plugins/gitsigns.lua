@@ -122,14 +122,14 @@ return {
             map(
                 "o",
                 "ih",
-                "<cmd><C-U>Gitsigns select_hunk<CR>",
+                "<cmd>Gitsigns select_hunk<CR>",
                 "Select [I]nside the current [H]unk",
                 { buffer = buffer }
             )
             map(
                 "x",
                 "ih",
-                "<cmd><C-U>Gitsigns select_hunk<CR>",
+                "<cmd>Gitsigns select_hunk<CR>",
                 "Select [I]nside the current [H]unk",
                 { buffer = buffer }
             )
