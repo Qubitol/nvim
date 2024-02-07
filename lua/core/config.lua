@@ -32,7 +32,7 @@ set.colorcolumn = "80"
 set.ruler = true
 set.cursorline = true
 
--- set.foldenable = false
+set.foldenable = false
 -- set.foldlevel = 4 -- limit folding to 4 levels
 set.foldmethod = "marker" -- enable folding (default "foldmarker")
 set.wrap = false
