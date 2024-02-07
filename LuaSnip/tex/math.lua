@@ -17,7 +17,22 @@ local autosnippets = {
             "<>\\ang{<>}",
             {
                 f(function(_, snip) return snip.captures[1] end),
-                i(1, "numbers list"),
+                i(1, "angle"),
+            }
+        )
+    ),
+
+    s({
+            trig = "([^%a])uu",
+            wordTrig = false,
+            regTrig = true,
+            desc = "Expand to siunitx \\unit",
+        },
+        fmta(
+            "<>\\unit{<>}",
+            {
+                f(function(_, snip) return snip.captures[1] end),
+                i(1, "unit"),
             }
         )
     ),
@@ -32,7 +47,7 @@ local autosnippets = {
             "<>\\num{<>}",
             {
                 f(function(_, snip) return snip.captures[1] end),
-                i(1, "numbers list"),
+                i(1, "number"),
             }
         )
     ),
@@ -72,10 +87,10 @@ local autosnippets = {
             trig = "([^%a])nR",
             wordTrig = false,
             regTrig = true,
-            desc = "Expand to siunitx \\numrange[range-open-phrase = {\\text{from} }]",
+            desc = "Expand to siunitx \\numrange[range-open-phrase = {\\text{from }}]",
         },
         fmta(
-            "<>\\numrange[range-open-phrase = {\\text{from} }]{<>}{<>}",
+            "<>\\numrange[range-open-phrase = {\\text{from }}]{<>}{<>}",
             {
                 f(function(_, snip) return snip.captures[1] end),
                 i(1, "range min"),
@@ -137,10 +152,10 @@ local autosnippets = {
             trig = "([^%a])qR",
             wordTrig = false,
             regTrig = true,
-            desc = "Expand to siunitx \\qtyrange[range-open-phrase = {\\text{from} }]",
+            desc = "Expand to siunitx \\qtyrange[range-open-phrase = {\\text{from }}]",
         },
         fmta(
-            "<>\\qtyrange[range-phrase = {\\text{from} }]{<>}{<>}{<>}",
+            "<>\\qtyrange[range-open-phrase = {\\text{from }}]{<>}{<>}{<>}",
             {
                 f(function(_, snip) return snip.captures[1] end),
                 i(1, "range min"),
@@ -243,7 +258,7 @@ local autosnippets = {
             "<>\\odif{<>}",
             {
                 f(function(_, snip) return snip.captures[1] end),
-                i(1),
+                d(1, get_visual),
             }
         ),
         { condition = in_mathzone }
@@ -258,9 +273,10 @@ local autosnippets = {
                 \begin{equation}
                     <>
                 \end{equation}
-
             ]],
-            { i(1) }
+            {
+                d(1, get_visual),
+            }
         ),
         { condition = conds.line_begin }
     ),
@@ -274,9 +290,10 @@ local autosnippets = {
                 \begin{subequations}
                     <>
                 \end{subequations}
-
             ]],
-            { i(1) }
+            {
+                d(1, get_visual),
+            }
         ),
         { condition = conds.line_begin }
     ),
@@ -290,9 +307,10 @@ local autosnippets = {
                 \begin{align}
                     <>
                 \end{align}
-
             ]],
-            { i(1) }
+            {
+                d(1, get_visual),
+            }
         ),
         { condition = conds.line_begin }
     ),
@@ -306,9 +324,10 @@ local autosnippets = {
                 \begin{gather}
                     <>
                 \end{gather}
-
             ]],
-            { i(1) }
+            {
+                d(1, get_visual),
+            }
         ),
         { condition = conds.line_begin }
     ),
@@ -457,10 +476,26 @@ local autosnippets = {
     ),
 
     s({
+            trig = "<-",
+            dscr = "Left arrow"
+        },
+        t("\\leftarrow"),
+        { condition = in_mathzone }
+    ),
+
+    s({
             trig = "=>",
-            dscr = "Double right arrow"
+            dscr = "double right arrow"
         },
         t("\\Rightarrow"),
+        { condition = in_mathzone }
+    ),
+
+    s({
+            trig = "=<",
+            dscr = "double left arrow"
+        },
+        t("\\Leftarrow"),
         { condition = in_mathzone }
     ),
 
@@ -582,52 +617,54 @@ end
 
 -- Create autosnippets for SI units
 local si_units = {
-    ["Q"] = "\\Quetta",
-    ["R"] = "\\Ronna",
-    ["Y"] = "\\yotta",
-    ["Z"] = "\\zetta",
-    ["E"] = "\\exa",
-    ["P"] = "\\peta",
-    ["T"] = "\\tera",
-    ["G"] = "\\giga",
-    ["M"] = "\\mega",
-    ["k"] = "\\kilo",
+    ["Qu"] = "\\Quetta",
+    ["Ro"] = "\\Ronna",
+    ["Yo"] = "\\yotta",
+    ["Ze"] = "\\zetta",
+    ["Ex"] = "\\exa",
+    ["Pe"] = "\\peta",
+    ["Te"] = "\\tera",
+    ["Gi"] = "\\giga",
+    ["Me"] = "\\mega",
+    ["ki"] = "\\kilo",
     ["he"] = "\\hecto",
     ["da"] = "\\deca",
     ["de"] = "\\deci",
     ["ce"] = "\\centi",
     ["mi"] = "\\milli",
     ["mu"] = "\\micro",
-    ["n"] = "\\nano",
+    ["na"] = "\\nano",
     ["pi"] = "\\pico",
-    ["f"] = "\\femto",
-    ["a"] = "\\atto",
-    ["z"] = "\\zepto",
-    ["y"] = "\\yocto",
-    ["r"] = "\\ronto",
-    ["q"] = "\\quecto",
+    ["fe"] = "\\femto",
+    ["at"] = "\\atto",
+    ["ze"] = "\\zepto",
+    ["yo"] = "\\yocto",
+    ["ro"] = "\\ronto",
+    ["qu"] = "\\quecto",
     ["me"] = "\\metre",
     ["se"] = "\\second",
-    ["g"] = "\\gram",
-    ["N"] = "\\newton",
-    ["J"] = "\\joule",
+    ["gr"] = "\\gram",
+    ["Ne"] = "\\newton",
+    ["Jo"] = "\\joule",
     ["hz"] = "\\hertz",
-    ["K"] = "\\kelvin",
+    ["Ke"] = "\\kelvin",
     ["pa"] = "\\pascal",
-    ["O"] = "\\ohm",
-    ["V"] = "\\volt",
-    ["W"] = "\\watt",
+    ["Oh"] = "\\ohm",
+    ["Vo"] = "\\volt",
+    ["Wa"] = "\\watt",
+    ["Ts"] = "\\tesla",
     ["rad"] = "\\radian",
     ["ev"] = "\\electronvolt",
-    ["b"] = "\\barn",
+    ["ba"] = "\\barn",
     ["pc"] = "\\parsec",
-    ["sq"] = "\\square",
+    ["sq"] = "\\squared",
     ["cu"] = "\\cubic",
     ["p2"] = "\\tothe{2}",
     ["p3"] = "\\tothe{3}",
     ["p4"] = "\\tothe{4}",
     ["p5"] = "\\tothe{5}",
     ["pp"] = "\\percent",
+    ["/"] = "\\per",
 }
 
 local si_triggers = {
