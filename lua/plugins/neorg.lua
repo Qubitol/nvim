@@ -16,6 +16,7 @@ return {
                     "Run [N]eorg looking glass to [O]pen code blocks in separate buffers",
                 },
                 { "<leader>nt", "<cmd>Neorg toc<CR>", "Open [N]eorg [T]oc" },
+                { "gd", "<cmd>Neorg keybind norg core.esupports.hop.hop-link<CR>", "[G]o to [D]efinition-like in Neorg" },
                 {
                     "<leader>nu",
                     "<cmd>Neorg keybind norg core.qol.todo_items.todo.task_undone<CR>",
@@ -166,7 +167,7 @@ return {
                         -- Set new keybinds
                         hook = function(keybinds)
                             local keymaps = {}
-                            local default_opts = { noremap = true, silent = true }
+                            local default_opts = { noremap = true, silent = true, buffer = true }
                             for mode, keys in pairs(neorg_mappings) do
                                 keymaps[mode] = {}
                                 for _, mapping_info in ipairs(keys) do
