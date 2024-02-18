@@ -74,60 +74,6 @@ autocmd("VimResized", {
     end,
 })
 
--- Netrw
---local netrw = require("plugins.netrw")
---local netrw_group = augroup("netrw_group", {})
---
---autocmd("ShellCmdPost", { -- this is fired when Netrw refreshes
---    group = netrw_group,
---    pattern = "netrw",
---    callback = netrw._draw_icons
---})
---
---autocmd("FileType", {
---    group = netrw_group,
---    pattern = "netrw",
---    callback = function(opts)
---        netrw._draw_icons()
---        netrw._place_cursor()
---        autocmd("TextChanged", {
---            buffer = opts.buf,
---            callback = function()
---                netrw._draw_icons()
---                netrw._place_cursor()
---            end,
---        })
---        autocmd("WinClosed", {
---            buffer = opts.buf,
---            callback = function(opts_win)
---                local win_id = opts_win.match
---                if opts_win["data"] and opts_win.data["match"] then win_id = opts_win.data.match end
---                netrw._neatrw_tree[vim.api.nvim_get_current_tabpage()][tonumber(win_id)] = nil
---            end,
---        })
---        autocmd("TabClosed", {
---            buffer = opts.buf,
---            callback = function(opts_tab)
---                netrw._neatrw_tree[tonumber(opts_tab.match)] = nil
---            end,
---        })
---        -- use a table with unique values because this event is called multiple times
---        local tab = vim.api.nvim_get_current_tabpage()
---        local win = vim.api.nvim_get_current_win()
---        if not netrw._neatrw_tree[tab] then
---            netrw._neatrw_tree[tab] = {}
---        end
---        -- fill only if not already filled (faster and it does not mess up with cwd and similar)
---        if netrw._neatrw_tree[tab][win] then
---            return
---        end
---        netrw._neatrw_tree[tab][win] = {}
---        netrw._neatrw_tree[tab][win].open_target = vim.fn.win_getid(vim.fn.winnr("#"))
---        netrw._neatrw_tree[tab][win].cwd = vim.fn.getcwd(netrw._neatrw_tree[tab][win].open_target)
---    end,
---})
---
-
 vim.cmd([[
 autocmd User TmuxAttach ""
 ]])
