@@ -20,9 +20,9 @@ return {
             latex = { "latexindent" },
             lua = { "stylua" },
             -- Conform will run multiple formatters sequentially
-            -- python = { "isort", "black" },
-            python = { "black" },
+            -- python = { "black", "isort" },
             -- Use a sub-list to run only the first available formatter
+            python = { { "black", "isort" } },
             javascript = { { "prettierd", "prettier" } },
             html = { { "prettierd", "prettier" } },
             css = { { "prettierd", "prettier" } },
