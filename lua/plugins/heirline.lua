@@ -357,6 +357,89 @@ return {
             },
         }
 
+        local Linters = {
+            init = function(self)
+                local lint = require("lint")
+                -- get filetype linters
+                local names = lint._resolve_linter_by_ft(vim.bo.filetype)
+                -- Add fallback linters.
+                if #names == 0 then
+                    vim.list_extend(names, lint.linters_by_ft["_"] or {})
+                end
+                -- Add global linters.
+                vim.list_extend(names, lint.linters_by_ft["*"] or {})
+                self.linters = names
+            end,
+
+            condition = function(self)
+                local lint = require("lint")
+                -- get filetype linters
+                local names = lint._resolve_linter_by_ft(vim.bo.filetype)
+                -- Add fallback linters.
+                if #names == 0 then
+                    vim.list_extend(names, lint.linters_by_ft["_"] or {})
+                end
+                -- Add global linters.
+                vim.list_extend(names, lint.linters_by_ft["*"] or {})
+                return #names ~= 0
+            end,
+
+            hl = { bg = "file_bg", fg = "linter", bold = true, reverse = false },
+
+            flexible = 3,
+
+            {
+                provider = function(self)
+                    return " " .. icons.kinds.Linter .. " " .. table.concat(self.linters, " ")
+                end,
+            },
+            {
+                provider = "",
+            },
+        }
+
+        local Formatters = {
+            init = function(self)
+                local conform = require("conform")
+                -- get formatters for buffer
+                local buf_formatters = conform.list_formatters_for_buffer()
+                -- resolve formatters
+                local resolved_formatters = conform.resolve_formatters(buf_formatters)
+                -- get formatters to apply
+                self.formatters = {}
+                for i, form_opts in ipairs(resolved_formatters) do
+                    self.formatters[i] = form_opts.name
+                end
+            end,
+
+            condition = function()
+                local conform = require("conform")
+                -- get formatters for buffer
+                local buf_formatters = conform.list_formatters_for_buffer()
+                -- resolve formatters
+                local resolved_formatters = conform.resolve_formatters(buf_formatters)
+                -- get formatters to apply
+                local formatters = {}
+                for i, form_opts in ipairs(resolved_formatters) do
+                    formatters[i] = form_opts.name
+                end
+                return #formatters ~= 0
+            end,
+
+            hl = { bg = "file_bg", fg = "formatter", bold = true, reverse = false },
+
+            flexible = 3,
+
+            {
+                provider = function(self)
+                    return " " .. icons.kinds.Formatter .. " " .. table.concat(self.formatters, " ")
+                end,
+            },
+            {
+                provider = "",
+            },
+        }
+
         -- local CopilotActive = {
         --     condition = function()
         --         local ok, clients = pcall(vim.lsp.get_active_clients, { name = "copilot", bufnr = 0 })
@@ -572,6 +655,8 @@ return {
             Diagnostics,
             LSPActive,
             -- CopilotActive,
+            Linters,
+            Formatters,
             Space,
             Git,
             RulerBlock,
