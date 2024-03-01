@@ -3,6 +3,13 @@ local g = vim.g
 
 local HOME = os.getenv("HOME")
 
+local BIN_PATH
+if vim.fn.has("macunix") then
+    BIN_PATH="/opt/homebrew/bin"
+else
+    BIN_PATH="/usr/bin"
+end
+
 g.compatible = false
 
 -- basic settings
@@ -93,7 +100,7 @@ for _, provider in ipairs(default_providers) do
 end
 
 -- Node
-g.node_host_prog = HOME .. "/.nvm/versions/node/NodeNvim/lib/node_modules/neovim"
+g.node_host_prog = BIN_PATH .. "/neovim-node-host"
 
 -- Python
 g.python3_host_prog = HOME .. "/Apps/venvs/PyNvim/bin/python"
