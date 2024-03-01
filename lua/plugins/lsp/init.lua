@@ -192,8 +192,26 @@ return {
             }
 
             local require_ok, server = pcall(require, "plugins.lsp.servers." .. server_name)
-            if require_ok and server.settings then
-                opts["settings"] = server.settings
+            if require_ok then
+                -- merge on_attach
+                if server.on_attach then
+                    opts.on_attach = function(client, bufnr)
+                        on_attach(client, bufnr)
+                        server.on_attach(client, bufnr)
+                    end
+                    server.on_attach = nil
+                end
+                -- add settings
+                if server.settings then
+                    opts["settings"] = server.settings
+                    server.settings = nil
+                end
+                -- merge other options except capabilities and handlers
+                for k, v in pairs(server) do
+                    if k ~= "capabilities" and k ~= "handlers" then
+                        opts[k] = v
+                    end
+                end
             end
 
             lspconfig[server_name].setup(opts)
