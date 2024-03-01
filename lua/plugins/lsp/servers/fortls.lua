@@ -1,16 +1,14 @@
-local util = require("nvim_lsp.util")
+local util = require("lspconfig.util")
 
 return {
-    settings = {
-        cmd = {
-            "fortls",
-            "--symbol_skip_mem",
-            "--incrmental_sync",
-            "--autocomplete_no_prefix",
-            "--autocomplete_name_only",
-            "--variable_hover",
-        },
-
-        root_dir = util.path.dirname,
+    cmd = {
+        "fortls",
+        "--incremental_sync",
+        "--hover_signature",
+        "--hover_language=fortran",
+        "--use_signature_help",
+        "--enable_code_actions",
     },
+    settings = {},
+    root_dir = util.path.dirname,
 }
