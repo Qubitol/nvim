@@ -85,6 +85,22 @@ return {
             TelescopeResultsDiffChange = { fg = palette.aqua },
             TelescopeResultsDiffDelete = { fg = palette.bright_red },
 
+            -- fzf-lua
+            FzfLuaNormal = { bg = palette.dark0_hard },
+            FzfLuaTitle = { fg = palette.dark1, bg = palette.bright_purple },
+            FzfLuaBorder = { fg = palette.dark0_hard, bg = palette.dark0_hard },
+            FzfLuaPreviewNormal = { bg = palette.dark0_hard },
+            FzfLuaPreviewTitle = { fg = palette.dark0_hard, bg = palette.bright_green },
+            FzfLuaPreviewBorder = { fg = palette.dark0_hard, bg = palette.dark0_hard },
+            FzfLuaScrollBorderEmpty = { bg = palette.dark0_hard, fg = palette.dark1 },
+            FzfLuaScrollBorderFull = { bg = palette.dark0_hard, fg = palette.dark1 },
+            FzfLuaScrollFloatEmpty = { bg = palette.dark0_hard, fg = palette.dark1 },
+            FzfLuaScrollFloatFull = { bg = palette.dark0_hard, fg = palette.dark1 },
+            FzfLuaFzfSeparator = { bg = palette.dark0_hard, fg = palette.dark1 },
+            FzfLuaFzfScrollbar = { bg = palette.dark0_hard, fg = palette.dark1 },
+            FzfLuaFzfHeader = { fg = palette.yellow },
+            FzfLuaFzfInfo = { fg = palette.yellow },
+
             -- Harpoon
             HarpoonWindow = { bg = palette.dark0_hard },
             HarpoonBorder = { fg = palette.dark0_hard, bg = palette.dark0_hard },

@@ -44,7 +44,7 @@ end
 
 -- adapted from https://github.com/ethanholz/nvim-lastplace/blob/main/lua/nvim-lastplace/init.lua
 M.goto_lastplace = function()
-    local ignore_buftype = { "quickfix", "nofile", "help" }
+    local ignore_buftype = { "quickfix", "nofile", "help", "terminal" }
     local ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" }
 
     if vim.tbl_contains(ignore_buftype, vim.bo.buftype) then
