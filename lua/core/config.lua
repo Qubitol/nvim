@@ -15,7 +15,7 @@ g.compatible = false
 -- basic settings
 set.encoding = "utf-8"
 set.backspace = "indent,eol,start"
-set.completeopt = "menuone,noselect"
+set.completeopt = "menu,menuone,noinsert,noselect"
 set.history = 100
 set.hidden = true
 set.lazyredraw = true
