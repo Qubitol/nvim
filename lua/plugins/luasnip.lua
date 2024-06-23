@@ -43,62 +43,44 @@ return {
 
         -- Load the snippets
         require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/LuaSnip/" })
+
+        -- Mappings, to be defined here because they are not lazy
+        local map = require("utils").map
+        map("i", "<Tab>", function()
+            if ls.expand_or_locally_jumpable() then
+                return [[<cmd>lua require("luasnip").expand_or_jump()<CR>]]
+            else
+                return "<Tab>"
+            end
+        end, "If there is an expandable snippet, expand it, otherwise jump forward or fallback to default map", { noremap = false, expr = true })
+        map("i", "<S-Tab>", function() ls.jump(-1) end, "When inside a snippet, jump back")
+        map({"i", "n"}, "<C-n>", function()
+            if ls.choice_active() then
+                return [[<cmd>lua require("luasnip").next_choice()<CR>]]
+            else
+                return "<C-n>"
+            end
+        end, "When inside a choice node, select next choice", { noremap = false, expr = true })
+        map({"i", "n"}, "<C-p>", function()
+            if ls.choice_active() then
+                return [[<cmd>lua require("luasnip").prev_choice()<CR>]]
+            else
+                return "<C-p>"
+            end
+        end, "When inside a choice node, select previous choice", { noremap = false, expr = true })
+        map("s", "<Tab>", function() require("luasnip").jump(1) end, "When inside a snippet, jump forward")
+        map("s", "<S-Tab>", function() require("luasnip").jump(-1) end, "When inside a snippet, jump back")
     end,
 
-    -- Mappings: load this file before cmp, that redefine the mappings keeping a fallback
     keys = function()
         local lazy_map = require("utils").lazy_map
         return {
             lazy_map(
-                "n",
-                "<leader>U",
-                [[<cmd>lua require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/LuaSnip/"})<CR>]],
-                "Reload/[U]pdate the snippets at runtime"
+            "n",
+            "<leader>U",
+            [[<cmd>lua require("luasnip.loaders.from_lua").load({paths = "~/.config/nvim/LuaSnip/"})<CR>]],
+            "Reload/[U]pdate the snippets at runtime"
             ),
-            lazy_map("i", "<Tab>", function()
-                if require("luasnip").expand_or_locally_jumpable() then
-                    return [[<cmd>lua require("luasnip").expand_or_jump()<CR>]]
-                else
-                    return "<Tab>"
-                end
-            end, "If there is an expandable snippet, expand it, otherwise jump forward or fallback to default map"),
-            lazy_map("i", "<S-Tab>", function()
-                require("luasnip").jump(-1)
-            end, "When inside a snippet, jump back"),
-            lazy_map("i", "<C-n>", function()
-                if require("luasnip").choice_active() then
-                    return [[<cmd>lua require("luasnip").next_choice()<CR>]]
-                else
-                    return "<C-n>"
-                end
-            end, "When inside a choice node, select next choice"),
-            lazy_map("i", "<C-p>", function()
-                if require("luasnip").choice_active() then
-                    return [[<cmd>lua require("luasnip").prev_choice()<CR>]]
-                else
-                    return "<C-p>"
-                end
-            end, "When inside a choice node, select previous choice"),
-            lazy_map("s", "<Tab>", function()
-                require("luasnip").jump(1)
-            end, "When inside a snippet, jump forward"),
-            lazy_map("s", "<S-Tab>", function()
-                require("luasnip").jump(-1)
-            end, "When inside a snippet, jump back"),
-            lazy_map("s", "<C-n>", function()
-                if require("luasnip").choice_active() then
-                    return [[<cmd>lua require("luasnip").next_choice()<CR>]]
-                else
-                    return "<C-n>"
-                end
-            end, "When inside a choice node, select next choice"),
-            lazy_map("s", "<C-p>", function()
-                if require("luasnip").choice_active() then
-                    return [[<cmd>lua require("luasnip").prev_choice()<CR>]]
-                else
-                    return "<C-p>"
-                end
-            end, "When inside a choice node, select previous choice"),
         }
     end,
 }
