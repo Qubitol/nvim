@@ -73,7 +73,3 @@ autocmd("VimResized", {
         vim.cmd("tabdo wincmd =")
     end,
 })
-
-vim.cmd([[
-autocmd User TmuxAttach ""
-]])
