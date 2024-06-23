@@ -9,6 +9,15 @@ vim.cmd [[packadd cfilter]]
 map("n", "p", "<CR>zz<C-w>p", opts)
 map("n", "J", "j<CR>zz<C-w>p", opts)
 map("n", "K", "k<CR>zz<C-w>p", opts)
+-- delete entry
+vim.keymap.set("n", "dd", function()
+    local qflist = vim.fn.getqflist()
+    local entry = vim.fn.line(".")
+    table.remove(qflist, entry)
+    vim.fn.setqflist(qflist)
+    vim.cmd.cfirst({ count = entry })
+    vim.cmd.copen()
+end, opts)
 
 -- e - error message
 -- w - warning message
