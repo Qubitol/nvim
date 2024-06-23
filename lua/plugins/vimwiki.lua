@@ -1,7 +1,7 @@
 return {
     "vimwiki/vimwiki",
     version = "*",
-    event = "BufReadPost",
+    ft = "vimwiki",
     keys = function()
         local lazy_map = require("utils").lazy_map
     end,
