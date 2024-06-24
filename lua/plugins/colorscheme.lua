@@ -119,6 +119,14 @@ return {
             ["@keyword.return"] = { fg = palette.neutral_purple },
             TreesitterContext = { bg = palette.dark0_hard },
             TreesitterContextLineNumber = { bg = palette.dark0_hard, fg = palette.light0 },
+
+            -- vimwiki
+            VimwikiHeader1 = { fg = palette.bright_red, bold = true},
+            VimwikiHeader2 = { fg = palette.bright_purple, bold = true },
+            VimwikiHeader3 = { fg = palette.bright_green },
+            VimwikiHeader4 = { fg = palette.bright_orange },
+            VimwikiHeader5 = { fg = palette.bright_blue },
+            VimwikiHeader6 = { fg = palette.bright_aqua },
         }
         -- setup must be called before loading
         require("gruvbox").setup(vim.tbl_deep_extend("force", opts, { overrides = highlight_groups }))
