@@ -7,7 +7,7 @@ return {
     event = { "BufReadPre" },
     opts = {
         enable = true,
-        max_lines = 3,
+        max_lines = 1,
         trim_scope = "inner",
     },
 }
