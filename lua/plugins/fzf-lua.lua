@@ -6,15 +6,6 @@ return {
     },
     config = function()
         local actions = require("fzf-lua.actions")
-        local function title(str)
-            return {
-                winopts = {
-                    -- passthrough options to main window's `nvim_open_win`
-                    title = { { " " .. str .. " ", "IncSearch" } },
-                    title_pos = "center",
-                }
-            }
-        end
         require("fzf-lua").setup({
             fzf_colors = true,
             keymap = {
@@ -43,6 +34,14 @@ return {
             actions = {
                 ["ctrl-q"] = actions.file_sel_to_ql,
             },
+            winopts = {
+                split = "aboveleft " .. vim.fn.winheight(0) * 3 / 4 .. "new",
+                fullscreen = true,
+                preview = {
+                    vertical = "down:40%",
+                    horizontal = "right:40%",
+                },
+            },
             files = {
                 winopts = {
                     title = { { " Find Files ", "FzfLuaTitle" } },
@@ -57,57 +56,29 @@ return {
                     title = { { " Search ", "FzfLuaTitle" } },
                     title_pos = "center",
                 },
-            }
+            },
         })
     end,
     keys = function()
         local fzf_lua = require("fzf-lua")
         local lazy_map = require("utils").lazy_map
         return {
-            lazy_map("n", "<leader>fo", fzf_lua.files, "FZF over files -- [F]ind [O]pen"),
-            lazy_map("n", "<leader>fO", function()
-                fzf_lua.files({
-                    rg_opts = [[--color=never --files --hidden --unrestricted --follow -g "!.git" -g "!.bzr" -g "!.bare"]],
-                    fd_opts = [[--color=never --type f --hidden --unrestricted --follow --exclude .git --exclude .bzr --exclude .bare]],
-                })
-            end, "FZF over files [unrestricted] -- [F]ind [O]pen"),
-            lazy_map("n", "<leader>fb", fzf_lua.buffers, "FZF over loaded buffers -- [F]ind [B]uffers"),
-            lazy_map("n", "<leader>ft", fzf_lua.tags, "FZF over tags -- [F]ind [T]ags"),
-            lazy_map("n", "<leader>fq", fzf_lua.quickfix_stack, "FZF over quickfix stack -- [F]ind [Q]uickfix"),
-            lazy_map("n", "<leader>/", function()
+            lazy_map("n", "<M-f>", fzf_lua.files, "FZF over files -- [F]ind"),
+            lazy_map("n", "<M-b>", fzf_lua.buffers, "FZF over loaded buffers -- [B]uffers"),
+            lazy_map("n", "<M-s>", function()
                 fzf_lua.lgrep_curbuf({
-                    winopts = { preview = { hidden = "hidden", vertical = "up:55%", layout = "horizontal" } },
+                    winopts = { preview = { hidden = "hidden" } },
                 })
             end, "FZF search in current buffer [/]"),
-            lazy_map("n", "<leader>go", function()
-                fzf_lua.live_grep({
-                    winopts = {
-                        preview = {
-                            vertical = "up:55%",
-                            layout = "vertical",
-                        },
-                    },
-                })
-            end, "Live grep over files -- [G]rep [O]pen"),
-            lazy_map("n", "<leader>gt", function()
-                fzf_lua.grep_cword({
-                    winopts = { preview = { hidden = "hidden", vertical = "up:55%", layout = "horizontal" } },
-                })
-            end, "Live grep of the word under the cursor -- [G]rep [T]his"),
-            lazy_map("n", "<leader>gT", function()
-                fzf_lua.grep_cWORD({
-                    winopts = { preview = { hidden = "hidden", vertical = "up:55%", layout = "horizontal" } },
-                })
-            end, "Live grep of the WORD under the cursor -- [G]rep [T]his"),
-            lazy_map("n", "<leader>sf", fzf_lua.lsp_document_symbols, "FZF over LSP [S]ymbols in the current [F]ile"),
-            lazy_map("n", "<leader>gl", function()
+            lazy_map("n", "<M-e>", fzf_lua.live_grep, "Live grep over files -- [G]rep"),
+            lazy_map("n", "<M-g>l", function()
                 fzf_lua.git_commits({ winopts = { preview = { hidden = "hidden" } } })
             end, "FZF over [G]it [L]og, checkout on enter"),
-            lazy_map("n", "<leader>gc", function()
+            lazy_map("n", "<M-g>c", function()
                 fzf_lua.git_bcommits({ winopts = { preview = { hidden = "hidden" } } })
             end, "FZF over [G]it [C]ommits on the current buffer, checkout on enter"),
-            lazy_map("n", "<leader>gb", fzf_lua.git_branches, "FZF over [G]it [B]ranches, switch on enter"),
-            lazy_map("n", "<leader>ff", fzf_lua.resume, "Resume latest FZF search -- [F]ind [F]ind"),
+            lazy_map("n", "<M-g>b", fzf_lua.git_branches, "FZF over [G]it [B]ranches, switch on enter"),
+            lazy_map("n", "<M-r>", fzf_lua.resume, "Resume latest FZF search -- [F]ind [F]ind"),
         }
     end,
 }
