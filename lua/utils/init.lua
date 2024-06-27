@@ -1,47 +1,5 @@
 local M = {}
 
-M.call_cmd_in_preview_window = function(cmd)
-    local win = M.get_preview_window()
-    if not win then
-        return false
-    end
-    local replaced_keys = vim.api.nvim_replace_termcodes("normal " .. cmd, true, true, true)
-    vim.api.nvim_win_call(win, function()
-        vim.cmd(replaced_keys)
-    end)
-    return true
-end
-
-M.safe_call_in_preview_window = function(cmd)
-    if M.call_cmd_in_preview_window(cmd) then
-        return
-    end
-    local replaced_keys = vim.api.nvim_replace_termcodes("normal! " .. cmd, true, true, true)
-    vim.cmd(replaced_keys)
-end
-
-M.concat_file_lines = function(file_path)
-    local f = io.open(file_path)
-    if not f then
-        return {}
-    end
-    local lines = {}
-    for line in f:lines() do
-        table.insert(lines, line)
-    end
-    return lines
-end
-
-M.file_exists = function(name)
-    local f = io.open(name, "r")
-    if f ~= nil then
-        io.close(f)
-        return true
-    else
-        return false
-    end
-end
-
 -- adapted from https://github.com/ethanholz/nvim-lastplace/blob/main/lua/nvim-lastplace/init.lua
 M.goto_lastplace = function()
     local ignore_buftype = { "quickfix", "nofile", "help", "terminal" }
@@ -81,16 +39,6 @@ M.goto_lastplace = function()
             vim.cmd([[normal! G'"<c-e>]])
         end
     end
-end
-
-M.get_preview_window = function()
-    local cur_tabpage_wins = vim.api.nvim_tabpage_list_wins(0)
-    for _, win_handle in ipairs(cur_tabpage_wins) do
-        if vim.api.nvim_win_get_option(win_handle, "previewwindow") then
-            return win_handle
-        end
-    end
-    return false
 end
 
 M.quickfix_or_loclist = function()
