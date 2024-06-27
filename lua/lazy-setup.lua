@@ -12,7 +12,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local map = require("utils").map
-map("n", "<leader>op", "<cmd>Lazy<CR>", "[O]pen [P]lugin manager")
+map("n", "<M-p>", "<cmd>Lazy<CR>", "[O]pen [P]lugin manager")
 
 require("lazy").setup("plugins", {
     root = vim.fn.stdpath("data") .. "/lazy",
@@ -30,9 +30,6 @@ require("lazy").setup("plugins", {
     },
     defaults = {
         lazy = true,
-    },
-    dev = {
-        path = "~/Documents/Personal_projects/",
     },
     install = {
         missing = true,
