@@ -22,10 +22,10 @@ return {
             -- Conform will run multiple formatters sequentially
             -- python = { "black", "isort" },
             -- Use a sub-list to run only the first available formatter
-            python = { { "black", "isort" } },
-            javascript = { { "prettierd", "prettier" } },
-            html = { { "prettierd", "prettier" } },
-            css = { { "prettierd", "prettier" } },
+            python = { "black", "isort", stop_after_first = true },
+            javascript = { "prettierd", "prettier", stop_after_first = true },
+            html = { "prettierd", "prettier", stop_after_first = true },
+            css = { "prettierd", "prettier", stop_after_first = true },
             -- Use the "*" filetype to run formatters on all filetypes.
             -- ["*"] = { "codespell" },
             -- Use the "_" filetype to run formatters on filetypes that don't

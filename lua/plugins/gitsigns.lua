@@ -4,19 +4,21 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     opts = {
         signs = {
-            add = { hl = "GitSignsAdd", text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
-            change = { hl = "GitSignsChange", text = "│", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-            delete = { hl = "GitSignsDelete", text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-            topdelete = { hl = "GitSignsDelete", text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-            changedelete = {
-                hl = "GitSignsChange",
-                text = "~",
-                numhl = "GitSignsChangeNr",
-                linehl = "GitSignsChangeLn",
-            },
-            untracked = { hl = "GitSignsAdd", text = "┆", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+            add = { text = "┃" },
+            change = { text = "┃" },
+            delete = { text = "_" },
+            topdelete = { text = "‾" },
+            changedelete = { text = "~" },
+            untracked = { text = "┆" },
         },
-
+        signs_staged = {
+            add = { text = "┃" },
+            change = { text = "┃" },
+            delete = { text = "_" },
+            topdelete = { text = "‾" },
+            changedelete = { text = "~" },
+            untracked = { text = "┆" },
+        },
         signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
 
         numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
@@ -58,10 +60,6 @@ return {
             relative = "cursor",
             row = 0,
             col = 1,
-        },
-
-        yadm = {
-            enable = false,
         },
 
         on_attach = function(buffer)
@@ -119,20 +117,8 @@ return {
             end, "Open a [D]iff view of the current buffer in a [V]ertical split", { buffer = buffer })
             map("v", "<leader>hs", "<cmd>Gitsigns stage_hunk<CR>", "Current [H]unk and [S]tage it", { buffer = buffer })
             map("v", "<leader>hr", "<cmd>Gitsigns reset_hunk<CR>", "Current [H]unk and [R]eset it", { buffer = buffer })
-            map(
-                "o",
-                "ih",
-                "<cmd>Gitsigns select_hunk<CR>",
-                "Select [I]nside the current [H]unk",
-                { buffer = buffer }
-            )
-            map(
-                "x",
-                "ih",
-                "<cmd>Gitsigns select_hunk<CR>",
-                "Select [I]nside the current [H]unk",
-                { buffer = buffer }
-            )
+            map("o", "ih", "<cmd>Gitsigns select_hunk<CR>", "Select [I]nside the current [H]unk", { buffer = buffer })
+            map("x", "ih", "<cmd>Gitsigns select_hunk<CR>", "Select [I]nside the current [H]unk", { buffer = buffer })
         end,
     },
 }
