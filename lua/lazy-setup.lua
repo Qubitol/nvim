@@ -31,12 +31,12 @@ require("lazy").setup("plugins", {
     defaults = {
         lazy = true,
     },
-    dev = {
-        path = "~/Documents/Personal_projects/",
-    },
     install = {
         missing = true,
         colorscheme = { "colorscheme" },
+    },
+    rocks = {
+        hererocks = true, -- recommended if you do not have global installation of Lua 5.1.
     },
     performance = {
         cache = {
@@ -65,7 +65,7 @@ require("lazy").setup("plugins", {
                 "optwin",
                 "bugreport",
             },
-        }
+        },
     },
     readme = {
         enabled = true,
