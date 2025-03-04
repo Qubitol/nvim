@@ -81,7 +81,7 @@ return {
 
         -- On attach
         local map = require("utils").map
-        local on_attach = function(client, bufnr)
+        local on_attach = function(_, bufnr)
             local opts = { buffer = bufnr }
             map(
                 "n",
@@ -168,45 +168,30 @@ return {
             )
 
             -- Get on attach for each server
-            local require_ok, server = pcall(require, "plugins.lsp.servers." .. client.name)
-            if require_ok and server.on_attach then
-                server.on_attach(client, bufnr)
-            end
         end
 
-        -- initialize each language server
+        -- Before reading the settings from the server, extend the current lsp defaults
+        lspconfig.util.default_config = vim.tbl_extend("force", lspconfig.util.default_config, {
+            handlers = handlers,
+            capabilities = capabilities,
+        })
+
+        -- initialize each language server config and call setup
         local servers = require("plugins.lsp.servers")
         for _, server_name in pairs(servers) do
             server_name = vim.split(server_name, "@")[1]
 
-            -- default options for each language server
-            local opts = {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                handlers = handlers,
-            }
-
-            local require_ok, server = pcall(require, "plugins.lsp.servers." .. server_name)
+            local require_ok, opts = pcall(require, "plugins.lsp.servers." .. server_name)
             if require_ok then
                 -- merge on_attach
-                if server.on_attach then
+                if opts.on_attach then
                     opts.on_attach = function(client, bufnr)
                         on_attach(client, bufnr)
-                        server.on_attach(client, bufnr)
-                    end
-                    server.on_attach = nil
-                end
-                -- add settings
-                if server.settings then
-                    opts["settings"] = server.settings
-                    server.settings = nil
-                end
-                -- merge other options except capabilities and handlers
-                for k, v in pairs(server) do
-                    if k ~= "capabilities" and k ~= "handlers" then
-                        opts[k] = v
+                        opts.on_attach(client, bufnr)
                     end
                 end
+            else
+                opts = {}
             end
 
             lspconfig[server_name].setup(opts)
