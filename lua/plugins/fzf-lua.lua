@@ -49,7 +49,7 @@ return {
                     title_pos = "center",
                 },
                 find_opts = [[-type f -not -path '*/\.git/*' -not -path '*/\.bzr/*' -not -path '*/\.bare/*' -printf '%P\n']],
-                rg_opts = [[--color=never --files --hidden --follow -g "!.git" -g "!.bzr" -g "!.bare"]],
+                rg_opts = [[--color=never --files --hidden --follow -g '!.git' -g '!.bzr' -g '!.bare']],
                 fd_opts = [[--color=never --type f --threads 4 --relative-path --hidden --follow --exclude .git --exclude .bzr --exclude .bare]],
             },
             grep = {
@@ -67,8 +67,8 @@ return {
             lazy_map("n", "<leader>fo", fzf_lua.files, "FZF over files -- [F]ind [O]pen"),
             lazy_map("n", "<leader>fO", function()
                 fzf_lua.files({
-                    rg_opts = [[--color=never --files --hidden --unrestricted --follow -g "!.git" -g "!.bzr" -g "!.bare"]],
                     fd_opts = [[--color=never --type f --hidden --unrestricted --follow --exclude .git --exclude .bzr --exclude .bare]],
+                    rg_opts = [[--color=never --files --hidden --unrestricted --follow -g '!.git' -g '!.bzr' -g '!.bare']],
                 })
             end, "FZF over files [unrestricted] -- [F]ind [O]pen"),
             lazy_map("n", "<leader>fb", fzf_lua.buffers, "FZF over loaded buffers -- [F]ind [B]uffers"),
@@ -108,6 +108,14 @@ return {
             end, "FZF over [G]it [C]ommits on the current buffer, checkout on enter"),
             lazy_map("n", "<leader>gb", fzf_lua.git_branches, "FZF over [G]it [B]ranches, switch on enter"),
             lazy_map("n", "<leader>ff", fzf_lua.resume, "Resume latest FZF search -- [F]ind [F]ind"),
+            -- search over wiki files
+            lazy_map("n", "<leader>fw", function()
+                fzf_lua.files({
+                    find_opts = [[-type f -iname "*.md" -not -path '*/\.git/*' -not -path '*/\.bzr/*' -not -path '*/\.bare/*' -printf '%P\n']],
+                    rg_opts = [[--color=never --files --hidden --follow -g '!.git' -g '!.bzr' -g '!.bare' **/*.md]],
+                    fd_opts = [[--color=never --type f --threads 4 --relative-path --hidden --follow --exclude .git --exclude .bzr --exclude .bare -e md]],
+                })
+            end, "FZF over files [unrestricted] -- [F]ind [O]pen"),
         }
     end,
 }
