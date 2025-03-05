@@ -36,11 +36,25 @@ return {
         }
 
         local CONFIG = os.getenv("XDG_CONFIG_HOME")
+        local wiki_group = vim.api.nvim_create_augroup("Wiki", {})
         vim.api.nvim_create_autocmd("BufNewFile", {
+            group = wiki_group,
             pattern = vim.g.wiki_root .. "/Journal/*.md",
             callback = function()
-                local command = ":silent 0r !" .. CONFIG .. "/nvim/bin/generate-wiki-research-journal-template"
+                local command = ":silent 0r !" .. CONFIG .. "/nvim/bin/generate-wiki-research-journal-template '%:t'"
                 vim.cmd(command)
+            end,
+        })
+        vim.api.nvim_create_autocmd("FileType", {
+            group = wiki_group,
+            pattern = "calendar",
+            callback = function()
+                vim.keymap.set("n", "<CR>", function()
+                    vim.cmd([[let _year = printf("%02d", b:calendar.day().get_year())]])
+                    vim.cmd([[let _month = printf("%02d", b:calendar.day().get_month())]])
+                    vim.cmd([[let _day = printf("%02d", b:calendar.day().get_day())]])
+                    return [[<C-W>q<cmd>call wiki#journal#open(_year . "-" . _month . "-" . _day)<CR>]]
+                end, { buffer = true, expr = true, noremap = true, silent = true })
             end,
         })
     end,
