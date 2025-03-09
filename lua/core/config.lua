@@ -18,7 +18,7 @@ set.backspace = "indent,eol,start"
 set.completeopt = "menu,menuone,noinsert,noselect"
 set.history = 100
 set.hidden = true
-set.lazyredraw = true
+set.lazyredraw = true -- redraw while executing macros, cause also the search match number to be updated
 set.confirm = true
 set.clipboard = "unnamedplus"
 set.mouse = ""
@@ -57,7 +57,7 @@ set.modelines = 0
 set.showcmd = true
 
 -- Interface
-set.shortmess:append("I")
+set.shortmess:append("mrI")
 set.splitright = true
 set.splitbelow = true
 set.termguicolors = true

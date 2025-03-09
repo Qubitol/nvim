@@ -10,7 +10,7 @@ map("n", "p", "<CR>zz<C-w>p", opts)
 map("n", "J", "j<CR>zz<C-w>p", opts)
 map("n", "K", "k<CR>zz<C-w>p", opts)
 -- delete entry
-vim.keymap.set("n", "dd", function()
+map("n", "dd", function()
     local qflist = vim.fn.getqflist()
     local entry = vim.fn.line(".")
     table.remove(qflist, entry)
