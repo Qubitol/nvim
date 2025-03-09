@@ -311,11 +311,11 @@ return {
                 local set_autocomplete
                 if noautocomplete then
                     set_autocomplete = { cmp.TriggerEvent.TextChanged }
-                    vim.api.nvim_buf_set_var(0, "noautocomplete", true)
+                    vim.api.nvim_buf_set_var(0, "noautocomplete", false)
                     vim.api.nvim_echo({ { "Autocompletion enabled" } }, false, {})
                 else
                     set_autocomplete = false
-                    vim.api.nvim_buf_set_var(0, "noautocomplete", false)
+                    vim.api.nvim_buf_set_var(0, "noautocomplete", true)
                     vim.api.nvim_echo({ { "Autocompletion disabled" } }, false, {})
                 end
                 cmp.setup.buffer({
