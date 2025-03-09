@@ -3,22 +3,14 @@ return {
     version = "*",
     dependencies = {
         "MeanderingProgrammer/render-markdown.nvim",
+        "itchyny/calendar.vim",
+        "junegunn/vim-easy-align",
         {
-            "itchyny/calendar.vim",
-            keys = function()
-                local lazy_map = require("utils").lazy_map
-                return {
-                    lazy_map(
-                        "n",
-                        "<leader>oc",
-                        "<cmd>Calendar -date_month_name -view=month -split=horizontal -position=below -height=25<CR>",
-                        "[O]pen [C]alendar for the current month"
-                    ),
-                }
+            "dhruvasagar/vim-table-mode",
+            init = function()
+                vim.g.table_mode_tableize_map = "<Leader>tm"
             end,
         },
-        "junegunn/vim-easy-align",
-        "dhruvasagar/vim-table-mode",
         "qadzek/link.vim",
     },
     ft = "markdown",
