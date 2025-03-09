@@ -4,10 +4,11 @@ return {
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
         "nvim-tree/nvim-web-devicons",
-        "robbielyman/latex.nvim"
     },
     ft = "markdown",
     opts = {
+        anti_conceal = { enabled = false },
+        render_modes = { "n", "c", "i" },
         quote = { repeat_linebreak = true },
         win_options = {
             showbreak = {
@@ -22,11 +23,12 @@ return {
                 default = "",
                 rendered = "",
             },
+            concealcursor = { rendered = "nc" },
             conceallevel = {
                 rendered = 2,
             },
         },
         checkbox = { checked = { scope_highlight = "@markup.strikethrough" } },
-        latex = { enabled = false },
+        latex = { enabled = true },
     },
 }

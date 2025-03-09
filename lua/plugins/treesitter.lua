@@ -28,7 +28,7 @@ return {
             "ini",
             "javascript",
             "json",
-            -- "latex",
+            "latex", -- need the tree-sitter-cli package to install with cargo
             "llvm",
             "lua",
             "make",
