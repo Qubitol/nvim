@@ -26,6 +26,7 @@ return {
             javascript = { "prettierd", "prettier", stop_after_first = true },
             html = { "prettierd", "prettier", stop_after_first = true },
             css = { "prettierd", "prettier", stop_after_first = true },
+            yaml = { "yamlfix", "prettierd", "prettier", stop_after_first = true },
             -- Use the "*" filetype to run formatters on all filetypes.
             -- ["*"] = { "codespell" },
             -- Use the "_" filetype to run formatters on filetypes that don't
@@ -44,6 +45,11 @@ return {
             },
             stylua = {
                 prepend_args = { "--indent-type", "Spaces" },
+            },
+            yamlfix = {
+                env = {
+                    YAMLFIX_LINE_LENGTH = "80",
+                },
             },
         },
     },
