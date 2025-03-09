@@ -101,17 +101,15 @@ return {
             map("n", "<leader>hr", "<cmd>Gitsigns reset_hunk<CR>", "Current [H]unk and [R]eset it", { buffer = buffer })
             map("n", "<leader>hu", gs.undo_stage_hunk, "Current [H]unk and [U]nstage it", { buffer = buffer })
             map("n", "<leader>hp", gs.preview_hunk, "Current [H]unk and [P]review it", { buffer = buffer })
-            map(
-                "n",
-                "<leader>tb",
-                "<cmd>Gitsigns toggle_current_line_blame<CR>",
-                "[T]oggle inline [B]lame",
-                { buffer = buffer }
-            )
-            map("n", "<leader>td", "<cmd>Gitsigns toggle_deleted<CR>", "[T]oggle [D]eleted lines", { buffer = buffer })
-            map("n", "<leader>tB", function()
-                gs.blame_line({ full = true })
-            end, "[T]oggle full [B]lame preview for the current line")
+            map("n", "<leader>gd", "<cmd>Gitsigns toggle_deleted<CR><cmd>Gitsigns toggle_word_diff<CR>", "Toggle [G]it [D]iff", { buffer = buffer })
+            map("n", "<leader>gB", function()
+                if vim.v.count > 0 then
+                    gs.blame_line({ full = true })
+                    return ""
+                else
+                    return "<cmd>Gitsigns toggle_current_line_blame<CR>"
+                end
+            end, "Toggle [G]it [B]lame (full blame with count)", { buffer = buffer, expr = true })
             map("n", "<leader>dv", function()
                 gs.diffthis(nil, { vertical = true })
             end, "Open a [D]iff view of the current buffer in a [V]ertical split", { buffer = buffer })
