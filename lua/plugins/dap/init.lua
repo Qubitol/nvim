@@ -1,6 +1,23 @@
 return {
     {
         "mfussenegger/nvim-dap",
+        cmd = {
+            "DapContinue",
+            "DapDisconnect",
+            "DapNew",
+            "DapTerminate",
+            "DapRestartFrame",
+            "DapStepInto",
+            "DapStepOut",
+            "DapStepOver",
+            "DapPause",
+            "DapEval",
+            "DapToggleRepl",
+            "DapClearBreakpoints",
+            "DapToggleBreakpoint",
+            "DapSetLogLevel",
+            "DapShowLog",
+        },
         keys = function()
             local lazy_map = require("utils").lazy_map
             local dap = require("dap")
@@ -80,6 +97,7 @@ return {
         version = "*",
         dependencies = {
             "mfussenegger/nvim-dap",
+            "nvim-neotest/nvim-nio",
         },
         keys = function()
             local lazy_map = require("utils").lazy_map

@@ -1,6 +1,7 @@
 return {
     "williamboman/mason.nvim",
     version = "*",
+    cmd = { "Mason", "MasonLog", "MasonUpdate", "MasonInstall", "MasonUninstall", "MasonUninstallAll" },
     build = ":MasonUpdate",
     opts = {
         ui = {

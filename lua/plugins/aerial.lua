@@ -1,5 +1,16 @@
 return {
     "stevearc/aerial.nvim",
+    cmd = {
+        "AerialGo",
+        "AerialInfo",
+        "AerialNext",
+        "AerialOpen",
+        "AerialPrev",
+        "AerialToggle",
+        "AerialNavOpen",
+        "AerialOpenAll",
+        "AerialNavToggle",
+    },
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
         "nvim-tree/nvim-web-devicons",
