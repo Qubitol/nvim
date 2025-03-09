@@ -41,10 +41,12 @@ return {
             group = wiki_group,
             pattern = "calendar",
             callback = function()
-                vim.keymap.set("n", "<CR>", function()
-                    vim.cmd([[let _year = printf("%02d", b:calendar.day().get_year())]])
-                    vim.cmd([[let _month = printf("%02d", b:calendar.day().get_month())]])
-                    vim.cmd([[let _day = printf("%02d", b:calendar.day().get_day())]])
+                vim.keymap.set("n", "o", function()
+                    vim.cmd([[
+                    let _year = printf("%02d", b:calendar.day().get_year())
+                    let _month = printf("%02d", b:calendar.day().get_month())
+                    let _day = printf("%02d", b:calendar.day().get_day())
+                    ]])
                     return [[<C-W>q<cmd>call wiki#journal#open(_year . "-" . _month . "-" . _day)<CR>]]
                 end, { buffer = true, expr = true, noremap = true, silent = true })
             end,
