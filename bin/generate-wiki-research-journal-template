@@ -2,11 +2,11 @@
 import sys
 import datetime
 
-TEMPLATE = """# {title}
+TEMPLATE = """# {date} {day}
 
 """
 
-title = (datetime.date.today() if len(sys.argv) < 2
+date = (datetime.date.today() if len(sys.argv) < 2
         # Expecting filename in <title>.foo format
-        else sys.argv[1].rsplit(".", 1)[0])
-print(TEMPLATE.format(title=title))
+        else datetime.date.fromisoformat(sys.argv[1].rsplit(".", 1)[0]))
+print(TEMPLATE.format(date=date.strftime("%Y-%m-%d"), day=date.strftime("%A")))
