@@ -8,6 +8,8 @@ map("n", "<C-u>", "<C-u>zz", "Scroll half-page up and center viewport")
 map("n", "<C-d>", "<C-d>zz", "Scroll half-page down and center viewport")
 map("n", "n", "nzz", "Find next and center viewport")
 map("n", "N", "Nzz", "Find previous and center viewport")
+map("n", "<leader>n", "n", "Find next (original)")
+map("n", "<leader>N", "N", "Find previous (original)")
 map("n", "'", "`", "Jump to mark (easy to press on my keyboard, and more efficient)")
 map(
     "n",
@@ -55,6 +57,7 @@ map("n", "[A", "<cmd>first<CR>", "Go to first [A]rg")
 map("n", "]A", "<cmd>last<CR>", "Go to last [A]rg")
 map("n", "g[", "<cmd>diffget //2<CR>", "[G]et the merge resolution from the buffer on the left [h] (target parent)")
 map("n", "g]", "<cmd>diffget //3<CR>", "[G]et the merge resolution from the buffer on the right [l] (merge parent)")
+map("n", "<leader>aa", ":argadd % | argdedupe <CR>", "[A]dd the current file to the [A]rg list and remove possible duplicates")
 map("n", "<leader>cd", "<cmd>cd %:p:h<CR>", "[C]hange current [D]irectory to the base directory of the active buffer")
 map(
     "n",

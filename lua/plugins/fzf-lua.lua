@@ -28,20 +28,48 @@ return {
                     -- Rotate preview clockwise/counter-clockwise
                     ["<F5>"] = "toggle-preview-ccw",
                     ["<F6>"] = "toggle-preview-cw",
-                    ["<C-n>"] = "preview-page-down",
-                    ["<C-p>"] = "preview-page-up",
-                    ["<C-o>"] = "preview-page-reset",
+                    -- Scroll preview
+                    ["<S-Left>"] = "preview-reset",
+                    ["<S-down>"] = "preview-page-down",
+                    ["<S-up>"] = "preview-page-up",
+                    ["<M-S-down>"] = "preview-down",
+                    ["<M-S-up>"] = "preview-up",
                 },
                 fzf = {
                     ["ctrl-z"] = "abort",
                     ["ctrl-u"] = "unix-line-discard",
                     ["alt-v"] = "toggle-all",
                     ["ctrl-d"] = "delete-char/eof",
-                    ["ctrl-q"] = "select-all+accept",
+                    ["ctrl-j"] = "",
+                    ["ctrl-k"] = "kill-line",
+                    -- Only valid with fzf previewers (bat/cat/git/etc)
+                    ["f3"] = "toggle-preview-wrap",
+                    ["f4"] = "toggle-preview",
+                    -- Scroll preview
+                    ["shift-down"] = "preview-page-down",
+                    ["shift-up"] = "preview-page-up",
+                    -- Movements
+                    ["ctrl-n"] = "down",
+                    ["ctrl-p"] = "up",
                 },
             },
             actions = {
-                ["ctrl-q"] = actions.file_sel_to_ql,
+                "hide",
+                files = {
+                    ["enter"] = actions.file_edit,
+                    ["ctrl-s"] = actions.file_split,
+                    ["ctrl-v"] = actions.file_vsplit,
+                    ["ctrl-t"] = actions.file_tabedit,
+                    ["ctrl-q"] = actions.file_sel_to_qf,
+                    -- Toggle search mode
+                    ["ctrl-h"] = actions.toggle_hidden,
+                    ["ctrl-g"] = actions.toggle_ignore, -- because ctrl-i is actually the <TAB> key, which I want to be binded to "select"
+                    ["ctrl-l"] = actions.toggle_follow,
+                    -- Pickers inheriting these actions:
+                    --   files, git_files, git_status, grep, lsp, oldfiles, quickfix, loclist,
+                    --   tags, btags, args, buffers, tabs, lines, blines
+                    ["alt-d"] = { fn = actions.buf_del, reload = true },
+                },
             },
             files = {
                 winopts = {

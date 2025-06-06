@@ -86,22 +86,22 @@ return {
                 ["<C-n>"] = cmp.mapping.select_next_item({
                     behavior = cmp.SelectBehavior.Insert,
                 }),
-                ["<C-k>"] = cmp.mapping({
-                    i = cmp.mapping.select_prev_item({
-                        behavior = cmp.SelectBehavior.Insert,
-                    }),
-                    s = cmp.mapping.select_prev_item({
-                        behavior = cmp.SelectBehavior.Insert,
-                    }),
-                }),
-                ["<C-j>"] = cmp.mapping({
-                    i = cmp.mapping.select_next_item({
-                        behavior = cmp.SelectBehavior.Insert,
-                    }),
-                    s = cmp.mapping.select_next_item({
-                        behavior = cmp.SelectBehavior.Insert,
-                    }),
-                }),
+                -- ["<C-k>"] = cmp.mapping({
+                --     i = cmp.mapping.select_prev_item({
+                --         behavior = cmp.SelectBehavior.Insert,
+                --     }),
+                --     s = cmp.mapping.select_prev_item({
+                --         behavior = cmp.SelectBehavior.Insert,
+                --     }),
+                -- }),
+                -- ["<C-j>"] = cmp.mapping({
+                --     i = cmp.mapping.select_next_item({
+                --         behavior = cmp.SelectBehavior.Insert,
+                --     }),
+                --     s = cmp.mapping.select_next_item({
+                --         behavior = cmp.SelectBehavior.Insert,
+                --     }),
+                -- }),
                 -- Documentation
                 ["<C-b>"] = cmp.mapping.scroll_docs(-4, { "i", "s" }),
                 ["<C-f>"] = cmp.mapping.scroll_docs(4, { "i", "s" }),
