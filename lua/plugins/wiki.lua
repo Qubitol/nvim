@@ -8,7 +8,7 @@ return {
         {
             "dhruvasagar/vim-table-mode",
             init = function()
-                vim.g.table_mode_tableize_map = "<Leader>tm"
+                vim.g.table_mode_tableize_map = "<Leader>to"
             end,
         },
         "qadzek/link.vim",
