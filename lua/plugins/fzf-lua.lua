@@ -12,7 +12,7 @@ return {
                     -- passthrough options to main window's `nvim_open_win`
                     title = { { " " .. str .. " ", "IncSearch" } },
                     title_pos = "center",
-                }
+                },
             }
         end
         require("fzf-lua").setup({

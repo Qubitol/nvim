@@ -15,6 +15,7 @@ return {
             "css",
             "csv",
             "cuda",
+            "diff",
             "dockerfile",
             "doxygen",
             "fortran",

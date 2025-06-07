@@ -4,10 +4,10 @@ local g = vim.g
 local HOME = os.getenv("HOME")
 
 local BIN_PATH
-if vim.fn.has("macunix") then
+if vim.fn.has("macunix") ~= 0 then
     BIN_PATH="/opt/homebrew/bin"
 else
-    BIN_PATH="/usr/bin"
+    BIN_PATH="/usr/local/bin"
 end
 
 g.compatible = false
@@ -34,7 +34,7 @@ set.showmatch = true
 set.scrolloff = 3
 set.sidescrolloff = 5
 set.synmaxcol = 500
-set.laststatus = 3
+set.laststatus = 2
 set.colorcolumn = "80"
 set.ruler = true
 set.cursorline = true
