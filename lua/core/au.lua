@@ -20,17 +20,14 @@ autocmd("TextYankPost", {
 -- Filetypes autocommands
 local ft_group = augroup("FileTypeGroup", {})
 
-autocmd("FileType", {
+-- Fix filetype for help files
+autocmd("BufRead", {
     group = ft_group,
-    pattern = "TelescopePrompt",
+    pattern = "*",
     callback = function()
-        local status, cmp = pcall(require, "cmp")
-        if not status or not cmp.setup then
-            return
+        if vim.o.filetype == "" and vim.o.buftype == "help" then
+            vim.o.filetype = "help"
         end
-        cmp.setup.buffer({
-            enabled = false,
-        })
     end,
 })
 
@@ -62,14 +59,4 @@ local lastplace_group = augroup("nvim-lastplace", {})
 autocmd({ "BufWinEnter", "FileType" }, {
     group = lastplace_group,
     callback = utils.goto_lastplace,
-})
-
--- Resize
-local resize_group = augroup("ResizeGroup", {})
-
-autocmd("VimResized", {
-    group = resize_group,
-    callback = function()
-        vim.cmd("tabdo wincmd =")
-    end,
 })
