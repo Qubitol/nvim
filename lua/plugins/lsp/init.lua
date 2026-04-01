@@ -4,7 +4,7 @@ return {
     dependencies = {
         {
             "williamboman/mason-lspconfig.nvim",
-            version = "*",
+            version = "^1.0.0",
             opts = {
                 ensure_installed = require("plugins.lsp.servers"),
                 automatic_installation = true,

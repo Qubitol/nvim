@@ -1,6 +1,6 @@
 return {
     "MeanderingProgrammer/render-markdown.nvim",
-    version = "*",
+    version = "v8.0.0",
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
         "nvim-tree/nvim-web-devicons",
