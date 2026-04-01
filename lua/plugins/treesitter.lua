@@ -74,7 +74,7 @@ return {
 
         indent = {
             enable = true,
-            disable = { "lua", "cpp", "c", "python" },
+            disable = { "lua", "python" },
         },
     },
 }
