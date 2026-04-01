@@ -19,7 +19,7 @@ return {
 
     opts = function()
         local cmp = require("cmp")
-        local copilot = require("copilot.suggestion")
+        -- local copilot = require("copilot.suggestion")
         local luasnip = require("luasnip")
 
         -- Needed to keep Luasnip Tab completion consistent
@@ -109,9 +109,10 @@ return {
                 ["<C-Space>"] = cmp.config.disable,
                 ["<C-y>"] = cmp.mapping({
                     i = function(fallback)
-                        if copilot.is_visible() then
-                            copilot.accept()
-                        elseif cmp.visible() then
+                        -- if copilot.is_visible() then
+                        --     copilot.accept()
+                        -- elseif cmp.visible() then
+                        if cmp.visible() then
                             cmp.confirm({
                                 behavior = cmp.ConfirmBehavior.Insert,
                                 select = true,
@@ -143,9 +144,9 @@ return {
                 }),
                 ["<C-e>"] = cmp.mapping({
                     i = function()
-                        if copilot.is_visible() then
-                            copilot.dismiss()
-                        end
+                        -- if copilot.is_visible() then
+                        --     copilot.dismiss()
+                        -- end
                         cmp.abort()
                     end,
                     c = function(fallback)
