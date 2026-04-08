@@ -1,32 +1,37 @@
 local set = vim.opt_local
-local map = vim.keymap.set
+local map = require("config.utils").map
 local opts = { buffer = true, noremap = true, silent = true }
 
--- load cfilter-plugin
-vim.cmd [[packadd cfilter]]
+local function is_loclist()
+    return vim.fn.getloclist(0, { filewinid = 0 }).filewinid ~= 0
+end
 
--- preview the diagnostic location
-map("n", "p", "<CR>zz<C-w>p", opts)
-map("n", "J", "j<CR>zz<C-w>p", opts)
-map("n", "K", "k<CR>zz<C-w>p", opts)
--- delete entry
+map("n", "p", "<CR>zz<C-w>p", "Preview location on file, keep focus on loclist/quickfix", opts)
+map("n", "J", "j<CR>zz<C-w>p", "Scroll down the list while previewing the location on file, keep focus on loclist/quickfix", opts)
+map("n", "K", "k<CR>zz<C-w>p", "Scroll up the list while previewing the location on file, keep focus on loclist/quickfix", opts)
+
 map("n", "dd", function()
-    local qflist = vim.fn.getqflist()
     local entry = vim.fn.line(".")
-    table.remove(qflist, entry)
-    vim.fn.setqflist(qflist)
-    vim.cmd.cfirst({ count = entry })
-    vim.cmd.copen()
-end, opts)
-
--- e - error message
--- w - warning message
--- i - info message
--- n - note message  => hint
+    if is_loclist() then
+        local list = vim.fn.getloclist(0)
+        table.remove(list, entry)
+        vim.fn.setloclist(0, list)
+        if #list > 0 then
+            vim.cmd.ll({ count = math.min(entry, #list) })
+        end
+        vim.cmd.lopen()
+    else
+        local list = vim.fn.getqflist()
+        table.remove(list, entry)
+        vim.fn.setqflist(list)
+        if #list > 0 then
+            vim.cmd.cfirst({ count = math.min(entry, #list) })
+        end
+        vim.cmd.copen()
+    end
+end, "Delete entry from the list", opts)
 
 -- options
 set.colorcolumn = ""
 set.wrap = false
-
--- highlighting groups
-set.winhighlight = "Normal:Quickfix"
+set.relativenumber = false

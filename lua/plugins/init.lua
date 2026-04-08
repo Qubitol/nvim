@@ -1,0 +1,15 @@
+require("plugins.colors")
+require("plugins.builtins")
+require("plugins.fuzzy")
+require("plugins.git")
+require("plugins.indent")
+require("plugins.latex")
+require("plugins.lsp")
+require("plugins.snippets")
+require("plugins.surround")
+require("plugins.treesitter")
+require("plugins.wiki")
+require("plugins.aerial")
+if vim.g.ai then
+    require("plugins.codecompanion")
+end

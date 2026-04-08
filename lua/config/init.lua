@@ -1,0 +1,6 @@
+require("config.globals")
+require("config.settings")
+require("config.mappings")
+require("config.autocmds")
+require("config.usercommands")
+require("config.statusline").setup()

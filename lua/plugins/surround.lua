@@ -1,6 +1,4 @@
-return {
-    "kylechui/nvim-surround",
-    version = "*",
-    event = "VeryLazy",
-    opts = {},
-}
+-- Surround
+
+vim.pack.add({ "https://github.com/kylechui/nvim-surround" })
+require("nvim-surround").setup()

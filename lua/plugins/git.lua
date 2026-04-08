@@ -1,0 +1,131 @@
+-- Git
+
+local map = require("config.utils").map
+
+vim.pack.add({
+    { src = "https://github.com/tpope/vim-fugitive" },
+    { src = "https://github.com/lewis6991/gitsigns.nvim" },
+})
+
+-- Fugitive mappings
+map("n", "<leader>gs", vim.cmd.Git, "Run [G]it [S]tatus (open vim-fugitive prompt)")
+map("n", "<leader>gp", "<cmd>Git push<CR>", "Run a [G]it [P]ush")
+map(
+    "n",
+    "<leader>gf",
+    "<cmd>Git pull --rebase<CR>",
+    "Run `git pull --rebase` (a [G]it [F]etch followed by a rebase in the current branch)"
+)
+map("n", "<leader>gP", ":Git push -u origin ", "Populate command line with [G]it [P]ush -u origin", { silent = false })
+map(
+    "n",
+    "<leader>gF",
+    ":Git pull --rebase -u origin ",
+    "Populate the command line with `git pull --rebase -u origin`",
+    { silent = false }
+)
+
+local icons = require("config.ui").icons
+
+-- Gitsigns
+require("gitsigns").setup({
+    signs = {
+        add = { text = icons.gitsigns.signs.add },
+        change = { text = icons.gitsigns.signs.change },
+        delete = { text = icons.gitsigns.signs.delete },
+        topdelete = { text = icons.gitsigns.signs.topdelete },
+        changedelete = { text = icons.gitsigns.signs.changedelete },
+        untracked = { text = icons.gitsigns.signs.untracked },
+    },
+    signs_staged = {
+        add = { text = icons.gitsigns.signs.add },
+        change = { text = icons.gitsigns.signs.change },
+        delete = { text = icons.gitsigns.signs.delete },
+        topdelete = { text = icons.gitsigns.signs.topdelete },
+        changedelete = { text = icons.gitsigns.signs.changedelete },
+        untracked = { text = icons.gitsigns.signs.untracked },
+    },
+    signcolumn = true,
+    numhl = false,
+    linehl = false,
+    word_diff = false,
+    watch_gitdir = {
+        interval = 1000,
+        follow_files = true,
+    },
+    attach_to_untracked = true,
+    current_line_blame = false,
+    current_line_blame_opts = {
+        virt_text = true,
+        virt_text_pos = "eol",
+        delay = 1000,
+        ignore_whitespace = false,
+    },
+    current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
+    sign_priority = 6,
+    update_debounce = 100,
+    max_file_length = 40000,
+    preview_config = {
+        border = "single",
+        style = "minimal",
+        relative = "cursor",
+        row = 0,
+        col = 1,
+    },
+    on_attach = function(buffer)
+        local gs = require("gitsigns")
+        map("n", "]c", function()
+            if vim.wo.diff then
+                return "]c"
+            end
+            vim.schedule(function()
+                gs.next_hunk()
+            end)
+            return "<Ignore>"
+        end, "Go to the next [C]hange (git hunk) or [C]onflict marker (in diff mode)", {
+            expr = true,
+            buffer = buffer,
+        })
+        map(
+            "n",
+            "[c",
+            function()
+                if vim.wo.diff then
+                    return "[c"
+                end
+                vim.schedule(function()
+                    gs.prev_hunk()
+                end)
+                return "<Ignore>"
+            end,
+            "Go to the previous [C]hange (git hunk) or [C]onflict marker (in diff mode)",
+            { expr = true, buffer = buffer }
+        )
+        map("n", "<leader>hs", "<cmd>Gitsigns stage_hunk<CR>", "Current [H]unk and [S]tage it", { buffer = buffer })
+        map("n", "<leader>hr", "<cmd>Gitsigns reset_hunk<CR>", "Current [H]unk and [R]eset it", { buffer = buffer })
+        map("n", "<leader>hu", gs.undo_stage_hunk, "Current [H]unk and [U]nstage it", { buffer = buffer })
+        map("n", "<leader>hp", gs.preview_hunk, "Current [H]unk and [P]review it", { buffer = buffer })
+        map(
+            "n",
+            "<leader>tD",
+            "<cmd>Gitsigns toggle_deleted<CR><cmd>Gitsigns toggle_word_diff<CR>",
+            "[T]oggle git [D]iff",
+            { buffer = buffer }
+        )
+        map("n", "<leader>tB", function()
+            if vim.v.count > 0 then
+                gs.blame_line({ full = true })
+                return ""
+            else
+                return "<cmd>Gitsigns toggle_current_line_blame<CR>"
+            end
+        end, "[T]oggle git [B]lame (full blame with count)", { buffer = buffer, expr = true })
+        map("n", "<leader>dv", function()
+            gs.diffthis(nil, { vertical = true })
+        end, "Open a [D]iff view of the current buffer in a [V]ertical split", { buffer = buffer })
+        map("v", "<leader>hs", "<cmd>Gitsigns stage_hunk<CR>", "Current [H]unk and [S]tage it", { buffer = buffer })
+        map("v", "<leader>hr", "<cmd>Gitsigns reset_hunk<CR>", "Current [H]unk and [R]eset it", { buffer = buffer })
+        map("o", "ih", "<cmd>Gitsigns select_hunk<CR>", "Select [I]nside the current [H]unk", { buffer = buffer })
+        map("x", "ih", "<cmd>Gitsigns select_hunk<CR>", "Select [I]nside the current [H]unk", { buffer = buffer })
+    end,
+})
