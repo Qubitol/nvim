@@ -23,7 +23,13 @@ if vim.g.pretty then
 end
 
 -- Image rendering (kitty-only)
-if vim.g.pretty and vim.env.TERM == "xterm-kitty" or vim.env.TERM_PROGRAM == "kitty" then
+local function is_kitty()
+    return vim.env.KITTY_WINDOW_ID ~= nil
+        or vim.env.TERM == "xterm-kitty"
+        or vim.env.TERM_PROGRAM == "kitty"
+end
+
+if vim.g.pretty and is_kitty() then
     vim.pack.add({ "https://github.com/3rd/image.nvim" })
     require("image").setup({
         backend = "kitty",
@@ -32,7 +38,7 @@ if vim.g.pretty and vim.env.TERM == "xterm-kitty" or vim.env.TERM_PROGRAM == "ki
                 enabled = true,
                 clear_in_insert_mode = false,
                 download_remote_images = true,
-                only_render_image_at_cursor = true,
+                only_render_image_at_cursor = false,
             },
             neorg = { enabled = false },
             typst = { enabled = false },
