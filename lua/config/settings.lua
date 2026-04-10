@@ -18,6 +18,9 @@ vim.schedule(function()
     set.clipboard = "unnamedplus"
 end)
 
+-- Load file on change and save it often
+set.autoread = true
+
 -- Enable break indent
 set.breakindent = true
 
