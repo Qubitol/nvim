@@ -20,12 +20,22 @@ autocmd("TextYankPost", {
 -- Filetypes autocommands
 local ft_group = augroup("FileTypeGroup", {})
 
+-- We need the following because the runtime ftplugins (by other plugins) can
+-- modify the formatoptions via `setlocal`, so my global default is never
+-- applied. With a FileType autocommand, I can set it explicitly.
 autocmd("FileType", {
     desc = "Override ftplugin formatoptions",
     group = ft_group,
     callback = function()
         vim.opt_local.formatoptions = "qnj1cr"
     end,
+})
+
+autocmd('FileType', {
+  pattern = 'gitcommit',
+  callback = function()
+    vim.opt_local.formatoptions:append('t')
+  end,
 })
 
 autocmd("FileType", {
