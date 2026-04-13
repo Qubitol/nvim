@@ -73,7 +73,7 @@ local function apply_custom_highlights()
         FloatBorder = { fg = p.bg_dark, bg = p.bg_dark },
 
         -- Dimmed windows
-        NormalNC = { bg = darken(p.bg, 5), fg = darken(p.fg, 30) },
+        -- NormalNC = { bg = darken(p.bg, 5), fg = darken(p.fg, 30) },
 
         -- Sign column: match background
         FoldColumn = { bg = "none" },
@@ -83,9 +83,9 @@ local function apply_custom_highlights()
 
         -- Statusline
         StatusLine = { link = "NormalFloat" },
-        StatusLineNC = { link = "NormalNC" },
+        StatusLineNC = { link = "StatusLine" },
         WinBar = { link = "StatusLine" },
-        WinBarNC = { link = "StatusLineNC" },
+        WinBarNC = { bg = darken(p.bg, 5), fg = darken(p.fg, 30) },
 
         -- DiagnosticSign
         DiagnosticSignError = { bg = "none" },
@@ -143,7 +143,7 @@ local function apply_custom_highlights()
         FzfLuaFzfInfo = { fg = p.warn },
 
         -- CodeCompanion
-        CodeCompanionNormal = { link = "NormalFloat" },
+        CodeCompanionNormal = { link = "FileBrowser" },
     }
 
     for group, hl in pairs(highlights) do
