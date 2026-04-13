@@ -92,6 +92,9 @@ map("n", "<C-j>", function() utils.open_n_arg_file(1) end, "Edit 2nd element of 
 map("n", "<C-k>", function() utils.open_n_arg_file(2) end, "Edit 3rd element of arglist")
 map("n", "<C-l>", function() utils.open_n_arg_file(3) end, "Edit 4th element of arglist")
 
+-- Undotree
+map("n", "<leader>tu", "<CMD>Undotree<CR>", "[T]oggle [U]ndotree")
+
 -- Readline on command line
 map("c", "<C-a>", "<Home>", "Move cursor to the beginning of the line", { silent = false })
 map("c", "<C-e>", "<End>", "Move cursor to the end of the line", { silent = false })
