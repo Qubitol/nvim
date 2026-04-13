@@ -41,7 +41,7 @@ autocmd('FileType', {
 autocmd("FileType", {
     desc = "Common background for some filetypes",
     group = ft_group,
-    pattern = { "aerial", "argpick", "calendar", "fugitive", "help", "qf", "undotree" },
+    pattern = { "aerial", "calendar", "fugitive", "fugitiveblame", "git", "help", "qf", "undotree" },
     callback = function()
         local set = vim.opt_local
         set.colorcolumn = ""
