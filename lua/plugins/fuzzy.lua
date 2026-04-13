@@ -201,7 +201,7 @@ map("n", "<leader>sf", function()
     })
 end, "FZF over LSP [S]ymbols in the current [F]ile")
 map("n", "<leader>sw", function()
-    fzf_lua.lsp_workspace_symbols({
+    fzf_lua.lsp_live_workspace_symbols({
         winopts = {
             title = { { " LSP workspace ", "FzfLuaTitle" } },
             title_pos = "center",
