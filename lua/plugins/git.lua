@@ -8,6 +8,7 @@ vim.pack.add({
 })
 
 -- Fugitive mappings
+vim.cmd([[cab git Git]]) -- autocomplete "Git" when writing "git"
 map("n", "<leader>gs", vim.cmd.Git, "Run [G]it [S]tatus (open vim-fugitive prompt)")
 map("n", "<leader>gp", "<cmd>Git push<CR>", "Run a [G]it [P]ush")
 map(
@@ -24,6 +25,26 @@ map(
     "Populate the command line with `git pull --rebase -u origin`",
     { silent = false }
 )
+map("n", "<leader>gb", "<cmd>Git blame<CR>", "[G]it [B]lame")
+map("v", "<leader>gb", function()
+    local start_line = vim.fn.getpos("v")[2]
+    local end_line = vim.fn.getpos(".")[2]
+    if start_line > end_line then
+        start_line, end_line = end_line, start_line
+    end
+    local relfile = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
+
+    local cmd = string.format(
+        "<cmd>Git log --no-patch --format='%%h %%s (%%ad) [%%an]' --date=short -L %d,%d:%s<CR>",
+        start_line,
+        end_line,
+        vim.fn.shellescape(relfile)
+    )
+    return cmd
+end, "[G]it [B]lame -- range history (pickaxe)", { expr = true })
+map("n", "<leader>gl", "<cmd>Git log --no-patch --format='%h %s (%ad) [%an]' --date=short<CR>", "[G]it [L]og")
+map("n", "<leader>gd", "<cmd>Git difftool<CR>", "[G]it [D]iff in quickfix list")
+map("n", "<leader>gD", ":Git difftool ", "Populate command line with [G]it [D]iff")
 
 local icons = require("config.ui").icons
 
