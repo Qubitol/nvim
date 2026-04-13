@@ -224,10 +224,17 @@ local function has_lsp(buf)
 end
 
 -- Special buffers to treat bars differently: terminal, quickfix, loclist, etc.
-local _special_buftypes = { terminal = true, quickfix = true, nofile = true, prompt = true }
+local _special_buftypes = { terminal = true, nofile = true, prompt = true }
 
 local function special_buf(buf)
     return _special_buftypes[vim.bo[buf].buftype] == true
+end
+
+-- Special filetypes to treat bars differently: terminal, quickfix, loclist, etc.
+local _special_filetypes = { qf = true, argpick = true, git = true, fugitive = true, fugitiveblame = true }
+
+local function special_ft(buf)
+    return _special_filetypes[vim.bo[buf].filetype] == true
 end
 
 -- Statusline
@@ -237,16 +244,9 @@ end
 
 function M.render()
     local buf = vim.api.nvim_get_current_buf()
-    if special_buf(buf) then
-        return "%h%q%w"
-    end
 
     local sep = (icons.statusline and icons.statusline.sep) or "|"
     local end_part = "%l,%c%V   %P "
-
-    if not is_active() then
-        return cwd_display(50) .. "%=" .. end_part
-    end
 
     local mode = vim.api.nvim_get_mode().mode
     local mode_label = mode_names[mode] or mode:upper()
@@ -258,9 +258,10 @@ function M.render()
     local left = table.concat({
         hl(hl_statusline, mode_colors[mode_initial], " " .. mode_label .. " "),
         " ",
+        cwd_display(cwd_limit),
+        " ",
         "%h%q",
         " ",
-        cwd_display(cwd_limit),
     })
 
     local diag = lsp_diagnostics(buf)
@@ -277,6 +278,7 @@ end
 
 function M.winbar()
     local buf = vim.api.nvim_get_current_buf()
+    if special_buf(buf) or special_ft(buf) then return "" end
 
     local active = is_active()
 
@@ -293,7 +295,7 @@ function M.winbar()
         flags = flags .. " " .. ((icons.winbar and icons.winbar.readonly) or "[RO]")
     end
 
-    local left = " " .. icon .. path .. flags
+    local left = " " .. icon .. path .. flags .. " %w"
 
     if not active then
         -- Inactive: no git, no encoding, no lsp — just let WinBarNC handle the dimming
@@ -324,11 +326,12 @@ function M.setup()
     vim.o.statusline = "%!v:lua.require('config.statusline').render()"
 
     local group = vim.api.nvim_create_augroup("StatuslineWinbar", { clear = true })
-    vim.api.nvim_create_autocmd({ "WinEnter", "BufWinEnter", "WinNew" }, {
+    vim.api.nvim_create_autocmd("BufWinEnter", {
         group = group,
         callback = function()
             local buf = vim.api.nvim_get_current_buf()
-            vim.wo.winbar = special_buf(buf) and "" or "%{%v:lua.require('config.statusline').winbar()%}"
+            local no_show = special_buf(buf) or special_ft(buf)
+            vim.wo.winbar = no_show and "" or "%{%v:lua.require('config.statusline').winbar()%}"
         end,
     })
 end
