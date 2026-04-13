@@ -44,6 +44,7 @@ require("conform").setup({
         lua        = { "stylua" },
         python     = { "ruff", "black", stop_after_first = true },
         yaml       = { "prettierd", "prettier", stop_after_first = true },
+        json       = { "prettierd", "prettier", stop_after_first = true },
     },
     formatters = {
         shfmt  = { prepend_args = { "-i", "2" } },
