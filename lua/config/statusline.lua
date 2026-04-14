@@ -231,7 +231,7 @@ local function special_buf(buf)
 end
 
 -- Special filetypes to treat bars differently: terminal, quickfix, loclist, etc.
-local _special_filetypes = { qf = true, argpick = true, git = true, fugitive = true, fugitiveblame = true }
+local _special_filetypes = { qf = true, argpick = true, git = true, fugitive = true }
 
 local function special_ft(buf)
     return _special_filetypes[vim.bo[buf].filetype] == true
