@@ -138,8 +138,11 @@ vim.api.nvim_create_autocmd("PackChanged", {
     end,
 })
 
-vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+-- No highlight for the following filetypes
+local _no_highlight_ft = {}
+local function no_highlight(ft)
+    return _no_highlight_ft[ft] == true
+end
 
 vim.api.nvim_create_autocmd("FileType", {
     pattern = { "*" },
@@ -147,7 +150,12 @@ vim.api.nvim_create_autocmd("FileType", {
         local filetype = vim.bo.filetype
         if filetype and filetype ~= "" then
             local success = pcall(function()
-                vim.treesitter.start()
+                if not no_highlight(filetype) then
+                    vim.treesitter.start()
+                end
+                vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+                vim.wo.foldmethod = "expr"
+                vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
             end)
             if not success then
                 return

@@ -57,7 +57,6 @@ set.formatoptions = "qnj1cr" -- q - comment formatting; n - numbered lists; j - 
 -- Fold
 set.foldenable = true -- enable fold
 set.foldlevel = 99 -- start editing with all folds opened
-set.foldmethod = "expr" -- use tree-sitter for folding method
 
 -- Diff
 set.diffopt:append("linematch:60") -- second stage diff to align lines
