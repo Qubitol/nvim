@@ -104,10 +104,8 @@ These are shipped with Neovim and activated via `packadd`:
 
 | Plugin | Description |
 |--------|-------------|
-| [fzf-lua](https://github.com/ibhagwan/fzf-lua) | Fuzzy finder over files, buffers, grep, LSP symbols, git history |
+| [fzf-lua](https://github.com/ibhagwan/fzf-lua) | Fuzzy finder over files, buffers, grep, LSP symbols |
 
-Custom pickers: `<leader>gB` in normal mode shows file commit history via `git_bcommits`; in visual mode, runs `git log -L` on the selected range (it's like a smarter blame).
-Both use delta for diff preview.
 
 #### Code intelligence
 
@@ -165,9 +163,18 @@ Both use delta for diff preview.
 
 
 #### AI
+
 | Plugin | Description |
 |--------|-------------|
 | [codecompanion.nvim](https://github.com/olimorris/codecompanion.nvim) | Use different LLM chatbots and agents within neovim (only loaded when `vim.g.ai = true`) |
+
+
+#### Quality-of-Life (QoL)
+
+| Plugin | Description |
+|--------|-------------|
+| [vim-obsession](https://github.com/tpope/vim-obsession) | Smart session management |
+
 
 
 ### Language servers
@@ -241,7 +248,6 @@ You disable AI-related plugins (grocery list is safe).
 To generate the following table, launch the command `:DumpKeymaps`.
 It will catch all mappings generated through the use of the custom `map` function defined in `config.utils` module.
 
-
 | Mode | Keymap | Description | Source |
 |------|--------|-------------|--------|
 | `c` | `<C-a>` | Move cursor to the beginning of the line | config/mappings |
@@ -278,6 +284,7 @@ It will catch all mappings generated through the use of the custom `map` functio
 | `n` | `<leader>tl` | [T]oggle [L]ocation list | config/mappings |
 | `n` | `<leader>tn` | [T]oggle relative line [N]umbers | config/mappings |
 | `n` | `<leader>tq` | [T]oggle [Q]uickfix list | config/mappings |
+| `n` | `<leader>tu` | [T]oggle [U]ndotree | config/mappings |
 | `n` | `<leader>tw` | [T]oggle word-[W]rap | config/mappings |
 | `n` | `N` | Find previous and center viewport | config/mappings |
 | `n` | `[<C-L>` | Display the last error in the previous file in the location list | config/mappings |
@@ -313,8 +320,8 @@ It will catch all mappings generated through the use of the custom `map` functio
 | `v` | `J` | Move line down, respect indentation | config/mappings |
 | `v` | `K` | Move line up, respect indentation | config/mappings |
 | `n` | `<leader>tt` | [T]oggle [T]ags sidebar, powered by Aerial | plugins/aerial |
+| `n,v` | `<leader>ca` | [C]odeCompation CLI for [A]gent interaction | plugins/codecompanion |
 | `n,v` | `<leader>cc` | [C]ode[C]ompanion Actions | plugins/codecompanion |
-| `n,v` | `<leader>ca` | [C]odeCompation CLI for [A]gent interaction| plugins/codecompanion |
 | `n,v` | `<leader>co` | [C]odeCompation Chat [O]pen | plugins/codecompanion |
 | `v` | `ga` | Add visually selected chat to the current chat buffer | plugins/codecompanion |
 | `n` | `<leader>/` | FZF search in current buffer [/] | plugins/fuzzy |
@@ -324,21 +331,21 @@ It will catch all mappings generated through the use of the custom `map` functio
 | `n` | `<leader>fo` | FZF over files -- [F]ind [O]pen | plugins/fuzzy |
 | `n` | `<leader>fq` | FZF over quickfix stack -- [F]ind [Q]uickfix | plugins/fuzzy |
 | `n` | `<leader>fw` | FZF over wiki files -- [F]ind [W]iki | plugins/fuzzy |
-| `n` | `<leader>gB` | FZF over [G]it [B]lame -- file history, ctrl-y to copy SHA | plugins/fuzzy |
 | `n` | `<leader>gO` | Live grep over files [unrestricted] -- [G]rep [O]pen | plugins/fuzzy |
 | `n` | `<leader>gT` | Live grep of the WORD under the cursor -- [G]rep [T]his | plugins/fuzzy |
-| `n` | `<leader>gb` | FZF over [G]it [B]ranches, switch on enter | plugins/fuzzy |
-| `n` | `<leader>gl` | FZF over [G]it [L]og, checkout on enter | plugins/fuzzy |
 | `n` | `<leader>go` | Live grep over files -- [G]rep [O]pen | plugins/fuzzy |
 | `n` | `<leader>gt` | Live grep of the word under the cursor -- [G]rep [T]his | plugins/fuzzy |
 | `n` | `<leader>gw` | Live grep over files -- [G]rep [W]iki | plugins/fuzzy |
 | `n` | `<leader>sf` | FZF over LSP [S]ymbols in the current [F]ile | plugins/fuzzy |
 | `n` | `<leader>sw` | FZF over LSP [S]ymbols in the current [W]orkspace | plugins/fuzzy |
-| `v` | `<leader>gB` | FZF over [G]it [B]lame -- range history (pickaxe), ctrl-y to copy SHA | plugins/fuzzy |
 | `n` | `<leader>dv` | Open a [D]iff view of the current buffer in a [V]ertical split | plugins/git |
+| `n` | `<leader>gD` | Populate command line with [G]it [D]iff | plugins/git |
 | `n` | `<leader>gF` | Populate the command line with `git pull --rebase -u origin` | plugins/git |
 | `n` | `<leader>gP` | Populate command line with [G]it [P]ush -u origin | plugins/git |
+| `n` | `<leader>gb` | [G]it [B]lame | plugins/git |
+| `n` | `<leader>gd` | [G]it [D]iff in quickfix list | plugins/git |
 | `n` | `<leader>gf` | Run `git pull --rebase` (a [G]it [F]etch followed by a rebase in the current branch) | plugins/git |
+| `n` | `<leader>gl` | [G]it [L]og | plugins/git |
 | `n` | `<leader>gp` | Run a [G]it [P]ush | plugins/git |
 | `n` | `<leader>gs` | Run [G]it [S]tatus (open vim-fugitive prompt) | plugins/git |
 | `n` | `<leader>hp` | Current [H]unk and [P]review it | plugins/git |
@@ -350,6 +357,7 @@ It will catch all mappings generated through the use of the custom `map` functio
 | `n` | `[c` | Go to the previous [C]hange (git hunk) or [C]onflict marker (in diff mode) | plugins/git |
 | `n` | `]c` | Go to the next [C]hange (git hunk) or [C]onflict marker (in diff mode) | plugins/git |
 | `o` | `ih` | Select [I]nside the current [H]unk | plugins/git |
+| `v` | `<leader>gb` | [G]it [B]lame -- range history (pickaxe) | plugins/git |
 | `v` | `<leader>hr` | Current [H]unk and [R]eset it | plugins/git |
 | `v` | `<leader>hs` | Current [H]unk and [S]tage it | plugins/git |
 | `x` | `ih` | Select [I]nside the current [H]unk | plugins/git |
