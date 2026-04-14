@@ -13,3 +13,4 @@ require("plugins.aerial")
 if vim.g.ai then
     require("plugins.codecompanion")
 end
+require("plugins.session")
