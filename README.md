@@ -338,14 +338,13 @@ It will catch all mappings generated through the use of the custom `map` functio
 | `n` | `<leader>gw` | Live grep over files -- [G]rep [W]iki | plugins/fuzzy |
 | `n` | `<leader>sf` | FZF over LSP [S]ymbols in the current [F]ile | plugins/fuzzy |
 | `n` | `<leader>sw` | FZF over LSP [S]ymbols in the current [W]orkspace | plugins/fuzzy |
-| `n` | `<leader>dv` | Open a [D]iff view of the current buffer in a [V]ertical split | plugins/git |
 | `n` | `<leader>gD` | Populate command line with [G]it [D]iff | plugins/git |
 | `n` | `<leader>gF` | Populate the command line with `git pull --rebase -u origin` | plugins/git |
 | `n` | `<leader>gP` | Populate command line with [G]it [P]ush -u origin | plugins/git |
 | `n` | `<leader>gb` | [G]it [B]lame | plugins/git |
-| `n` | `<leader>gd` | [G]it [D]iff in quickfix list | plugins/git |
+| `n` | `<leader>gd` | [G]it [D]iff in split window | plugins/git |
 | `n` | `<leader>gf` | Run `git pull --rebase` (a [G]it [F]etch followed by a rebase in the current branch) | plugins/git |
-| `n` | `<leader>gl` | [G]it [L]og | plugins/git |
+| `n` | `<leader>gl` | [G]it [L]og, prefix with any count to display only commits that changed the current file | plugins/git |
 | `n` | `<leader>gp` | Run a [G]it [P]ush | plugins/git |
 | `n` | `<leader>gs` | Run [G]it [S]tatus (open vim-fugitive prompt) | plugins/git |
 | `n` | `<leader>hp` | Current [H]unk and [P]review it | plugins/git |
@@ -368,6 +367,7 @@ It will catch all mappings generated through the use of the custom `map` functio
 | `n` | `<leader>om` | [O]pen [M]ason dashboard | plugins/lsp |
 | `n` | `<leader>sd` | Go to [S]ymbol [D]eclaration | plugins/lsp |
 | `n` | `<leader>sh` | [S]ignature [H]elp | plugins/lsp |
+| `n` | `<leader>ti` | [T]oggle [I]nlay hints | plugins/lsp |
 | `n` | `<leader>tv` | [T]oggle [V]irtual text in diagnostic | plugins/lsp |
 | `n` | `[d` | Go to previous [D]iagnostic, center viewport | plugins/lsp |
 | `n` | `]d` | Go to next [D]iagnostic, center viewport | plugins/lsp |

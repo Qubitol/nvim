@@ -42,8 +42,14 @@ map("v", "<leader>gb", function()
     )
     return cmd
 end, "[G]it [B]lame -- range history (pickaxe)", { expr = true })
-map("n", "<leader>gl", "<cmd>Git log --no-patch --format='%h %s (%ad) [%an]' --date=short<CR>", "[G]it [L]og")
-map("n", "<leader>gd", "<cmd>Git difftool<CR>", "[G]it [D]iff in quickfix list")
+map("n", "<leader>gl", function()
+    local cmd = "<cmd>Git log --no-patch --format='%h %s (%ad) [%an]' --date=short"
+    if vim.v.count > 0 then
+        cmd = cmd .. " -- %"
+    end
+    return cmd .. "<CR>"
+end, "[G]it [L]og, prefix with any count to display only commits that changed the current file", { expr = true })
+map("n", "<leader>gd", "<cmd>Gdiffsplit<CR>", "[G]it [D]iff in split window")
 map("n", "<leader>gD", ":Git difftool ", "Populate command line with [G]it [D]iff")
 
 local icons = require("config.ui").icons
@@ -95,18 +101,24 @@ require("gitsigns").setup({
     },
     on_attach = function(buffer)
         local gs = require("gitsigns")
-        map("n", "]c", function()
-            if vim.wo.diff then
-                return "]c"
-            end
-            vim.schedule(function()
-                gs.next_hunk()
-            end)
-            return "<Ignore>"
-        end, "Go to the next [C]hange (git hunk) or [C]onflict marker (in diff mode)", {
-            expr = true,
-            buffer = buffer,
-        })
+        map(
+            "n",
+            "]c",
+            function()
+                if vim.wo.diff then
+                    return "]c"
+                end
+                vim.schedule(function()
+                    gs.next_hunk()
+                end)
+                return "<Ignore>"
+            end,
+            "Go to the next [C]hange (git hunk) or [C]onflict marker (in diff mode)",
+            {
+                expr = true,
+                buffer = buffer,
+            }
+        )
         map(
             "n",
             "[c",
@@ -141,9 +153,6 @@ require("gitsigns").setup({
                 return "<cmd>Gitsigns toggle_current_line_blame<CR>"
             end
         end, "[T]oggle git [B]lame (full blame with count)", { buffer = buffer, expr = true })
-        map("n", "<leader>dv", function()
-            gs.diffthis(nil, { vertical = true })
-        end, "Open a [D]iff view of the current buffer in a [V]ertical split", { buffer = buffer })
         map("v", "<leader>hs", "<cmd>Gitsigns stage_hunk<CR>", "Current [H]unk and [S]tage it", { buffer = buffer })
         map("v", "<leader>hr", "<cmd>Gitsigns reset_hunk<CR>", "Current [H]unk and [R]eset it", { buffer = buffer })
         map("o", "ih", "<cmd>Gitsigns select_hunk<CR>", "Select [I]nside the current [H]unk", { buffer = buffer })
