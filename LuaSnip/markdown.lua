@@ -12,7 +12,7 @@ local repos = {
 }
 
 -- Order matters for cycling, so define it explicitly.
-local repo_order = { "MadGraph7", "MadGraph5", "CUDACPP" }
+local repo_order = { "MadGraph7", "mg5amcnlo", "madgraph4gpu" }
 
 -----------------------------------------------------------------------
 
