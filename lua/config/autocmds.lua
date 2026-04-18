@@ -3,6 +3,50 @@ local utils = require("config.utils")
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
+-- Terminal
+local terminal_group = augroup("Terminal", {})
+
+autocmd("TermOpen", {
+    group = terminal_group,
+    callback = function()
+        -- Need to set the highlighting and mode also here since TermOpen fires after BufType
+        -- It is essential to use vim.opt_local
+        vim.opt_local.winhighlight = "Normal:TermNormal,NormalNC:TermNormalNC"
+        vim.cmd.startinsert()
+        vim.opt_local.colorcolumn = ""
+    end,
+})
+
+-- Set insert mode whenever we enter a terminal
+autocmd("BufEnter", {
+    group = terminal_group,
+    callback = function()
+        if vim.bo.buftype == "terminal" then
+            vim.cmd.startinsert()
+        end
+    end,
+})
+
+autocmd({ "TermRequest" }, {
+    desc = "Handles OSC 7 dir change requests",
+    group = terminal_group,
+    callback = function(ev)
+        local val, n = string.gsub(ev.data.sequence, "\027]7;file://[^/]*", "")
+        if n > 0 then
+            -- OSC 7: dir-change
+            local dir = val
+            if vim.fn.isdirectory(dir) == 0 then
+                vim.notify("invalid dir: " .. dir)
+                return
+            end
+            vim.b[ev.buf].osc7_dir = dir
+            if vim.api.nvim_get_current_buf() == ev.buf then
+                vim.cmd.lcd(dir)
+            end
+        end
+    end,
+})
+
 -- Highlight yanked text
 local yank_group = augroup("HighlightYank", {})
 

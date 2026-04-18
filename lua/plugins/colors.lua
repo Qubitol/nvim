@@ -6,7 +6,7 @@ vim.pack.add({
 })
 
 require(colorscheme).setup({
-    terminal_colors = true, -- add neovim terminal colors
+    terminal_colors = false, -- let terminal emulator handle its own palette
     undercurl = true,
     underline = true,
     bold = true,
@@ -142,6 +142,10 @@ local function apply_custom_highlights()
         FzfLuaFzfScrollbar = { fg = p.bg, bg = p.bg_dark },
         FzfLuaFzfHeader = { fg = p.warn },
         FzfLuaFzfInfo = { fg = p.warn },
+
+        -- Terminal: transparent background so the terminal emulator's color shows through
+        TermNormal = { bg = "#1d2021" },
+        TermNormalNC = { bg = "#1c1c1c" },
 
         -- CodeCompanion
         CodeCompanionNormal = { link = "FileBrowser" },
