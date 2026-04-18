@@ -84,8 +84,9 @@ local function apply_custom_highlights()
         -- Statusline
         StatusLine = { link = "NormalFloat" },
         StatusLineNC = { link = "StatusLine" },
+        StatusLineFilename = { fg = darken(p.fg, 60), bg = "none" },
         WinBar = { link = "StatusLine" },
-        WinBarNC = { bg = darken(p.bg, 5), fg = darken(p.fg, 30) },
+        WinBarNC = { bg = darken(p.bg, 5), fg = darken(p.fg, 60) },
 
         -- DiagnosticSign
         DiagnosticSignError = { bg = "none" },
