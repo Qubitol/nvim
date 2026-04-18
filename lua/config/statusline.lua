@@ -127,16 +127,13 @@ end
 
 -- Path helpers
 -- Returns the buffer path relative to cwd via fnamemodify ":." which Neovim
--- handles correctly; falls back to ":~" (home-relative) if outside cwd.
+-- handles correctly
 local function buf_relpath(buf)
     local name = vim.api.nvim_buf_get_name(buf)
     if name == "" then
         return "[No Name]"
     end
     local rel = vim.fn.fnamemodify(name, ":.")
-    if rel:sub(1, 1) == "/" then
-        rel = vim.fn.fnamemodify(name, ":~")
-    end
     return rel
 end
 
@@ -160,7 +157,7 @@ local function compact_path(path, max_len)
             end
         end
     end
-    return parts[#parts] -- last resort: filename only
+    return table.concat(parts, "/") -- all non-filename components already at 1 char
 end
 
 local function cwd_display(max_len)
@@ -244,6 +241,9 @@ end
 
 function M.render()
     local buf = vim.api.nvim_get_current_buf()
+    local win_width = vim.api.nvim_win_get_width(0)
+    local path_limit = math.floor(win_width * 0.2) -- 20% of the window for the path
+    local file_name_path = compact_path(buf_relpath(buf), path_limit)
 
     local sep = (icons.statusline and icons.statusline.sep) or "|"
     local end_part = "%l,%c%V   %P "
@@ -258,7 +258,7 @@ function M.render()
     local left = table.concat({
         hl(hl_statusline, mode_colors[mode_initial], " " .. mode_label .. " "),
         " ",
-        cwd_display(cwd_limit),
+        cwd_display(cwd_limit), "/", hl(hl_statusline, "StatusLineFilename", file_name_path),
         " ",
         "%h%q",
         " ",
@@ -284,7 +284,7 @@ function M.winbar()
 
     local icon = filetype_icon(buf, active)
     local win_width = vim.api.nvim_win_get_width(0)
-    local path_limit = math.floor(win_width * 0.7) -- 70% of the window for the path
+    local path_limit = math.floor(win_width * 0.5) -- 50% of the window for the path
     local path = compact_path(buf_relpath(buf), path_limit)
 
     local flags = ""
