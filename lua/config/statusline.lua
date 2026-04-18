@@ -5,7 +5,6 @@ local hl_statusline_nc = "StatusLineNC"
 local hl_winbar = "WinBar"
 local hl_winbar_nc = "WinBarNC"
 
-
 local function get_hl_base(hl, hl_nc, active)
     if active == nil then
         active = true
@@ -220,18 +219,25 @@ local function has_lsp(buf)
     return #vim.lsp.get_clients({ bufnr = buf }) > 0
 end
 
--- Special buffers to treat bars differently: terminal, quickfix, loclist, etc.
-local _special_buftypes = { terminal = true, nofile = true, prompt = true }
+-- Special buffers to treat bars differently
+local _special_buftypes = { nofile = true, prompt = true }
 
 local function special_buf(buf)
     return _special_buftypes[vim.bo[buf].buftype] == true
 end
 
--- Special filetypes to treat bars differently: terminal, quickfix, loclist, etc.
-local _special_filetypes = { qf = true, argpick = true, git = true, fugitive = true }
+-- Special filetypes to treat bars differently
+local _special_filetypes = { qf = true, argpick = true, git = true, fugitive = true, codecompanion_input = true }
 
 local function special_ft(buf)
     return _special_filetypes[vim.bo[buf].filetype] == true
+end
+
+-- No filename in Statusline
+local _no_filename_buftypes = { terminal = true, nofile = true, prompt = true, quickfix = true }
+
+local function no_filename_statusline(buf)
+    return _no_filename_buftypes[vim.bo[buf].buftype] == true
 end
 
 -- Statusline
@@ -243,7 +249,11 @@ function M.render()
     local buf = vim.api.nvim_get_current_buf()
     local win_width = vim.api.nvim_win_get_width(0)
     local path_limit = math.floor(win_width * 0.2) -- 20% of the window for the path
-    local file_name_path = compact_path(buf_relpath(buf), path_limit)
+    local file_name = ""
+    if not no_filename_statusline(buf) then
+        local file_name_path = compact_path(buf_relpath(buf), path_limit)
+        file_name = "/" .. hl(hl_statusline, "StatusLineFilename", file_name_path)
+    end
 
     local sep = (icons.statusline and icons.statusline.sep) or "|"
     local end_part = "%l,%c%V   %P "
@@ -258,7 +268,7 @@ function M.render()
     local left = table.concat({
         hl(hl_statusline, mode_colors[mode_initial], " " .. mode_label .. " "),
         " ",
-        cwd_display(cwd_limit), "/", hl(hl_statusline, "StatusLineFilename", file_name_path),
+        cwd_display(cwd_limit), file_name,
         " ",
         "%h%q",
         " ",
