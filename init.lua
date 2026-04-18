@@ -1,5 +1,5 @@
 -- See https://echasnovski.com/blog/2026-03-13-a-guide-to-vim-pack
--- «It implements some dark “fast load” magic that was blessed by Folke himself»
+-- «It implements some dark "fast load" magic that was blessed by Folke himself»
 vim.loader.enable()
 
 -- Globals

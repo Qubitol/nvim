@@ -31,11 +31,11 @@ autocmd("FileType", {
     end,
 })
 
-autocmd('FileType', {
-  pattern = 'gitcommit',
-  callback = function()
-    vim.opt_local.formatoptions:append('t')
-  end,
+autocmd("FileType", {
+    pattern = "gitcommit",
+    callback = function()
+        vim.opt_local.formatoptions:append("t")
+    end,
 })
 
 autocmd("FileType", {
