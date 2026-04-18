@@ -35,3 +35,4 @@ end, "Delete entry from the list", opts)
 set.colorcolumn = ""
 set.wrap = false
 set.relativenumber = false
+set.statusline = ""
