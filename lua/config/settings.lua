@@ -64,6 +64,11 @@ set.diffopt:append("linematch:60") -- second stage diff to align lines
 -- Preview substitutions live
 set.inccommand = "split"
 
+-- Project local configs
+-- vim.o.exrc = true
+-- vim.o.secure = true
+-- vim.cmd[[set runtimepath+=.nvim]]
+
 -- Cosmetics
 set.showmatch = true
 set.scrolloff = 5
