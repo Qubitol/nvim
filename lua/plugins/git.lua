@@ -49,8 +49,14 @@ map("n", "<leader>gl", function()
     end
     return cmd .. "<CR>"
 end, "[G]it [L]og, prefix with any count to display only commits that changed the current file", { expr = true })
-map("n", "<leader>gd", "<cmd>Gdiffsplit<CR>", "[G]it [D]iff in split window")
-map("n", "<leader>gD", ":Git difftool ", "Populate command line with [G]it [D]iff")
+map("n", "<leader>gd", function()
+    local cmd = "<cmd>Gvdiffsplit HEAD"
+    if vim.v.count > 0 then
+        cmd = cmd .. "~" .. vim.v.count
+    end
+    return cmd .. "<CR>"
+end, "[G]it [D]iff in split window, prefix with any count to display diff with respect to HEAD~(count)", { expr = true })
+map("n", "<leader>gD", ":Git difftool ", "Populate command line with [G]it [D]ifftool", { silent = false })
 
 local icons = require("config.ui").icons
 
