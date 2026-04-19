@@ -17,12 +17,23 @@ autocmd("TermOpen", {
     end,
 })
 
--- Set insert mode whenever we enter a terminal
+-- Set insert mode whenever we enter a terminal, and keep the cwd
+local saved_lcds = {}  -- keyed by window id
+
 autocmd("BufEnter", {
     group = terminal_group,
     callback = function()
+        local win = vim.api.nvim_get_current_win()
         if vim.bo.buftype == "terminal" then
+            if not saved_lcds[win] then
+                saved_lcds[win] = vim.fn.getcwd(0)
+            end
             vim.cmd.startinsert()
+        else
+            if saved_lcds[win] then
+                vim.cmd.lcd(saved_lcds[win])
+                saved_lcds[win] = nil
+            end
         end
     end,
 })
