@@ -46,7 +46,6 @@ autocmd("BufEnter", {
             if not saved_lcds[win] then
                 saved_lcds[win] = vim.fn.getcwd(0)
             end
-            vim.cmd.startinsert()
         else
             if saved_lcds[win] then
                 vim.cmd.lcd(saved_lcds[win])
