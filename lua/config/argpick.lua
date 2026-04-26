@@ -40,7 +40,7 @@ function M.open()
         end, vim.api.nvim_buf_get_lines(buf, 0, -1, false))
         pcall(vim.cmd, "%argdelete")
         for _, f in ipairs(lines) do
-            vim.cmd("argadd " .. vim.fn.fnameescape(f))
+            vim.cmd(vim.fn.argc() .. "argadd " .. vim.fn.fnameescape(f))
         end
         if vim.api.nvim_win_is_valid(win) then
             vim.api.nvim_win_close(win, true)
