@@ -8,7 +8,9 @@ local ui = require("config.ui")
 vim.api.nvim_create_autocmd("PackChanged", {
     callback = function(ev)
         if ev.data.spec.name == "mason.nvim" and ev.data.kind == "update" then
-            if not ev.data.active then vim.cmd.packadd("mason.nvim") end
+            if not ev.data.active then
+                vim.cmd.packadd("mason.nvim")
+            end
             vim.cmd("MasonUpdate")
         end
     end,
@@ -34,20 +36,20 @@ vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
 require("conform").setup({
     formatters_by_ft = {
-        bash       = { "shfmt" },
-        c          = { "clang-format" },
-        cpp        = { "clang-format" },
-        css        = { "prettierd", "prettier", stop_after_first = true },
-        html       = { "prettierd", "prettier", stop_after_first = true },
+        bash = { "shfmt" },
+        c = { "clang-format" },
+        cpp = { "clang-format" },
+        css = { "prettierd", "prettier", stop_after_first = true },
+        html = { "prettierd", "prettier", stop_after_first = true },
         javascript = { "prettierd", "prettier", stop_after_first = true },
-        latex      = { "latexindent" },
-        lua        = { "stylua" },
-        python     = { "ruff", "black", stop_after_first = true },
-        yaml       = { "prettierd", "prettier", stop_after_first = true },
-        json       = { "prettierd", "prettier", stop_after_first = true },
+        latex = { "latexindent" },
+        lua = { "stylua" },
+        python = { "ruff", "black", stop_after_first = true },
+        yaml = { "prettierd", "prettier", stop_after_first = true },
+        json = { "prettierd", "prettier", stop_after_first = true },
     },
     formatters = {
-        shfmt  = { prepend_args = { "-i", "2" } },
+        shfmt = { prepend_args = { "-i", "2" } },
         stylua = { prepend_args = { "--indent-type", "Spaces" } },
         yamlfix = { env = { YAMLFIX_LINE_LENGTH = "80" } },
     },
@@ -63,16 +65,16 @@ vim.pack.add({ "https://github.com/mfussenegger/nvim-lint" })
 local lint = require("lint")
 
 lint.linters_by_ft = {
-    bash   = { "shellcheck" },
-    cmake  = { "cmakelint" },
-    cpp    = { "cpplint" },
-    lua    = { "luacheck" },
+    bash = { "shellcheck" },
+    cmake = { "cmakelint" },
+    cpp = { "cpplint" },
+    lua = { "luacheck" },
     python = { "ruff" },
-    sh     = { "shellcheck" },
-    yaml   = { "yamllint" },
-    zsh    = { "shellcheck" },
-    ["*"]  = {},
-    ["_"]  = {},
+    sh = { "shellcheck" },
+    yaml = { "yamllint" },
+    zsh = { "shellcheck" },
+    ["*"] = {},
+    ["_"] = {},
 }
 
 local function do_lint()
@@ -139,9 +141,9 @@ vim.diagnostic.config({
     signs = {
         text = {
             [vim.diagnostic.severity.ERROR] = ui.icons.diagnostics.Error,
-            [vim.diagnostic.severity.WARN]  = ui.icons.diagnostics.Warn,
-            [vim.diagnostic.severity.INFO]  = ui.icons.diagnostics.Info,
-            [vim.diagnostic.severity.HINT]  = ui.icons.diagnostics.Hint,
+            [vim.diagnostic.severity.WARN] = ui.icons.diagnostics.Warn,
+            [vim.diagnostic.severity.INFO] = ui.icons.diagnostics.Info,
+            [vim.diagnostic.severity.HINT] = ui.icons.diagnostics.Hint,
         },
     },
 })
@@ -150,7 +152,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
     callback = function(ev)
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
-        if not client then return end
+        if not client then
+            return
+        end
 
         -- Enable omnifunc completion: <C-x><C-o> to trigger
         if client:supports_method("textDocument/completion") then
