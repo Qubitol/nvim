@@ -17,6 +17,24 @@ autocmd("TermOpen", {
     end,
 })
 
+-- Quit neovim if, after closing a terminal buffer, the only remaining buffer
+-- is a [No Name]
+autocmd("TermClose", {
+    group = terminal_group,
+    callback = function()
+        vim.schedule(function()
+            local meaningful = vim.tbl_filter(function(b)
+                return vim.api.nvim_buf_is_loaded(b)
+                    and vim.bo[b].buftype ~= "terminal"
+                    and vim.api.nvim_buf_get_name(b) ~= ""
+            end, vim.api.nvim_list_bufs())
+            if #meaningful == 0 then
+                vim.cmd.qall()
+            end
+        end)
+    end,
+})
+
 -- Set insert mode whenever we enter a terminal, and keep the cwd
 local saved_lcds = {}  -- keyed by window id
 
