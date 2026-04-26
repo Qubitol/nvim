@@ -48,13 +48,6 @@ map("n", "[A", "<cmd>first<CR>", "Go to first [A]rg")
 map("n", "]A", "<cmd>last<CR>", "Go to last [A]rg")
 map("n", "g[", "<cmd>diffget //2<CR>", "[G]et the merge resolution from the buffer on the left [h] (target parent)")
 map("n", "g]", "<cmd>diffget //3<CR>", "[G]et the merge resolution from the buffer on the right [l] (merge parent)")
-map("n", "<leader>cd", "<cmd>cd %:p:h<CR>", "[C]hange current [D]irectory to the base directory of the active buffer")
-map(
-    "n",
-    "<leader>tcd",
-    "<cmd>tcd %:p:h<CR>",
-    "[C]hange current [D]irectory to the base directory of the active buffer, locally to the [T]ab page"
-)
 map("n", "<leader>d", [["_d]], "Delete without polluting the register")
 map("n", "<leader>D", [["_D]], "Delete without polluting the register")
 map("n", "<leader>tq", utils.toggle_qflist, "[T]oggle [Q]uickfix list")
@@ -83,6 +76,23 @@ map(
 )
 map("v", "J", "<Esc><cmd>m '>+1<CR>gv=gv", "Move line down, respect indentation")
 map("v", "K", "<Esc><cmd>m '<-2<CR>gv=gv", "Move line up, respect indentation")
+local function nparent()
+    local count = vim.v.count or 0
+    local path = vim.fn.expand("%:p:h")
+    for _ = 1, count do
+        path = path .. "/.."
+    end
+    return path
+end
+map("n", "<leader>cd", function()
+    return "<cmd>cd " .. nparent() .. "<CR>"
+end, "[C]hange current [D]irectory to the base directory of the active buffer (use count n to target the n-parent)", { expr = true })
+map("n", "<leader>lcd", function()
+    return "<cmd>lcd " .. nparent() .. "<CR>"
+end, "[C]hange current [L]ocal [D]irectory to the base directory of the active buffer (use count n to target the n-parent)", { expr = true })
+map("n", "<leader>tcd", function()
+    return "<cmd>tcd " .. nparent() .. "<CR>"
+end, "[C]hange current [T]ab [D]irectory to the base directory of the active buffer (use count n to target the n-parent)", { expr = true })
 
 -- Navigation
 map("n", "<A-h>", "<C-w>h", "Navigate to window to the left")
