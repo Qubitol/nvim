@@ -154,3 +154,34 @@ map("n", "<leader>sw", function()
         },
     })
 end, "FZF over LSP [S]ymbols in the current [W]orkspace")
+
+-- Grep terminals
+local function pick_terminals()
+  local fzf = require('fzf-lua')
+  local entries = {}
+
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].buftype == 'terminal' then
+      local name = vim.api.nvim_buf_get_name(bufnr)
+      table.insert(entries, string.format('[%d] %s', bufnr, name))
+    end
+  end
+
+  if #entries == 0 then
+    vim.notify('No terminal buffers', vim.log.levels.INFO)
+    return
+  end
+
+  fzf.fzf_exec(entries, {
+    prompt = 'Terminals> ',
+    actions = {
+      ['default'] = function(selected)
+        if not selected or not selected[1] then return end
+        local bufnr = tonumber(selected[1]:match('^%[(%d+)%]'))
+        if bufnr then vim.api.nvim_set_current_buf(bufnr) end
+      end,
+    },
+  })
+end
+
+map('n', '<leader>ft', pick_terminals, 'Find terminal buffers')
