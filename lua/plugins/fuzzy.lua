@@ -7,15 +7,6 @@ vim.pack.add({ "https://github.com/ibhagwan/fzf-lua" })
 local fzf_lua = require("fzf-lua")
 local actions = require("fzf-lua.actions")
 
--- Helper: yank SHA from an fzf git entry
-local function copy_sha(selected)
-    local sha = selected[1]:match("(%x+)")
-    if sha then
-        vim.fn.setreg("+", sha)
-        vim.notify("Copied: " .. sha)
-    end
-end
-
 fzf_lua.setup({
     fzf_colors = true,
     keymap = {
