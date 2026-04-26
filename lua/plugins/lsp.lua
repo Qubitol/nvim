@@ -185,12 +185,35 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         -- Toggle virtual text diagnostic
         bmap("n", "<leader>tv", function()
-            local new_config = not vim.diagnostic.config().virtual_text
-            vim.diagnostic.config({ virtual_text = new_config })
-        end, "[T]oggle [V]irtual text in diagnostic")
+            local new_config
+            if vim.diagnostic.config().virtual_text then
+                new_config = {
+                    virtual_text = false,
+                    jump = {
+                        on_jump = function(diagnostic, bufnr)
+                            if not diagnostic then
+                                return
+                            end
+                            vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor" })
+                        end,
+                    },
+                }
+            else
+                new_config = {
+                    virtual_text = true,
+                    jump = { on_jump = false },
+                }
+            end
+            vim.diagnostic.config(new_config)
+        end, "[T]oggle in between [V]irtual text and on-jump float in diagnostic")
 
         -- Toggle lists
         bmap("n", "<leader>lq", vim.diagnostic.setqflist, "Open the [L]ist of diagnostics in the [Q]uickfix list")
         bmap("n", "<leader>ll", vim.diagnostic.setloclist, "Open the [L]ist of diagnostics in the [L]ocation list")
+
+        -- Toggle diagnostics
+        bmap("n", "<leader>ts", function()
+            vim.diagnostic.enable(not vim.diagnostic.is_enabled({ bufrn = 0 }), { bufnr = 0 })
+        end, "[T]oggle diagno[S]tics")
     end,
 })
