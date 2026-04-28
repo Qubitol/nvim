@@ -23,12 +23,14 @@ autocmd("TermClose", {
     group = terminal_group,
     callback = function()
         vim.schedule(function()
-            local meaningful = vim.tbl_filter(function(b)
+            local bufs = vim.tbl_filter(function(b)
                 return vim.api.nvim_buf_is_loaded(b)
-                    and vim.bo[b].buftype ~= "terminal"
-                    and vim.api.nvim_buf_get_name(b) ~= ""
+                    and (
+                        vim.bo[b].buftype == "terminal"
+                        or (vim.bo[b].buftype == "" and vim.api.nvim_buf_get_name(b) ~= "")
+                    )
             end, vim.api.nvim_list_bufs())
-            if #meaningful == 0 then
+            if #bufs == 0 then
                 vim.cmd.qall()
             end
         end)
