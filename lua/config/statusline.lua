@@ -159,8 +159,39 @@ local function compact_path(path, max_len)
     return table.concat(parts, "/") -- all non-filename components already at 1 char
 end
 
-local function cwd_display(max_len)
-    return compact_path(vim.fn.fnamemodify(vim.fn.getcwd(), ":~"), max_len)
+local function file_path_parts(buf)
+    local name = vim.api.nvim_buf_get_name(buf)
+    if name == "" then return "", "[No Name]" end
+
+    local cwd_abs  = vim.fn.getcwd()
+    local file_abs = vim.fn.expand(name)  -- resolve to absolute
+    local cwd_tilde = vim.fn.fnamemodify(cwd_abs, ":~")
+
+    local rel = vim.fn.fnamemodify(file_abs, ":.")
+    if rel:sub(1, 1) ~= "/" then
+        -- file is inside cwd, straightforward
+        return cwd_tilde, "/" .. rel
+    end
+
+    -- file is outside cwd: compute real relative path via common ancestor
+    local cwd_parts  = vim.split(cwd_abs,  "/", { plain = true })
+    local file_parts = vim.split(file_abs, "/", { plain = true })
+
+    local common = 0
+    for i = 1, math.min(#cwd_parts, #file_parts) do
+        if cwd_parts[i] == file_parts[i] then common = i
+        else break end
+    end
+
+    local rel_parts = {}
+    for _ = common + 1, #cwd_parts do
+        rel_parts[#rel_parts + 1] = ".."
+    end
+    for i = common + 1, #file_parts do
+        rel_parts[#rel_parts + 1] = file_parts[i]
+    end
+
+    return cwd_tilde, "/" .. table.concat(rel_parts, "/")
 end
 
 -- Git (via gitsigns buffer variable)
@@ -240,6 +271,12 @@ local function no_filename_statusline(buf)
     return _no_filename_buftypes[vim.bo[buf].buftype] == true
 end
 
+local _no_filename_filetypes = { netrw = true, fugitive = true, argpick = true, codecompanion_input = true }
+
+local function no_filename_statusline_ft(buf)
+    return _no_filename_filetypes[vim.bo[buf].filetype] == true
+end
+
 -- Statusline
 --
 -- Active:   [MODE]  cwd │ %= diagnostics │ line,col   pct%
@@ -247,12 +284,14 @@ end
 
 function M.render()
     local buf = vim.api.nvim_get_current_buf()
-    local win_width = vim.api.nvim_win_get_width(0)
-    local path_limit = math.floor(win_width * 0.2) -- 20% of the window for the path
-    local file_name = ""
-    if not no_filename_statusline(buf) then
-        local file_name_path = compact_path(buf_relpath(buf), path_limit)
-        file_name = "/" .. hl(hl_statusline, "StatusLineFilename", file_name_path)
+    local win_width = vim.o.columns
+    local cwd_part, file_part = "", ""
+    local raw_cwd, raw_file = file_path_parts(buf)
+    local cwd_limit = math.floor(win_width * 0.5)
+    local file_limit = math.floor(win_width * 0.35)
+    cwd_part = hl(hl_statusline, "StatusLineCwd", compact_path(raw_cwd, cwd_limit))
+    if not (no_filename_statusline(buf) or no_filename_statusline_ft(buf)) then
+        file_part = hl(hl_statusline, "StatusLineFilename", compact_path(raw_file, file_limit))
     end
 
     local sep = (icons.statusline and icons.statusline.sep) or "|"
@@ -264,11 +303,11 @@ function M.render()
     local branch = git_branch()
     local branch_str = branch ~= "" and (branch .. "  " .. sep .. "  ") or ""
 
-    local cwd_limit = math.floor(vim.api.nvim_win_get_width(0) * 0.4)
     local left = table.concat({
         hl(hl_statusline, mode_colors[mode_initial], " " .. mode_label .. " "),
         " ",
-        cwd_display(cwd_limit), file_name,
+        cwd_part,
+        file_part,
         " ",
         "%h%q",
         " ",
@@ -288,7 +327,9 @@ end
 
 function M.winbar()
     local buf = vim.api.nvim_get_current_buf()
-    if special_buf(buf) or special_ft(buf) then return "" end
+    if special_buf(buf) or special_ft(buf) then
+        return ""
+    end
 
     local active = is_active()
 
