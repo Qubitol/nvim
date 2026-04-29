@@ -23,22 +23,15 @@ autocmd("TermClose", {
     group = terminal_group,
     callback = function()
         vim.schedule(function()
-            local bufs = vim.tbl_filter(function(b)
-                return vim.api.nvim_buf_is_loaded(b)
-                    and (
-                        vim.bo[b].buftype == "terminal"
-                        or (vim.bo[b].buftype == "" and vim.api.nvim_buf_get_name(b) ~= "")
-                    )
-            end, vim.api.nvim_list_bufs())
-            if #bufs == 0 then
-                vim.cmd.qall()
+            if (vim.bo.buftype == "" and vim.api.nvim_buf_get_name(0) == "") then
+                vim.cmd.q()
             end
         end)
     end,
 })
 
 -- Set insert mode whenever we enter a terminal, and keep the cwd
-local saved_lcds = {}  -- keyed by window id
+local saved_lcds = {} -- keyed by window id
 
 autocmd("BufEnter", {
     group = terminal_group,
