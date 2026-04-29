@@ -36,9 +36,9 @@ if vim.g.pretty and is_kitty() then
         integrations = {
             markdown = {
                 enabled = true,
-                clear_in_insert_mode = false,
+                clear_in_insert_mode = true,
                 download_remote_images = true,
-                only_render_image_at_cursor = false,
+                only_render_image_at_cursor = true,
             },
             neorg = { enabled = false },
             typst = { enabled = false },
