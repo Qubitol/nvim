@@ -41,6 +41,10 @@ local pretty = {
     indent = {
         char = "▏",
     },
+    folder = {
+        closed = " ",
+        opened = " ",
+    },
     --   פּ ﯟ     some other good icons
     kinds = {
         Array = " ",
@@ -223,6 +227,7 @@ local plain = {
     indent = {
         char = "|",
     },
+    folder = {},
     kinds = {},
     luasnip = {
         choice_node = "c",
