@@ -146,33 +146,46 @@ map("n", "<leader>sw", function()
     })
 end, "FZF over LSP [S]ymbols in the current [W]orkspace")
 
--- Grep terminals
+-- Pick terminals
 local function pick_terminals()
-  local fzf = require('fzf-lua')
-  local entries = {}
+    local fzf = require("fzf-lua")
+    local saved = {}
 
-  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-    if vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].buftype == 'terminal' then
-      local name = vim.api.nvim_buf_get_name(bufnr)
-      table.insert(entries, string.format('[%d] %s', bufnr, name))
+    for _, b in ipairs(vim.api.nvim_list_bufs()) do
+        local name = vim.api.nvim_buf_get_name(b)
+        if vim.bo[b].buftype ~= "terminal" or name:find("fzf", 1, true) then
+            saved[b] = vim.bo[b].buflisted
+            vim.bo[b].buflisted = false
+        end
     end
-  end
 
-  if #entries == 0 then
-    vim.notify('No terminal buffers', vim.log.levels.INFO)
-    return
-  end
+    local restored = false
+    local function restore()
+        if restored then
+            return
+        end
+        restored = true
+        for b, listed in pairs(saved) do
+            if vim.api.nvim_buf_is_valid(b) then
+                vim.bo[b].buflisted = listed
+            end
+        end
+    end
 
-  fzf.fzf_exec(entries, {
-    prompt = 'Terminals> ',
-    actions = {
-      ['default'] = function(selected)
-        if not selected or not selected[1] then return end
-        local bufnr = tonumber(selected[1]:match('^%[(%d+)%]'))
-        if bufnr then vim.api.nvim_set_current_buf(bufnr) end
-      end,
-    },
-  })
+    fzf.buffers({
+        no_term_buffers = false,
+        winopts = {
+            title = { { " Terminals ", "FzfLuaTitle" } },
+            on_close = restore,
+            preview = { layout = "vertical", vertical = "up:50%" },
+        },
+        actions = {
+            ["default"] = function(selected, opts)
+                restore()
+                require("fzf-lua.actions").buf_edit(selected, opts)
+            end,
+        },
+    })
 end
 
-map('n', '<leader>ft', pick_terminals, 'Find terminal buffers')
+map("n", "<leader>ft", pick_terminals, "[F]ind [T]erminal buffers")
