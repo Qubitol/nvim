@@ -161,16 +161,15 @@ end
 
 local function file_path_parts(buf)
     local name = vim.api.nvim_buf_get_name(buf)
-    if name == "" then return "", "[No Name]" end
 
     local cwd_abs  = vim.fn.getcwd()
-    local file_abs = vim.fn.expand(name)  -- resolve to absolute
+    local file_abs = vim.fn.expand(name) or "[No Name]"  -- resolve to absolute
     local cwd_tilde = vim.fn.fnamemodify(cwd_abs, ":~")
 
-    local rel = vim.fn.fnamemodify(file_abs, ":.")
+    local rel = vim.fn.fnamemodify(file_abs, ":.") or (" " .. file_abs)
     if rel:sub(1, 1) ~= "/" then
         -- file is inside cwd, straightforward
-        return cwd_tilde, "/" .. rel
+        return cwd_tilde .. "/", rel
     end
 
     -- file is outside cwd: compute real relative path via common ancestor
@@ -191,7 +190,7 @@ local function file_path_parts(buf)
         rel_parts[#rel_parts + 1] = file_parts[i]
     end
 
-    return cwd_tilde, "/" .. table.concat(rel_parts, "/")
+    return cwd_tilde .. "/", table.concat(rel_parts, "/")
 end
 
 -- Git (via gitsigns buffer variable)
@@ -265,7 +264,7 @@ local function special_ft(buf)
 end
 
 -- No filename in Statusline
-local _no_filename_buftypes = { terminal = true, nofile = true, prompt = true, quickfix = true }
+local _no_filename_buftypes = { terminal = true, prompt = true, quickfix = true }
 
 local function no_filename_statusline(buf)
     return _no_filename_buftypes[vim.bo[buf].buftype] == true
