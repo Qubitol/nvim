@@ -70,7 +70,10 @@ local function apply_custom_highlights()
     local highlights = {
         -- Floats
         NormalFloat = { fg = p.fg, bg = p.bg_dark },
-        FloatBorder = { fg = p.bg_dark, bg = p.bg_dark },
+        FloatBorder = { fg = p.bg, bg = p.bg_dark },
+
+        -- Argpick
+        ArgpickTitle = { fg = p.bg_dark, bg = p.info },
 
         -- Dimmed windows
         -- NormalNC = { bg = darken(p.bg, 5), fg = darken(p.fg, 30) },
@@ -130,14 +133,10 @@ local function apply_custom_highlights()
         -- fzf-lua
         FzfLuaNormal = { bg = p.bg_dark },
         FzfLuaTitle = { fg = p.bg_dark, bg = p.warn },
-        FzfLuaBorder = { fg = p.bg_dark, bg = p.bg_dark },
+        FzfLuaBorder = { fg = p.bg, bg = p.bg_dark },
         FzfLuaPreviewNormal = { bg = p.bg_dark },
         FzfLuaPreviewTitle = { fg = p.bg_dark, bg = p.hint },
-        FzfLuaPreviewBorder = { fg = p.bg_dark, bg = p.bg_dark },
-        FzfLuaScrollBorderEmpty = { fg = p.bg, bg = p.bg_dark },
-        FzfLuaScrollBorderFull = { fg = p.bg, bg = p.bg_dark },
-        FzfLuaScrollFloatEmpty = { fg = p.bg, bg = p.bg_dark },
-        FzfLuaScrollFloatFull = { fg = p.bg, bg = p.bg_dark },
+        FzfLuaPreviewBorder = { fg = p.bg, bg = p.bg_dark },
         FzfLuaFzfSeparator = { fg = p.bg, bg = p.bg_dark },
         FzfLuaFzfScrollbar = { fg = p.bg, bg = p.bg_dark },
         FzfLuaFzfHeader = { fg = p.warn },

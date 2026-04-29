@@ -135,6 +135,8 @@ vim.lsp.enable({
     "yamlls",
 })
 
+local lsp_border = "single"
+
 vim.diagnostic.config({
     virtual_text = true,
     severity_sort = true,
@@ -146,6 +148,7 @@ vim.diagnostic.config({
             [vim.diagnostic.severity.HINT] = ui.icons.diagnostics.Hint,
         },
     },
+    float = { border = lsp_border },
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {
