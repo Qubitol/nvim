@@ -19,6 +19,7 @@ map("n", "<leader>th", "<cmd>set hlsearch! hlsearch?<CR>", "[T]oggle search-[H]i
 map("n", "<Esc>", "<cmd>set nohlsearch<CR>", "Disable search-highlighting")
 map("n", "<leader>tw", "<cmd>set wrap! wrap?<CR>", "[T]oggle word-[W]rap")
 map("n", "<leader>tn", "<cmd>set relativenumber! relativenumber?<CR>", "[T]oggle relative line [N]umbers")
+map("n", "<leader>tN", "<cmd>set number! number?<CR>", "[T]oggle line [N]umbers")
 map("n", "<leader>bd", utils.bufdelete, "Unload the current [B]uffer and [D]elete it from the list")
 map("n", "[b", "<cmd>bprevious<CR>", "Go to previous [B]uffer")
 map("n", "]b", "<cmd>bnext<CR>", "Go to next [B]uffer")
