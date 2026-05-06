@@ -115,6 +115,9 @@ local function apply_custom_highlights()
         -- GitStatusLine
         GitStatusLine = { link = "QuickFixLine" },
 
+        -- Gitsigns
+        GitSignsCurrentLineBlame = { link = "DiagnosticHint" },
+
         -- LSPStatusLine
         LSPStatusLine = { link = "DiagnosticSignStatusLineOk" },
 
