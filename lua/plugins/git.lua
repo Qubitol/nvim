@@ -58,6 +58,11 @@ map("n", "<leader>gd", function()
 end, "[G]it [D]iff in split window, prefix with any count to display diff with respect to HEAD~(count)", { expr = true })
 map("n", "<leader>gD", ":Git difftool ", "Populate command line with [G]it [D]ifftool", { silent = false })
 
+-- Conflicts resolutions, using fugitive naming schemes for our (//2) and theirs (//3)
+vim.opt.diffopt:remove("linematch:40") -- temporary workaround due to neovim v0.11 https://github.com/neovim/neovim/issues/22696
+map("n", "g[", "<cmd>diffget //2<CR>", "[G]et the merge resolution from the buffer on the left (target parent)")
+map("n", "g]", "<cmd>diffget //3<CR>", "[G]et the merge resolution from the buffer on the right (merge parent)")
+
 local icons = require("config.ui").icons
 
 -- Gitsigns
