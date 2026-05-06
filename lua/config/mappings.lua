@@ -106,7 +106,7 @@ map("i", "<A-k>", [[<C-\><C-N><C-w>k]], "Navigate to window above")
 map("i", "<A-l>", [[<C-\><C-N><C-w>l]], "Navigate to window to the right")
 
 -- Terminal
-map("t", "<Esc>", [[<C-\><C-N>]], "Go back to normal mode from terminal mode")
+map("t", "<M-Esc>", [[<C-\><C-N>]], "Go back to normal mode from terminal mode")
 map("t", "<C-R>", function()
     return [[<C-\><C-N>]] .. vim.fn.nr2char(vim.fn.getchar()) .. "pi"
 end, "Emulate <C-R> in terminal mode", { expr = true })
