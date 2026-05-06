@@ -11,20 +11,7 @@ vim.pack.add({
 vim.cmd([[cab git Git]]) -- autocomplete "Git" when writing "git"
 map("n", "<leader>gs", vim.cmd.Git, "Run [G]it [S]tatus (open vim-fugitive prompt)")
 map("n", "<leader>gp", "<cmd>Git push<CR>", "Run a [G]it [P]ush")
-map(
-    "n",
-    "<leader>gf",
-    "<cmd>Git pull --rebase<CR>",
-    "Run `git pull --rebase` (a [G]it [F]etch followed by a rebase in the current branch)"
-)
 map("n", "<leader>gP", ":Git push -u origin ", "Populate command line with [G]it [P]ush -u origin", { silent = false })
-map(
-    "n",
-    "<leader>gF",
-    ":Git pull --rebase -u origin ",
-    "Populate the command line with `git pull --rebase -u origin`",
-    { silent = false }
-)
 map("n", "<leader>gb", "<cmd>Git blame<CR>", "[G]it [B]lame")
 map("v", "<leader>gb", function()
     local start_line = vim.fn.getpos("v")[2]
@@ -145,8 +132,14 @@ require("gitsigns").setup({
             "Go to the previous [C]hange (git hunk) or [C]onflict marker (in diff mode)",
             { expr = true, buffer = buffer }
         )
-        map("n", "<leader>hs", "<cmd>Gitsigns stage_hunk<CR>", "Current [H]unk and [S]tage it", { buffer = buffer })
-        map("n", "<leader>hr", "<cmd>Gitsigns reset_hunk<CR>", "Current [H]unk and [R]eset it", { buffer = buffer })
+        map("n", "<leader>hs", gs.stage_hunk, "Current [H]unk and [S]tage it", { buffer = buffer })
+        map("n", "<leader>hr", gs.reset_hunk, "Current [H]unk and [R]eset it", { buffer = buffer })
+        map('v', '<leader>hs', function()
+            gs.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+        end, "Current [H]unk and [S]tage it", { buffer = buffer })
+        map('v', '<leader>hr', function()
+            gs.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+        end, "Current [H]unk and [S]tage it", { buffer = buffer })
         map("n", "<leader>hu", gs.undo_stage_hunk, "Current [H]unk and [U]nstage it", { buffer = buffer })
         map("n", "<leader>hp", gs.preview_hunk, "Current [H]unk and [P]review it", { buffer = buffer })
         map(
