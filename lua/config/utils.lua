@@ -58,19 +58,6 @@ M.bufdelete = function()
     vim.cmd("bdelete " .. buf_to_delete)
 end
 
-M.open_n_arg_file = function(n)
-    local argc = vim.fn.argc()
-    if argc == 0 then
-        vim.notify("Arglist is empty", vim.log.levels.WARN)
-        return
-    end
-    if n < 0 or n >= argc then
-        vim.notify("Arg index out of range: " .. n .. " (max " .. (argc - 1) .. ")", vim.log.levels.WARN)
-        return
-    end
-    vim.cmd("edit " .. vim.fn.fnameescape(vim.fn.argv(n)))
-end
-
 M.call_cmd_in_preview_window = function(cmd)
     local win = M.get_preview_window()
     if not win then
@@ -94,7 +81,7 @@ end
 -- adapted from https://github.com/ethanholz/nvim-lastplace/blob/main/lua/nvim-lastplace/init.lua
 M.goto_lastplace = function()
     local ignore_buftype = { "quickfix", "nofile", "help", "terminal" }
-    local ignore_filetype = { "argpick", "gitcommit", "gitrebase", "svn", "hgcommit" }
+    local ignore_filetype = { "pin", "gitcommit", "gitrebase", "svn", "hgcommit" }
 
     if vim.tbl_contains(ignore_buftype, vim.bo.buftype) then
         return

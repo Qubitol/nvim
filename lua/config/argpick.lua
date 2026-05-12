@@ -149,4 +149,37 @@ function M.open()
     })
 end
 
+M.open_n = function(n)
+    local files = get()
+    local count = #files
+    if count == 0 then
+        vim.notify("Pin list is empty", vim.log.levels.WARN)
+        return
+    end
+    if n < 1 or n > count then
+        vim.notify("Pin index out of range: " .. n .. " (max " .. count .. ")", vim.log.levels.WARN)
+        return
+    end
+    vim.cmd("edit " .. vim.fn.fnameescape(files[n]))
+end
+
+map("n", "<leader>po", function()
+    M.open()
+end, "[P]inned files [O]pen picker")
+map("n", "<leader>pa", function()
+    M.add()
+end, "[P]inned files [A]dd the current file")
+map("n", "<C-h>", function()
+    M.open_n(1)
+end, "Edit 1st element of arglist")
+map("n", "<C-j>", function()
+    M.open_n(2)
+end, "Edit 2nd element of arglist")
+map("n", "<C-k>", function()
+    M.open_n(3)
+end, "Edit 3rd element of arglist")
+map("n", "<C-l>", function()
+    M.open_n(4)
+end, "Edit 4th element of arglist")
+
 return M

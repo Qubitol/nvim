@@ -140,29 +140,6 @@ map({ "n", "t" }, "<A-z>", function()
     end
 end, "Zoom current window")
 
--- Argpick
-map("n", "<leader>oa", function()
-    require("config.argpick").open()
-end, "[O]pen [A]rglist picker")
-map(
-    "n",
-    "<leader>aa",
-    ":argadd % | argdedupe <CR>",
-    "[A]dd the current file to the [A]rg list and remove possible duplicates"
-)
-map("n", "<C-h>", function()
-    utils.open_n_arg_file(0)
-end, "Edit 1st element of arglist")
-map("n", "<C-j>", function()
-    utils.open_n_arg_file(1)
-end, "Edit 2nd element of arglist")
-map("n", "<C-k>", function()
-    utils.open_n_arg_file(2)
-end, "Edit 3rd element of arglist")
-map("n", "<C-l>", function()
-    utils.open_n_arg_file(3)
-end, "Edit 4th element of arglist")
-
 -- Undotree
 map("n", "<leader>tu", "<CMD>Undotree<CR>", "[T]oggle [U]ndotree")
 
