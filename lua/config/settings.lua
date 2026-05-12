@@ -30,6 +30,9 @@ set.undofile = true
 set.backup = false
 set.writebackup = false
 
+-- Save global variables in sessions
+set.sessionoptions:append("globals")
+
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 set.ignorecase = true
 set.smartcase = true
