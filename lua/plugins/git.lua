@@ -43,7 +43,8 @@ map("n", "<leader>gd", function()
     end
     return cmd .. "<CR>"
 end, "[G]it [D]iff in split window, prefix with any count to display diff with respect to HEAD~(count)", { expr = true })
-map("n", "<leader>gD", ":Git difftool ", "Populate command line with [G]it [D]ifftool", { silent = false })
+map("n", "<leader>gD", "<cmd>Git difftool<CR>", "Open [G]it [D]iff (hunks) in the quickfix list")
+map("n", "<leader>gM", "<cmd>Git mergetool<CR>", "Open [G]it [M]erge conflicts in the quickfix list")
 
 -- Conflicts resolutions, using fugitive naming schemes for our (//2) and theirs (//3)
 vim.opt.diffopt:remove("linematch:40") -- temporary workaround due to neovim v0.11 https://github.com/neovim/neovim/issues/22696
@@ -51,6 +52,11 @@ map("n", "g[", "<cmd>diffget //2<CR>", "[G]et the merge resolution from the buff
 map("n", "g]", "<cmd>diffget //3<CR>", "[G]et the merge resolution from the buffer on the right (merge parent)")
 
 local icons = require("config.ui").icons
+
+local function has_conflict_markers()
+  -- 'n' = don't move cursor, 'w' = wrap so we scan the whole buffer
+  return vim.fn.search([[^<<<<<<<]], "nw") ~= 0
+end
 
 -- Gitsigns
 require("gitsigns").setup({
@@ -99,39 +105,26 @@ require("gitsigns").setup({
     },
     on_attach = function(buffer)
         local gs = require("gitsigns")
-        map(
-            "n",
-            "]c",
-            function()
-                if vim.wo.diff then
-                    return "]c"
-                end
-                vim.schedule(function()
-                    gs.next_hunk()
-                end)
+        map("n", "]c", function()
+            if has_conflict_markers() then
+                vim.schedule(function() vim.fn.search([[^<<<<<<<]], "W") end)
                 return "<Ignore>"
-            end,
-            "Go to the next [C]hange (git hunk) or [C]onflict marker (in diff mode)",
-            {
-                expr = true,
-                buffer = buffer,
-            }
-        )
-        map(
-            "n",
-            "[c",
-            function()
-                if vim.wo.diff then
-                    return "[c"
-                end
-                vim.schedule(function()
-                    gs.prev_hunk()
-                end)
+            end
+            if vim.wo.diff then return "]c" end
+            vim.schedule(function() gs.next_hunk() end)
+            return "<Ignore>"
+        end, "Go to the next [C]onflict marker, diff hunk, or git hunk",
+            { expr = true, buffer = buffer })
+        map("n", "[c", function()
+            if has_conflict_markers() then
+                vim.schedule(function() vim.fn.search([[^<<<<<<<]], "bW") end)
                 return "<Ignore>"
-            end,
-            "Go to the previous [C]hange (git hunk) or [C]onflict marker (in diff mode)",
-            { expr = true, buffer = buffer }
-        )
+            end
+            if vim.wo.diff then return "[c" end
+            vim.schedule(function() gs.prev_hunk() end)
+            return "<Ignore>"
+        end, "Go to the previous [C]onflict marker, diff hunk, or git hunk",
+            { expr = true, buffer = buffer })
         map("n", "<leader>hs", gs.stage_hunk, "Current [H]unk and [S]tage it", { buffer = buffer })
         map("n", "<leader>hr", gs.reset_hunk, "Current [H]unk and [R]eset it", { buffer = buffer })
         map('v', '<leader>hs', function()
