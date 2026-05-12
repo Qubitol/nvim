@@ -3,6 +3,41 @@ local utils = require("config.utils")
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
+-- Insert mode triggers :lcd on current file path to help file-path completion
+-- reset path on leave, use only on relevant filetypes
+local group = vim.api.nvim_create_augroup("PathComplFromFile", { clear = true })
+
+vim.api.nvim_create_autocmd("FileType", {
+    group = group,
+    pattern = { "markdown", "wiki" },
+    callback = function(args)
+        vim.api.nvim_create_autocmd("InsertEnter", {
+            group = group,
+            buffer = args.buf,
+            callback = function()
+                local file_dir = vim.fn.expand("%:p:h")
+                if file_dir == "" or vim.fn.isdirectory(file_dir) == 0 then
+                    return
+                end
+                -- stash the prior cwd on the window so we can restore it
+                vim.w.precompl_cwd = vim.fn.getcwd(0)
+                pcall(vim.cmd.lcd, vim.fn.fnameescape(file_dir))
+            end,
+        })
+
+        vim.api.nvim_create_autocmd("InsertLeave", {
+            group = group,
+            buffer = args.buf,
+            callback = function()
+                if vim.w.precompl_cwd then
+                    pcall(vim.cmd.lcd, vim.fn.fnameescape(vim.w.precompl_cwd))
+                    vim.w.precompl_cwd = nil
+                end
+            end,
+        })
+    end,
+})
+
 -- Terminal
 local terminal_group = augroup("Terminal", {})
 
