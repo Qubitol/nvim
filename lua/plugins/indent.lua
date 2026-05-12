@@ -13,6 +13,6 @@ require("ibl").setup({
         show_end = false,
     },
     exclude = {
-        filetypes = { "argpick", "help", "mason", "netrw", "undotree" },
+        filetypes = { "pin", "help", "mason", "netrw", "undotree" },
     },
 })

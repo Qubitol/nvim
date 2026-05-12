@@ -36,7 +36,7 @@ I tried to stick as much as possible to the guiding principle that if Neovim can
 │   │   ├── mappings.lua        -- general keymaps
 │   │   ├── ui.lua              -- icon tables (pretty / plain), single source of truth
 │   │   ├── utils.lua           -- map(), bufdelete(), helpers
-│   │   ├── argpick.lua         -- custom arglist picker (harpoon replacement)
+│   │   ├── pin.lua             -- custom file pinning and picker (harpoon replacement)
 │   │   ├── autocmds.lua        -- some general useful autocmd
 │   │   ├── usercommands.lua    -- user commands
 │   │   └── statusline.lua      -- custom statusline and winbar
@@ -68,12 +68,11 @@ I tried to stick as much as possible to the guiding principle that if Neovim can
 
 ### Custom components (no plugins)
 
-- **argpick**: harpoon-like file switcher built on Vim's arglist.
-  Opens a floating buffer listing argfiles; reorder lines with `dd`/`p`, delete entries, press `<CR>` to jump.
-  Changes sync back to the arglist on close.
-  The arglist persists across sessions via `Session.vim`.
-  I decided to not use harpoon (still an amazing plugin), because I wasn't using all of its features,
-  and I reckoned a very small utility function based on the arglist would do the trick.
+- **pin**: harpoon-like file switcher.
+  Opens a floating buffer listing a list of stored files; reorder lines with `dd`/`p`, delete entries, press `<CR>` to jump.
+  The pin-list persists across sessions via `Session.vim`, because it is stored as a global variable and `globals` has been added to `sessionoptions`.
+  I decided to not use harpoon (still an amazing plugin), because I wasn't using many of its features,
+  and I reckoned a very small utility function based on a global variable would do the trick.
 
 - **Statusline and winbar**: hand-written `statusline` and `winbar` with mode indicator, cwd, diagnostics, LSP status, git diff counts, file-relative paths, and inactive window dimming.
   All symbols are obtained from `ui.lua`.

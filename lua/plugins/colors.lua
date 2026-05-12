@@ -72,8 +72,8 @@ local function apply_custom_highlights()
         NormalFloat = { fg = p.fg, bg = p.bg_dark },
         FloatBorder = { fg = p.bg, bg = p.bg_dark },
 
-        -- Argpick
-        ArgpickTitle = { fg = p.bg_dark, bg = p.info },
+        -- Pin
+        PinTitle = { fg = p.bg_dark, bg = p.info },
 
         -- Dimmed windows
         -- NormalNC = { bg = darken(p.bg, 5), fg = darken(p.fg, 30) },

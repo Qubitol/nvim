@@ -257,7 +257,7 @@ local function special_buf(buf)
 end
 
 -- Special filetypes to treat bars differently
-local _special_filetypes = { qf = true, argpick = true, git = true, fugitive = true, codecompanion_input = true }
+local _special_filetypes = { qf = true, pin = true, git = true, fugitive = true, codecompanion_input = true }
 
 local function special_ft(buf)
     return _special_filetypes[vim.bo[buf].filetype] == true
@@ -270,7 +270,7 @@ local function no_filename_statusline(buf)
     return _no_filename_buftypes[vim.bo[buf].buftype] == true
 end
 
-local _no_filename_filetypes = { netrw = true, fugitive = true, argpick = true, codecompanion_input = true }
+local _no_filename_filetypes = { netrw = true, fugitive = true, pin = true, codecompanion_input = true }
 
 local function no_filename_statusline_ft(buf)
     return _no_filename_filetypes[vim.bo[buf].filetype] == true
