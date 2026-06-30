@@ -76,7 +76,7 @@ map(
 map("v", "J", "<Esc><cmd>m '>+1<CR>gv=gv", "Move line down, respect indentation")
 map("v", "K", "<Esc><cmd>m '<-2<CR>gv=gv", "Move line up, respect indentation")
 local function nparent()
-    local count = vim.v.count or 0
+    local count = (vim.v.count and vim.v.count-1) or 0
     local path = vim.fn.expand("%:p:h")
     for _ = 1, count do
         path = path .. "/.."
