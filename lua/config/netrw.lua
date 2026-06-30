@@ -108,21 +108,6 @@ local function setup_buffer()
         end
     end, "Switch to target dir", { buffer = buf })
 
-    -- Open a terminal buffer rooted at the current netrw dir
-    map("n", "T", function()
-        local dir = netrw_dir()
-        local cur = vim.api.nvim_get_current_win()
-        vim.cmd("wincmd p")
-        if vim.api.nvim_get_current_win() == cur then
-            -- No previous window (e.g. netrw is the only window) — make one
-            vim.cmd("rightbelow vsplit")
-        end
-        vim.cmd("enew")
-        vim.cmd.lcd(vim.fn.fnameescape(dir))
-        vim.cmd.terminal()
-        vim.cmd("Lexplore")
-    end, "Terminal in current dir", { buffer = buf })
-
     -- Fuzzy find inside current netrw dir (files + dirs + symlinks, recursive, hidden)
     map("n", "fo", function()
         local ok, fzf = pcall(require, "fzf-lua")
@@ -216,17 +201,12 @@ local function lexplore(path)
 end
 
 map("n", "<leader>e", function()
-    local path
-    if vim.bo.buftype == "terminal" then
-        path = vim.fn.getcwd(0) -- window-local lcd of the terminal
-    else
-        path = vim.fn.expand("%:p:h")
-        if path == "" then
-            path = vim.fn.getcwd()
-        end
+    local path = vim.fn.expand("%:p:h")
+    if path == "" then
+        path = vim.fn.getcwd()
     end
     lexplore(path)
-end, "Netrw left: file or terminal dir")
+end, "Netrw left: file dir")
 
 map("n", "<leader>E", function()
     lexplore(vim.fn.getcwd())

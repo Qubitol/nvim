@@ -145,10 +145,6 @@ local function apply_custom_highlights()
         FzfLuaFzfHeader = { fg = p.warn },
         FzfLuaFzfInfo = { fg = p.warn },
 
-        -- Terminal: transparent background so the terminal emulator's color shows through
-        TermNormal = { bg = "#1d2021" },
-        TermNormalNC = { bg = "#1c1c1c" },
-
         -- CodeCompanion
         CodeCompanionNormal = { link = "FileBrowser" },
     }

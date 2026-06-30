@@ -154,7 +154,7 @@ These are shipped with Neovim and activated via `packadd`:
 | [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | Snippet engine |
 
 
-#### UI and terminal
+#### UI
 
 | Plugin | Description |
 |--------|-------------|

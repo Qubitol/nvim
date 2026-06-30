@@ -103,39 +103,14 @@ map("i", "<A-j>", [[<C-\><C-N><C-w>j]], "Navigate to window below")
 map("i", "<A-k>", [[<C-\><C-N><C-w>k]], "Navigate to window above")
 map("i", "<A-l>", [[<C-\><C-N><C-w>l]], "Navigate to window to the right")
 
--- Terminal
-map("t", "<M-Esc>", [[<C-\><C-N>]], "Go back to normal mode from terminal mode")
-map("t", "<C-R>", function()
-    return [[<C-\><C-N>]] .. vim.fn.nr2char(vim.fn.getchar()) .. "pi"
-end, "Emulate <C-R> in terminal mode", { expr = true })
-map("t", "<C-6>", [[<C-\><C-N><C-^>]], "Emulate <C-^> in terminal mode")
-map("t", "<A-h>", [[<C-\><C-N><C-w>h]], "Navigate to window to the left")
-map("t", "<A-j>", [[<C-\><C-N><C-w>j]], "Navigate to window below")
-map("t", "<A-k>", [[<C-\><C-N><C-w>k]], "Navigate to window above")
-map("t", "<A-l>", [[<C-\><C-N><C-w>l]], "Navigate to window to the right")
-map({ "n", "t" }, "<A-w>v", function()
-    vim.cmd.vsplit()
-    vim.cmd.terminal()
-end, "Vertical split terminal")
-map({ "n", "t" }, "<A-w>s", function()
-    vim.cmd.split()
-    vim.cmd.terminal()
-end, "Horizontal split terminal")
-map({ "n", "t" }, "<A-w>n", function()
-    vim.cmd.terminal()
-end, "Terminal in current window")
-map({ "n", "t" }, "<A-w>t", function()
-    vim.cmd.tabnew()
-    vim.cmd.terminal()
-end, "Terminal in new tab")
 -- Toggle zoom window (open it in a new tabpage)
 local zoom_tabpage = nil
-map({ "n", "t" }, "<A-z>", function()
+map("n", "<A-z>", function()
     if zoom_tabpage and vim.api.nvim_tabpage_is_valid(zoom_tabpage) then
         vim.cmd.tabclose()
         zoom_tabpage = nil
     else
-        vim.cmd(vim.bo.buftype == "terminal" and "tabnew | b #" or "tabnew %")
+        vim.cmd("tabnew %")
         zoom_tabpage = vim.api.nvim_get_current_tabpage()
     end
 end, "Zoom current window")
