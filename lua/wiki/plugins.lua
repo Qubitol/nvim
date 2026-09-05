@@ -196,17 +196,6 @@ vim.g.wiki_mappings_local_journal = {
     ["<plug>(wiki-journal-next)"] = "]w",
 }
 
+vim.g.wiki_tag_scan_num_lines = "all"
+
 vim.pack.add({ "https://github.com/lervag/wiki.vim" })
-
--- Wiki autocommands
-local wiki_group = vim.api.nvim_create_augroup("Wiki", {})
-local CONFIG = os.getenv("XDG_CONFIG_HOME")
-
-vim.api.nvim_create_autocmd("BufNewFile", {
-    group = wiki_group,
-    pattern = vim.g.wiki_root .. "/Journal/*.md",
-    callback = function()
-        local command = ":silent 0r !" .. CONFIG .. "/nvim/bin/generate-wiki-research-journal-template '%:t'"
-        vim.cmd(command)
-    end,
-})

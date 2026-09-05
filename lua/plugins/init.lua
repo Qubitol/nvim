@@ -8,7 +8,7 @@ require("plugins.lsp")
 require("plugins.snippets")
 require("plugins.surround")
 require("plugins.treesitter")
-require("plugins.wiki")
+require("wiki").setup()
 require("plugins.aerial")
 if vim.g.ai then
     require("plugins.codecompanion")

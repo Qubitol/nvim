@@ -40,21 +40,31 @@ I tried to stick as much as possible to the guiding principle that if Neovim can
 │   │   ├── autocmds.lua        -- some general useful autocmd
 │   │   ├── usercommands.lua    -- user commands
 │   │   └── statusline.lua      -- custom statusline and winbar
-│   └── plugins/
-│       ├── init.lua            -- requires all plugin sub-files
-│       ├── builtins.lua        -- enable those amazing builtin plugins
-│       ├── git.lua             -- fugitive + gitsigns
-│       ├── colors.lua          -- colorscheme + derived palette + custom highlights
-│       ├── fuzzy.lua           -- fzf-lua + custom git blame pickers
-│       ├── lsp.lua             -- mason + conform + nvim-lint + LspAttach
-│       ├── treesitter.lua      -- nvim-treesitter and treesitter-context
-│       ├── wiki.lua            -- wiki.vim, render-markdown, calendar, image.nvim, devicons
-│       ├── aerial.lua          -- code outline
-│       ├── latex.lua           -- vimtex + ltex-extra
-│       ├── snippets.lua        -- luasnip
-│       ├── surround.lua        -- nvim-surround
-│       ├── indent.lua          -- indent-blankline
-│       └── codecompanion.lua   -- AI in neovim
+│   ├── plugins/
+│   │   ├── init.lua            -- requires all plugin sub-files
+│   │   ├── builtins.lua        -- enable those amazing builtin plugins
+│   │   ├── git.lua             -- fugitive + gitsigns
+│   │   ├── colors.lua          -- colorscheme + derived palette + custom highlights
+│   │   ├── fuzzy.lua           -- fzf-lua + custom git blame pickers
+│   │   ├── lsp.lua             -- mason + conform + nvim-lint + LspAttach
+│   │   ├── treesitter.lua      -- nvim-treesitter and treesitter-context
+│   │   ├── aerial.lua          -- code outline
+│   │   ├── latex.lua           -- vimtex + ltex-extra
+│   │   ├── snippets.lua        -- luasnip
+│   │   ├── surround.lua        -- nvim-surround
+│   │   ├── indent.lua          -- indent-blankline
+│   │   └── codecompanion.lua   -- AI in neovim
+│   └── wiki/
+│       ├── init.lua            -- commands, mappings, journal automation
+│       ├── plugins.lua         -- wiki and writing plugin declarations/options
+│       ├── config.lua          -- tag vocabulary, mappings, UI constants
+│       ├── links.lua           -- alternate-buffer and journal links
+│       ├── tags.lua            -- tag parsing and insertion
+│       ├── projects.lua        -- Taskwarrior project picker
+│       ├── search.lua          -- line-oriented WikiTagFind picker
+│       └── dates.lua           -- human-readable date parsing
+├── tests/
+│   └── wiki_spec.lua           -- headless wiki workflow tests
 └── lsp/                        -- vim.lsp.Config files (one per server)
     ├── clangd.lua
     ├── pyright.lua
@@ -136,6 +146,55 @@ These are shipped with Neovim and activated via `packadd`:
 | [vim-easy-align](https://github.com/junegunn/vim-easy-align) | Text alignment |
 | [link.vim](https://github.com/qadzek/link.vim) | Link handling |
 
+#### Wiki automation workflow
+
+The wiki remains a directory of ordinary Markdown files. Links express relationships, headings provide document structure, and native `wiki.vim` colon tags provide semantic classification:
+
+```markdown
+- Asked Jørgen to test the MI300 implementation :request: :@jorgen: :amd: :gpu: :p/madgraph.performance:
+```
+
+- Generic tags such as `:bug:` and `:gpu:` come from the vocabulary in `lua/wiki/config.lua`.
+- Project tags use `:p/<project>:` and are discovered dynamically with `task _unique project`.
+- Person mentions use the free-form `:@<name>:` namespace.
+
+##### Wiki keybindings
+
+| Mode | Keymap | Action |
+|------|--------|--------|
+| Normal | `<leader>ml` | Insert a Markdown link to the alternate buffer and its nearest heading. Prefix with a count, for example `1<leader>ml`, to enter custom link text. Journal targets use `journal:YYYY-MM-DD`. |
+| Normal | `<leader>mt` | Pick and insert one or more generic tags. Use `<Tab>` for multiple selection and `<Enter>` to insert. |
+| Normal | `<leader>mp` | Pick a Taskwarrior project and insert it as `:p/<project>:`. |
+| Normal | `<leader>mm` | Prompt for a person and insert a free-form `:@<name>:` mention. |
+| Insert | `<C-g>t` | Pick and insert one or more generic tags without leaving the writing workflow. |
+| Insert | `<C-g>m` | Prompt for and insert a person mention. |
+| Insert | `<C-g>p` | Pick and insert a Taskwarrior project tag. |
+| Normal | `<leader>ft` | Open the line-oriented tag browser across the entire wiki. |
+| Normal | `<leader>fm` | Open the same tag browser with the initial query `@`, showing mentions. |
+| Normal | `<leader>fp` | Open the same tag browser with the initial query `p/`, showing project tags. |
+| Normal | `<leader>fw` | Browse Markdown files in the wiki with fzf-lua. |
+| Normal | `<leader>gw` | Live-grep the wiki. |
+| Normal | `<leader>cm` / `<leader>cy` | Open the monthly / yearly calendar. |
+| Normal | `<leader>tc` | Toggle rendered Markdown concealment. |
+| Normal | `[w` / `]w` | Open the previous / next wiki journal entry. |
+
+Inside `WikiTagFind`, `<Enter>` opens the file at the exact matching line, `<C-j>` toggles journal results in unrestricted searches, and `<F4>` toggles the Markdown preview. The picker preserves reverse-chronological journal ordering.
+
+##### Wiki commands
+
+| Command | Description |
+|---------|-------------|
+| `:WikiTagFind [query]` | Browse all tagged lines, using any non-option arguments as the editable initial fzf query. |
+| `:WikiTagFind --since="2 weeks ago" --until=yesterday` | Browse journal tags in an inclusive date range. Supplying either date option makes the search journal-only. |
+| `:WikiMentions` | Equivalent to `:WikiTagFind @`. |
+| `:WikiProjectTags` | Equivalent to `:WikiTagFind p/`. |
+| `:WikiTagInsert` | Insert generic tags from the configured vocabulary. |
+| `:WikiProjectTag` | Insert a project tag selected from Taskwarrior. |
+| `:WikiMention [name]` | Insert a mention, prompting for the name when omitted. |
+| `:WikiLinkAlternate` | Insert a link to the alternate buffer. |
+
+The alternate-buffer link workflow is: open the target note, move to the relevant section, return with `<C-^>`, then press `<leader>ml`. Heading-like lines inside fenced code blocks are ignored, and duplicate headings receive stable numbered anchors.
+
 
 #### LaTeX
 
@@ -205,6 +264,7 @@ Each returns a `vim.lsp.Config` table.
 - **Neovim 0.12+** (for `vim.pack`, `vim.lsp.enable()`, built-in opt plugins)
 - **luarocks** with Lua 5.1 (for treesitter parser installation)
 - **fzf** and **delta** on `$PATH` (for fuzzy finding and git diff previews)
+- **Taskwarrior** on `$PATH` (for dynamic wiki project-tag discovery)
 - **kitty** terminal (optional, for inline image rendering)
 - A **nerd font** (optional, only if `vim.g.pretty == true` in `init.lua` - default)
 - A subscription to an AI tool (in my case **Copilot** and **ClaudeCode**, optional only if `vim.g.ai == true` in `init.lua` - default) 
@@ -393,6 +453,16 @@ It will catch all mappings generated through the use of the custom `map` functio
 | `x,o` | `ia` | Select @parameter.inner | plugins/treesitter |
 | `x,o` | `ic` | Select @class.inner | plugins/treesitter |
 | `x,o` | `if` | Select @function.inner | plugins/treesitter |
-| `n` | `<leader>cm` | [C]alendar for the current [M]onth | plugins/wiki |
-| `n` | `<leader>cy` | [C]alendar for the current [Y]ear | plugins/wiki |
-| `n` | `<leader>tc` | [T]oggle render-markdown [C]oncealment | plugins/wiki |
+| `n` | `<leader>cm` | [C]alendar for the current [M]onth | wiki/plugins |
+| `n` | `<leader>cy` | [C]alendar for the current [Y]ear | wiki/plugins |
+| `n` | `<leader>tc` | [T]oggle render-markdown [C]oncealment | wiki/plugins |
+| `i` | `<C-g>m` | Insert person mention | wiki/init |
+| `i` | `<C-g>p` | Insert Taskwarrior project tag | wiki/init |
+| `i` | `<C-g>t` | Insert wiki tag(s) | wiki/init |
+| `n` | `<leader>fm` | Find wiki mentions | wiki/init |
+| `n` | `<leader>fp` | Find wiki project tags | wiki/init |
+| `n` | `<leader>ft` | Find tagged wiki lines | wiki/init |
+| `n` | `<leader>ml` | Insert Markdown link to alternate buffer | wiki/init |
+| `n` | `<leader>mm` | Insert person mention | wiki/init |
+| `n` | `<leader>mp` | Insert Taskwarrior project tag | wiki/init |
+| `n` | `<leader>mt` | Insert wiki tag(s) | wiki/init |
