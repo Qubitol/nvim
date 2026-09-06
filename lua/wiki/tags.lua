@@ -148,12 +148,15 @@ end
 
 function M.pick_generic()
     local target = M.capture_target()
+    local normalized = config.normalized_generic_tags()
+    local names = {}
     local order = {}
-    for index, tag in ipairs(config.generic_tags) do
-        order[tag] = index
+    for index, tag in ipairs(normalized) do
+        names[#names + 1] = tag.name
+        order[tag.name] = index
     end
 
-    require("fzf-lua").fzf_exec(config.generic_tags, {
+    require("fzf-lua").fzf_exec(names, {
         prompt = "Tags> ",
         winopts = {
             title = { { " Wiki tags ", "FzfLuaTitle" } },

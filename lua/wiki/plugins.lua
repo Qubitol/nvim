@@ -68,10 +68,15 @@ map(
 
 -- Render markdown
 vim.pack.add({ "https://github.com/MeanderingProgrammer/render-markdown.nvim" })
+local wiki_render = require("wiki.render")
+wiki_render.setup()
 require("render-markdown").setup({
     file_types = { 'markdown', 'codecompanion' },
     anti_conceal = { enabled = false },
     render_modes = { "n", "c", "i" },
+    custom_handlers = {
+        markdown_inline = wiki_render.handler(),
+    },
     win_options = {
         showbreak = { default = "", rendered = "  " },
         breakindent = { default = false, rendered = true },
@@ -176,8 +181,11 @@ require("render-markdown").setup({
 })
 
 map("n", "<leader>tc", function()
+    require("wiki.render").toggle_cursor_conceal()
+end, "[T]oggle cursor-line markdown [C]oncealment")
+map("n", "<leader>tC", function()
     require("render-markdown").toggle()
-end, "[T]oggle render-markdown [C]oncealment")
+end, "[T]oggle full markdown [C]oncealment")
 
 -- Table mode and easy align
 vim.g.table_mode_tableize_map = "<Leader>to"

@@ -58,6 +58,7 @@ I tried to stick as much as possible to the guiding principle that if Neovim can
 │       ├── init.lua            -- commands, mappings, journal automation
 │       ├── plugins.lua         -- wiki and writing plugin declarations/options
 │       ├── config.lua          -- tag vocabulary, mappings, UI constants
+│       ├── render.lua          -- render-markdown handler for native wiki tags
 │       ├── links.lua           -- alternate-buffer and journal links
 │       ├── tags.lua            -- tag parsing and insertion
 │       ├── projects.lua        -- Taskwarrior project picker
@@ -158,6 +159,12 @@ The wiki remains a directory of ordinary Markdown files. Links express relations
 - Project tags use `:p/<project>:` and are discovered dynamically with `task _unique project`.
 - Person mentions use the free-form `:@<name>:` namespace.
 
+Native wiki tags are rendered by `render-markdown.nvim` without changing their Markdown source. Only the syntax markers—the surrounding `:`, plus `p/` for projects or `@` for mentions—are concealed. The icon is virtual text, while the tag name remains ordinary, directly editable buffer text with an applied highlight. Generic tags use a quiet shared style, while projects and mentions have distinct icons and colors; configured tags can override either their icon or highlight. For example, `:bug:` uses a bug badge, `:nvidia:` uses NVIDIA green, and the C++ and Python glyphs match `nvim-web-devicons`. Historical tags that are no longer in the insertion vocabulary still receive the generic style.
+
+In `lua/wiki/config.lua`, `generic_tags` accepts either a name such as `"meeting"` or a table such as `{ name = "bug", icon = " ", highlight = "DiagnosticError", padding = 1 }`. `highlight` may be an existing Neovim highlight-group name or an `nvim_set_hl()` specification table; omitted fields inherit `render.default_tag`.
+
+Markdown remains rendered on the cursor line by default. Press `<leader>tc` to toggle whether the cursor line is revealed without changing the rendered state of the rest of the buffer; `<leader>tC` (or `:RenderMarkdown toggle`) toggles the renderer globally. Tag-shaped text inside fenced and inline code remains literal. With `NOPRETTY=1`, all tag icons disappear while their highlights and shortened project/mention labels remain.
+
 ##### Wiki keybindings
 
 | Mode | Keymap | Action |
@@ -175,7 +182,8 @@ The wiki remains a directory of ordinary Markdown files. Links express relations
 | Normal | `<leader>fw` | Browse Markdown files in the wiki with fzf-lua. |
 | Normal | `<leader>gw` | Live-grep the wiki. |
 | Normal | `<leader>cm` / `<leader>cy` | Open the monthly / yearly calendar. |
-| Normal | `<leader>tc` | Toggle rendered Markdown concealment. |
+| Normal | `<leader>tc` | Toggle whether Markdown markup is revealed on the cursor line. |
+| Normal | `<leader>tC` | Toggle the full Markdown renderer. |
 | Normal | `[w` / `]w` | Open the previous / next wiki journal entry. |
 
 Inside `WikiTagFind`, `<Enter>` opens the file at the exact matching line, `<C-j>` toggles journal results in unrestricted searches, and `<F4>` toggles the Markdown preview. The picker preserves reverse-chronological journal ordering.
@@ -455,7 +463,8 @@ It will catch all mappings generated through the use of the custom `map` functio
 | `x,o` | `if` | Select @function.inner | plugins/treesitter |
 | `n` | `<leader>cm` | [C]alendar for the current [M]onth | wiki/plugins |
 | `n` | `<leader>cy` | [C]alendar for the current [Y]ear | wiki/plugins |
-| `n` | `<leader>tc` | [T]oggle render-markdown [C]oncealment | wiki/plugins |
+| `n` | `<leader>tc` | [T]oggle cursor-line markdown [C]oncealment | wiki/plugins |
+| `n` | `<leader>tC` | [T]oggle full markdown [C]oncealment | wiki/plugins |
 | `i` | `<C-g>m` | Insert person mention | wiki/init |
 | `i` | `<C-g>p` | Insert Taskwarrior project tag | wiki/init |
 | `i` | `<C-g>t` | Insert wiki tag(s) | wiki/init |
